@@ -32,6 +32,11 @@ const projectsCollection = defineCollection({
     stageLabel: z.string().optional(),
     order: z.number().optional(),
     showcaseCommit: z.string().optional(),
+    screenshots: z.array(z.object({
+      src: z.string(),
+      alt: z.string(),
+      caption: z.string().optional(),
+    })).optional(),
     links: z.object({
       live: z.string().url().optional(),
       github: z.string().url().optional(),
