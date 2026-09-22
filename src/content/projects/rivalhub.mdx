@@ -3,31 +3,35 @@ title: RivalHub
 role: 项目负责人 / 独立开发者
 year: 2026
 duration: 2026.05–至今
-outcomeSummary: 高校电竞赛事运营平台。2026 NJU Rivals 实际跑了 56 名参赛者、42 场比赛和 59 张地图；截至 2026-09，生产环境有 294 个活跃用户。
-overview: RivalHub 是我给南大 CS 社群做的赛事平台。现在主要承载 NJU Rivals 和 NJU Major，报名、组队、资格审核、赛程、比赛管理、数据统计和历史记录都放在里面。
-problem: 前三届比赛靠表格、群聊和人工确认还能跑。2026 NJU Rivals 加入个人报名、队长投票和蛇形选秀之后，流程一下复杂了很多：谁有资格、谁被选进哪支队、哪份名单算正式、赛果改过没有，都很容易靠人工记错。于是我开始把整套赛务搬进一个系统里，而不是继续补更多表格。
-constraints:
-  - Rivals 和 Major 的报名、组队方式不同，但账号、队伍、比赛和统计最好共用。
-  - 队伍以后会改名、换人，但已经打完的比赛不能跟着今天的阵容变化。
-  - 管理员一定会遇到补材料、改赛果、恢复误操作这类例外，系统得允许处理，但不能没有记录。
-  - 真实比赛里会有重复提交、身份冲突和临时更正，正常流程之外的情况不能直接把系统弄乱。
-approach: 我先按参赛者、队长和管理员三类人把流程重新过了一遍，再把长期队伍、单届参赛、正式名单和单场阵容拆开。功能按比赛真正会走的顺序做，上线后继续拿实际赛务里的问题反推模型和流程。
+outcomeSummary: 高校电竞赛事运营平台。第一届 NJU Rivals 是它的直接起点，比赛完整跑完后，又继续扩展到 2026 NJU Major。
+metricsGroups:
+  - title: 平台
+    asOf: 截至 2026-09-22
+    metrics:
+      - label: 注册用户
+        value: 299
+      - label: 高校认证用户
+        value: 218
+      - label: 近 30 日活跃用户
+        value: 267
+      - label: 当前有效队伍
+        value: 29 支
+  - title: 2026 NJU Rivals
+    metrics:
+      - label: 参赛者
+        value: 56 人
+      - label: 队伍
+        value: 8 支
+      - label: 正式比赛
+        value: 42 场
+      - label: 比赛地图
+        value: 59 张
 keyDecisions:
-  - decision: 长期 Team 和单届参赛记录分开
-    reasoning: Team 代表一支长期存在的队伍；CompetitionEntry / EventRoster 记录的是“这一届谁代表它参赛”。如果只保留一份当前 Team 状态，赛后换人或改名会把历史比赛一起改掉。
+  - decision: 长期队伍和某一届赛事的参赛记录分开
+    reasoning: 一支队伍会跨多届比赛存在，也会改名、换人；但某一届当时是谁参赛、用什么名单，是已经发生的历史事实。比赛不能永远读取队伍“现在的成员”，所以长期队伍和单届参赛记录分开保存。
     alternatives:
-      - 每届比赛复制一支新的 Team
-      - 比赛时直接读取当前 Team 成员
-  - decision: “赛事已发布”和“报名已开放”分开记录
-    reasoning: 发布赛事只是让大家看到它，真正开放报名才意味着报名规则开始生效。两件事分开以后，计划时间、实际开放时间和历史记录都更清楚。
-    alternatives:
-      - 发布赛事后自动开放报名
-      - 只存一个报名状态，不记实际开放动作
-  - decision: Demo / OCR 只提供分析结果，不直接改官方赛果
-    reasoning: Demo 和 OCR 可以帮助补数据、做统计，但正式赛果和名单只能有一个来源。不然以后重导一次 Demo，就可能把人工确认过的结果覆盖掉。
-    alternatives:
-      - 分析结果直接写回正式赛果
-      - 前端临时把多个来源拼成一个“最终结果”
+      - 每届赛事都复制一支新的队伍
+      - 比赛时直接读取队伍当前成员
 techStack:
   - Next.js
   - TypeScript
@@ -35,23 +39,6 @@ techStack:
   - Supabase
   - Drizzle ORM
   - CI/CD
-impact:
-  metrics:
-    - label: 2026 NJU Rivals 参赛者
-      value: 56 人
-    - label: 正式比赛
-      value: 42 场
-    - label: 比赛地图
-      value: 59 张
-    - label: 2026-09 生产环境活跃用户
-      value: "294"
-    - label: 2026-09 活跃队伍
-      value: 28 支
-  qualitative: 2026 NJU Rivals 已经从报名、选秀一路跑到循环赛、双败淘汰和赛季收尾。现在它还在继续用，也会跟着新的赛事规则继续改。
-learnings:
-  - 很多“页面需求”往下追一层，其实是在问某个状态到底归谁管。
-  - 历史比赛不能总靠当前数据回算；有些状态就是需要在当时冻结下来。
-  - 管理员一定需要例外处理，但越是能改关键数据的操作，越应该留下清楚的记录。
 featured: true
 status: ongoing
 stageLabel: 线上运行 / 持续迭代
@@ -60,14 +47,29 @@ links:
   live: https://match.starfie1d.top
   github: https://github.com/Starfie1d1272/RivalHub
 relatedProjects:
+  - nju-major
   - rivalhub-broadcast
   - dak-studio
+relatedDecisions:
+  - rivalhub-team-and-event-entry
 ---
 
-## 我负责的部分
+## 从 NJU Rivals 开始
 
-这个项目从最开始就是我自己在做。产品上，我负责规则怎么落到系统里、哪些需求先做、Issue 怎么拆、改动怎么验收；工程上，我也会直接看代码、数据库、日志和线上状态。版本发布之后出了问题，也还是我自己继续跟。
+2023–2025 连续几届 NJU Major 已经让我积累了很多表格、群聊和人工确认的办赛经验。真正直接促成 RivalHub 的，是 2026 Spring 第一届 NJU Rivals。
 
-## 上线之后
+这一届不是自由组队，而是个人报名、审核、队长投票，再由队长蛇形选秀组队。原来的 Excel 和群聊当然还能硬跑，但会越来越难确认谁有资格、谁已经被选走、哪份名单算正式。2026 年 5 月，我开始把这套流程直接做成网站。
 
-真正上线以后，最麻烦的反而不是“再加一个功能”，而是处理那些比赛一定会遇到的例外：有人重复报名、名单临时变化、赛果要更正、旧数据和新规则打架。RivalHub 后面很多设计，都是这些问题逼出来的。
+Rivals 最后完整通过 RivalHub 跑完：56 名参赛者组成 8 支队伍，共完成 42 场比赛和 59 张地图。
+
+## 从 Rivals 到 Major
+
+Rivals 跑完以后，2026 NJU Major 又提出了一套不同的问题：长期队伍、整队报名、高校资格、名单变更、审核和更复杂的赛制都要继续放进同一个系统。
+
+这一步开始，RivalHub 才从“为一届 Rivals 做的网站”逐渐变成一个长期赛事平台。
+
+## 我负责什么
+
+项目从产品到上线都由我自己持续负责：赛事规则怎么落进系统、先做什么、Issue 怎么拆、实现能不能合、数据库怎么迁移、版本怎么发、线上出了问题怎么收尾。
+
+实现里会大量使用 Coding Agent，但需求、关键取舍、Review、测试和最终验收仍然由我自己负责。
