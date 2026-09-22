@@ -5,18 +5,29 @@ import DecisionCard from '../../components/DecisionCard.astro';
 import PageStats from '../../components/PageStats.astro';
 import { getCollection } from 'astro:content';
 import { pagesConfig } from '../../pages.config';
-const decisions = (await getCollection('decisions')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const decisions = (await getCollection('decisions'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
+
 <BaseLayout>
   <SEO slot="head" title={pagesConfig.decisions.title} description={pagesConfig.decisions.description} type="website" />
   <main class="page-container">
     <header class="page-header">
       <h1 class="page-title">{pagesConfig.decisions.heading}</h1>
       <p class="page-intro">{pagesConfig.decisions.intro}</p>
-      <PageStats text={`${decisions.length} 条真实项目决策`} />
+      <PageStats text={`${decisions.length} 条`} />
     </header>
     <div class="card-list card-list--compact">
-      {decisions.map((decision) => <DecisionCard title={decision.data.title} slug={decision.id} context={decision.data.context} date={decision.data.date} tags={decision.data.tags} />)}
+      {decisions.map((decision) => (
+        <DecisionCard
+          title={decision.data.title}
+          slug={decision.id}
+          context={decision.data.context}
+          date={decision.data.date}
+          tags={decision.data.tags}
+        />
+      ))}
     </div>
   </main>
 </BaseLayout>
