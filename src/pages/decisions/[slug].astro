@@ -17,6 +17,7 @@ const { decision } = Astro.props;
 const { Content } = await render(decision);
 const formattedDate = new Intl.DateTimeFormat('zh-CN', { year:'numeric', month:'long', day:'numeric' }).format(decision.data.date);
 ---
+
 <BaseLayout>
   <SEO slot="head" title={decision.data.title} description={decision.data.context} type="article" />
   <main class="decision-page">
@@ -25,31 +26,34 @@ const formattedDate = new Intl.DateTimeFormat('zh-CN', { year:'numeric', month:'
         <time datetime={decision.data.date.toISOString()}>{formattedDate}</time>
         <h1>{decision.data.title}</h1>
         {decision.data.tags && <div class="tags">{decision.data.tags.map((tag) => <span>{tag}</span>)}</div>}
-        {decision.data.sourceUrl && <a class="source-link" href={decision.data.sourceUrl} target="_blank" rel="noopener noreferrer">查看原始 ADR ↗</a>}
+        {decision.data.sourceUrl && <a class="source-link" href={decision.data.sourceUrl} target="_blank" rel="noopener noreferrer">原始 ADR ↗</a>}
       </header>
-      <section><h2>背景</h2><p>{decision.data.context}</p></section>
-      <section><h2>最终决定</h2><p class="decision-highlight">{decision.data.decision}</p></section>
+
+      <section><h2>当时是什么情况</h2><p>{decision.data.context}</p></section>
+      <section><h2>最后怎么定的</h2><p class="decision-highlight">{decision.data.decision}</p></section>
       <section>
-        <h2>当时考虑过什么</h2>
+        <h2>还考虑过什么</h2>
         <div class="alternatives">
           {decision.data.alternatives.map((alt) => (
             <article>
               <h3>{alt.option}</h3>
               <div class="alt-grid">
                 {alt.pros && <div><strong>好处</strong><ul>{alt.pros.map((item) => <li>{item}</li>)}</ul></div>}
-                {alt.cons && <div><strong>代价 / 风险</strong><ul>{alt.cons.map((item) => <li>{item}</li>)}</ul></div>}
+                {alt.cons && <div><strong>问题</strong><ul>{alt.cons.map((item) => <li>{item}</li>)}</ul></div>}
               </div>
             </article>
           ))}
         </div>
       </section>
-      <section><h2>为什么这样做</h2><p>{decision.data.reasoning}</p></section>
+      <section><h2>为什么这么定</h2><p>{decision.data.reasoning}</p></section>
+
       {decision.body && decision.body.trim().length > 0 && <section class="decision-body"><Content /></section>}
       <RelatedContent title="相关内容" relatedProjects={decision.data.relatedProjects} relatedDecisions={decision.data.relatedDecisions} />
       <BackLink href="/decisions" text="返回关键决策" />
     </article>
   </main>
   <ScrollToTop />
+
   <style>
     .decision-page { max-width:820px; margin:0 auto; padding:3.5rem 1.5rem 6rem; }
     .decision-header { padding-bottom:2.5rem; margin-bottom:3rem; border-bottom:1px solid var(--color-border); }
