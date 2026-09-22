@@ -1,0 +1,73 @@
+---
+title: RivalHub
+role: 项目负责人 / 独立开发者
+year: 2026
+duration: 2026.05–至今
+outcomeSummary: 把高校电竞赛事从表格、群聊和人工经验迁移到可审计、可恢复的线上工作流，并完整承载 2026 NJU Rivals。
+overview: RivalHub 是面向高校电竞赛事的开源赛事运营平台，目前主要用于 NJU Rivals 和 NJU Major，覆盖报名、组队、资格审核、赛程、比赛管理、数据统计和赛事历史。
+problem: 2026 NJU Rivals 引入个人报名、队长投票与蛇形选秀后，原本依赖表格和群聊的方式开始无法稳定承载身份、资格、组队、名单、赛程和赛果之间的状态关系。真正的问题不是“缺一个报名页”，而是完整赛事工作流缺少统一的事实边界和可恢复流程。
+constraints:
+  - Rivals 与 Major 需要共用账号、长期 Team、比赛和数据基础设施，但报名方式与赛制流程不同。
+  - 长期 Team 会改名、换人；历史赛事名单与赛果不能被今天的状态反向改写。
+  - 管理员必须能够处理补正、更正、恢复和纪律等例外，但不能靠“后台随便改数据库”解决。
+  - 赛事真实运行中会出现重复提交、身份冲突、材料补正和赛果更正，流程必须可审计、可恢复。
+approach: 先从参赛者、队长和管理员的真实工作流拆问题，再把业务事实分层为长期身份、单届参赛、名单版本、正式赛事名单和单场阵容。功能按赛事生命周期逐步落地，所有高影响操作都尽量保留明确 owner、校验和审计；上线后继续用真实比赛反馈修正产品与领域模型。
+keyDecisions:
+  - decision: 长期 Team 与单届参赛身份分开
+    reasoning: Team 回答“长期是什么队”，CompetitionEntry / EventRoster 回答“这一届以什么身份参加、谁被确认上场”。如果复用同一个可变 Team 状态，今天的换人会污染历史赛事事实。
+    alternatives:
+      - 每届赛事复制一份 Team
+      - 直接用当前 Team membership 推导比赛名单
+  - decision: 发布赛事与实际开放报名是两个不同事实
+    reasoning: 发布只是让赛事可见；真正开放报名才意味着资格规则和竞技上下文开始生效。把两者分开后，计划时间、实际 transition 与历史快照都能保持清楚。
+    alternatives:
+      - 发布后默认立即开放报名
+      - 只保存一个 registration status，不记录实际开放事实
+  - decision: 正式赛事事实与 Demo / OCR 等分析来源分权
+    reasoning: 分析工具可以补充证据和统计，但不能成为官方赛果、名单或比赛状态的第二 owner。这样才能让更正、重导和第三方分析保持可追溯，而不反向污染赛事事实。
+    alternatives:
+      - 分析结果直接覆盖赛事数据库
+      - 在前端根据多个来源临时拼接“最终结果”
+techStack:
+  - Next.js
+  - TypeScript
+  - PostgreSQL
+  - Supabase
+  - Drizzle ORM
+  - CI/CD
+impact:
+  metrics:
+    - label: 2026 NJU Rivals 参赛者
+      value: 56 人
+    - label: 正式比赛
+      value: 42 场
+    - label: 比赛地图
+      value: 59 张
+    - label: 2026-09 生产环境活跃用户
+      value: 294
+    - label: 2026-09 活跃队伍
+      value: 28 支
+  qualitative: 2026 NJU Rivals 已从报名、选秀、循环赛到双败淘汰和赛季收尾完整通过 RivalHub 运行。它不是课程作业，而是持续承载真实用户、赛务例外、生产数据和版本发布的长期产品。
+learnings:
+  - 产品问题往往藏在工作流和事实归属里，而不是藏在“还缺哪个页面”里。
+  - 对赛事这类强历史语义产品，snapshot 不是冗余；它回答“当时按什么事实运行”。
+  - 管理员例外处理越重要，越应该有明确 guard、owner 和审计，而不是绕过正常模型。
+featured: true
+status: ongoing
+stageLabel: 线上运行 / 持续迭代
+order: 1
+links:
+  live: https://match.starfie1d.top
+  github: https://github.com/Starfie1d1272/RivalHub
+relatedProjects:
+  - rivalhub-broadcast
+  - dak-studio
+---
+
+## 我在这个项目里真正负责什么
+
+从产品定义到实现，我长期负责需求优先级、Issue / 规格、方案与实现审查、研发推进、测试验收、Release 和生产问题闭环。随着产品从一届 Rivals 扩展到长期 Team、Major、资格认证和历史数据，工作重点也从“把功能做出来”逐渐转向“让每类事实只有一个可信 owner”。
+
+## 为什么它是我最重要的案例
+
+RivalHub 让我第一次长期面对一个系统上线之后的真实问题：用户不会按设计稿操作，赛务不会永远走正常路径，历史事实也不能因为今天改了页面就重新解释。很多后来在 Broadcast 里使用的“边界、Projection、fail closed、审计”思维，都是在这里逐渐形成的。

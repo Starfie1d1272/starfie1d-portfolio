@@ -1,0 +1,73 @@
+---
+title: RivalHub Broadcast
+role: 项目负责人 / 独立开发者
+year: 2026
+duration: 2026.09–至今
+outcomeSummary: 围绕“同一人同时解说、OB 和制作”的真实场景，重做一套本地优先、中文优先的 CS2 制播工作流；当前处于高速开发阶段。
+overview: RivalHub Broadcast 不是单纯画一张 HUD，而是把比赛上下文、CS2 实时数据、正式节目、雷达、制作控制与观察辅助放进同一套可靠运行时中。产品同时支持独立模式和 RivalHub 连接模式。
+problem: 现有校园赛制播往往把 CS2、HUD、雷达、OBS、赛事后台和观察提示拆成多个彼此不理解的工具；同时，主要用户常常只有一个人，需要边解说边 OB 还要处理制作异常。单纯增加更多信息会继续抬高认知负担，真正需要的是一套能安全降级、边界明确、低干扰的本地工作流。
+constraints:
+  - 默认用户是同一名解说兼 OB / 制作人员，认知负担比“功能越多越好”更重要。
+  - GSI / CSTV 会出现缺失、重连、stale、错场等情况，原始 telemetry 不能直接当作节目真相。
+  - 正式 Program 与 Lookahead Observer Assist 必须硬隔离，未来信息不能泄漏进正式节目。
+  - HUD / Radar / Program 必须可以脱离 RivalHub 运行；RivalHub 只能作为第一方赛事上下文提供方。
+  - 真实 Windows + CS2 + OBS 的现场证据不能被 mock 或 CI 代替。
+approach: 先冻结 Runtime、身份、连续性、Projection 和 Local Protocol 等基础，再在其上实现 HUD、Radar 与 Operator；对高风险决策使用 ADR，对未完全冻结的产品假设使用 RFC。研发上大量使用 Coding Agent、多 Worktree 和 CI，但通过冻结规格、职责边界和真实环境验收控制并行开发带来的漂移。
+keyDecisions:
+  - decision: Core 只维护一份 RuntimeState，不把整个状态直接广播给所有消费者
+    reasoning: Program、Radar、Operator、Debug 和云端 snapshot 的信息密度、刷新频率和安全边界不同。各自通过 Projection 读取所需数据，既避免第二份 domain truth，也避免高频 Radar 更新拖着无关字段一起传播。
+    alternatives:
+      - 把一份巨型 BroadcastState 直接通过 WebSocket 广播
+      - 让每个前端消费者各自解释 Raw GSI
+  - decision: Program 与 Observer Assist 做硬隔离，而不是两个可互相切换的数据源
+    reasoning: No-delay 时间轴只用于机器解析 future cue；Delayed Program 才是真正的正式节目时间轴。Lookahead 断流只应关闭 Assist，不能自动变成 Program fallback，更不能把未来信息送进 OBS。
+    alternatives:
+      - Program 故障时把 no-delay feed 切成正式节目
+      - 把未来位置和事件直接叠到正式 Radar
+  - decision: 独立模式和 RivalHub 连接模式共用同一套 Runtime
+    reasoning: RivalHub 能提供更完整的 Match / Roster / BP / Branding，但不能成为 HUD、Radar 或 Program 的运行前置条件。两种模式只在 MatchContext 的来源不同，不复制第二套 runtime、identity 或 radar domain。
+    alternatives:
+      - Broadcast 只作为 RivalHub 的附属工具
+      - 为独立模式做一套简化版分叉
+techStack:
+  - TypeScript
+  - CS2 GSI / CSTV
+  - WebSocket
+  - OBS Browser Source
+  - Playwright
+  - pnpm
+impact:
+  qualitative: 当前 main 已形成 RuntimeState / Projection、Local Protocol、Gameplay HUD、Radar、Operator / Debug 等基础能力；完整 Broadcast Workspace、Lookahead Observer Assist、分发与真实赛事硬化仍在继续。作品集只展示已经进入仓库并可验证的能力，不把 roadmap 当成完成项。
+learnings:
+  - 技术上能做的功能，不等于用户在现场应该看到的功能；信息密度本身就是产品变量。
+  - 实时系统最重要的往往不是“正常时显示什么”，而是断流、重连、错场时如何 fail closed。
+  - Agent 并行研发真正的瓶颈常常不是生成代码，而是规格漂移、owner 冲突和验收不一致。
+featured: true
+status: ongoing
+stageLabel: 高速开发中
+order: 2
+showcaseCommit: 1898d46f35a0a8a87145e22e3e1e19ef2df4b2a8
+links:
+  github: https://github.com/Starfie1d1272/RivalHub-Broadcast
+relatedProjects:
+  - rivalhub
+relatedDecisions:
+  - broadcast-runtime-projections
+  - program-assist-isolation
+  - independent-and-connected-modes
+---
+
+## 当前能展示什么
+
+当前仓库已经可以展示真实的 Program / Operator 页面、Gameplay HUD、Radar、运行诊断、HUD 配置与测试场景。完整的制播工作区和 Lookahead 仍在开发，因此这个案例会明确区分“已经工作的能力”和“下一阶段”。
+
+## Lookahead 为什么不是“AI 自动导播”
+
+第一层 Observer Assist 只想解决一个很窄的问题：**在正式延迟节目到达前，让同一个解说兼 OB 提前几秒知道下一次可靠击杀事件。**
+
+```text
++5.2s
+playerA → playerB
+```
+
+系统负责给人反应时间，人继续决定切谁、讲什么。当前 RFC 明确不把 AI / LLM camera model、自动 TAKE、Future Radar 或重要性排名当成第一层目标。

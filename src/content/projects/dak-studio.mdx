@@ -1,0 +1,66 @@
+---
+title: DAK Studio / CS2 Demo Analysis Kit
+role: 独立开发者
+year: 2026
+duration: 2026.06–至今
+outcomeSummary: 把 .dem 解析、版本化数据契约、可复核分析和桌面工作台串成一条本地优先链路，并已交付 macOS / Windows 构建。
+overview: DAK Studio 是本地 CS2 Demo 工作台；底层 CS2 Demo Analysis Kit 则是一套产品中立的数据与分析管道。核心原则是 Query-first：每一项统计都能回到具体比赛、回合和 tick，而不是只给一个无法追溯的黑盒分数。
+problem: Demo 分析很容易变成“能算出很多指标，却很难解释这些数字从哪里来”。同时，解析器、分析算法、桌面 UI 与其它产品如果直接耦合，任何格式升级都会牵动整条链路。需要把证据、数据合同、分析和产品展示拆开。
+constraints:
+  - 默认本地运行与保存，不要求账号，也不把 demo 上传到服务端。
+  - Python 解析链路与 TypeScript 分析 / 产品层需要稳定且版本化的接缝。
+  - RivalHub、Studio 和其它消费者应该复用同一分析能力，而不是各自重写公式。
+  - 产品中的统计必须能回到具体回合 / tick 复核，避免不可解释的黑盒结论。
+approach: 以 cs2-demo-format/3.x ZIP 作为 Python 与 TypeScript 之间唯一接缝；在上层拆出 core、cohort、presentation、React 组件和 Studio 桌面壳。数据合同先于 UI，分析结果通过统一 View Model 进入产品，桌面端只负责适配、编排和本地资料库。
+keyDecisions:
+  - decision: v3 ZIP 是 Python 与 TypeScript 之间唯一运行时接缝
+    reasoning: 两侧不互相 import，格式升级可以通过 schema/version 明确失败或迁移，避免“某个 Python 内部结构刚好被前端依赖”的隐式耦合。
+    alternatives:
+      - Python 与前端直接共享内部对象
+      - 每个消费者自己解析 .dem
+  - decision: 每个指标必须能回到证据，而不是只输出评分
+    reasoning: 选手复盘和赛事分析需要知道“为什么得出这个数字”。把统计连接到比赛、回合与 tick 后，用户可以直接在 2D 回放里复核。
+    alternatives:
+      - 只展示聚合评分
+      - 让模型直接解释无法追溯的统计结果
+  - decision: 分析层保持产品中立，Studio 只做产品壳
+    reasoning: RivalHub、DAK Studio 和其它消费者需要共享算法与 View Model；如果分析能力写死在桌面 UI 里，跨产品复用和校验都会变得困难。
+    alternatives:
+      - 所有分析都写进 Studio
+      - RivalHub 单独重写一套统计
+techStack:
+  - TypeScript
+  - Python
+  - React
+  - Zod
+  - IndexedDB
+  - pywebview
+  - PyInstaller
+  - GitHub Actions
+impact:
+  metrics:
+    - label: 当前发布版本
+      value: v0.8.2
+    - label: Studio 主要模块
+      value: 9 个
+    - label: 桌面分发
+      value: macOS + Windows
+  qualitative: 已交付 macOS DMG、Windows 安装程序和便携版 ZIP，并接入 RivalHub 的真实赛事数据流程。Studio 支持 .dem 本地导入、资料库、比赛工作台、选手档案、开局动线、排行榜等模块。
+learnings:
+  - 数据合同不是“工程洁癖”，而是多个产品共同消费同一证据时最重要的协作边界。
+  - 本地优先会把安装、打包、文件生命周期和版本兼容都变成产品问题，而不只是代码问题。
+  - 统计可信度来自可复核证据，而不是指标数量。
+featured: true
+status: ongoing
+stageLabel: 已发布 / 持续迭代
+order: 3
+links:
+  github: https://github.com/Starfie1d1272/cs2-demo-analysis-kit
+  release: https://github.com/Starfie1d1272/cs2-demo-analysis-kit/releases/latest
+relatedProjects:
+  - rivalhub
+---
+
+## 产品和生态为什么分开
+
+DAK Studio 使用 AGPL-3.0-only，而共享的 `@cs2dak/*` 生态包和 Python 壳采用 MIT。这个边界和代码模块边界一致：产品可以依赖共享分析能力，但共享分析能力不反向依赖 Studio。

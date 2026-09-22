@@ -1,26 +1,14 @@
 {
-  "name": "Professional Portfolio",
-  "short_name": "Portfolio",
-  "description": "Engineering leader specializing in system architecture, technical decision-making, and delivering measurable business impact.",
+  "name": "杜鑫宇｜产品与工程作品集",
+  "short_name": "杜鑫宇作品集",
+  "description": "RivalHub、RivalHub Broadcast、DAK Studio：问题定义、产品判断、技术取舍与真实落地。",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
   "icons": [
-    {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/favicon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/favicon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/favicon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon-512x512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

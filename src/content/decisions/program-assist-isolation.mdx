@@ -1,0 +1,31 @@
+---
+title: 正式 Program 与 Observer Assist 必须硬隔离
+date: 2026-09-14
+context: 真实赛事里同一人同时承担解说和 OB；no-delay 时间轴能比延迟 Program 更早看到已经发生的事件，因此可以帮助提前准备切镜，但也天然带来未来信息泄漏风险。
+decision: Delayed Program feed 是唯一正式节目时间轴；No-delay Lookahead 只进入机器解析和 Observer Assist。Lookahead 故障不影响 Program，Program 故障也绝不切到 Lookahead 作为 fallback。
+alternatives:
+  - option: 两条时间轴都作为可切换的 Program source
+    pros:
+      - 看起来具备“故障切换”
+    cons:
+      - 会把带未来信息的 no-delay feed 变成正式节目候选
+      - 破坏节目与辅助的安全边界
+  - option: 把未来事件直接叠在正式 HUD / Radar 上
+    pros:
+      - 操作更少
+    cons:
+      - OBS 捕获或页面复用时极易泄漏
+      - 正式节目与私有辅助失去可验证隔离
+reasoning: 两条流的“资格”不同，而不是延迟不同的同类 source。Program 负责正式画面，Assist 只帮助人提前准备；因此系统要在 Projection 层隔离，而不是依赖 OBS crop、窗口层级或“操作时小心一点”。
+tags:
+  - Program
+  - Observer Assist
+  - 安全边界
+sourceUrl: https://github.com/Starfie1d1272/RivalHub-Broadcast/blob/main/docs/decisions/0004-program-output-and-observer-assist-isolation.md
+relatedProjects:
+  - rivalhub-broadcast
+relatedDecisions:
+  - broadcast-runtime-projections
+---
+
+这也直接影响了产品形态：第一层 Lookahead 只需要回答“几秒后，谁 → 谁”，而不是做 Future Radar、自动 TAKE 或 AI 镜头推荐。
