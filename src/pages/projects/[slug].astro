@@ -142,6 +142,34 @@ const linkItems = [
           </div>
         )}
 
+        {section.galleries?.map((gallery) => (
+          <div class="evidence-gallery-block">
+            <div class="evidence-gallery-heading">
+              <div>
+                <h3>{gallery.title}</h3>
+                {gallery.description && <p>{gallery.description}</p>}
+              </div>
+              <div class="gallery-controls" aria-hidden="true">
+                <button type="button" class="gallery-button" data-gallery-prev aria-label="向左浏览">←</button>
+                <button type="button" class="gallery-button" data-gallery-next aria-label="向右浏览">→</button>
+              </div>
+            </div>
+            <div class="evidence-gallery" data-gallery-track>
+              {gallery.items.map((item) => (
+                <figure class:list={['gallery-item', `gallery-item--${item.orientation}`]}>
+                  <a class="gallery-media" href={item.src} target="_blank" rel="noopener noreferrer">
+                    <img src={item.src} alt={item.alt ?? item.label} loading="lazy" decoding="async" fetchpriority="low" />
+                  </a>
+                  <figcaption>
+                    <strong>{item.label}</strong>
+                    {item.caption && <span>{item.caption}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        ))}
+
         {section.items.some((item) => item.kind === 'file') && (
           <div class="evidence-files">
             {section.items.filter((item) => item.kind === 'file').map((item) => (
@@ -237,6 +265,24 @@ const linkItems = [
     .evidence-item figcaption { display: grid; gap: .25rem; margin-top: .55rem; }
     .evidence-item figcaption strong { font-size: .88rem; }
     .evidence-item figcaption span { color: var(--color-text-muted); font-size: .78rem; line-height: 1.55; }
+    .evidence-gallery-block { margin-top: 1.5rem; }
+    .evidence-gallery-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+    .evidence-gallery-heading h3 { margin: 0; font-size: 1rem; }
+    .evidence-gallery-heading p { margin: .3rem 0 0; color: var(--color-text-muted); font-size: .78rem; line-height: 1.55; }
+    .gallery-controls { display: flex; gap: .4rem; }
+    .gallery-button { width: 2rem; height: 2rem; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-bg); color: var(--color-text); cursor: pointer; }
+    .gallery-button:hover { background: var(--color-bg-secondary); }
+    .evidence-gallery { display: flex; gap: 1rem; overflow-x: auto; padding: 0 0 .8rem; scroll-snap-type: x mandatory; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+    .gallery-item { flex: 0 0 min(78vw, 520px); margin: 0; scroll-snap-align: start; min-width: 0; }
+    .gallery-item--portrait { flex-basis: min(60vw, 320px); }
+    .gallery-item--square { flex-basis: min(64vw, 360px); }
+    .gallery-media { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .gallery-item--portrait .gallery-media { aspect-ratio: 4 / 5; }
+    .gallery-item--square .gallery-media { aspect-ratio: 1 / 1; }
+    .gallery-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .gallery-item figcaption { display: grid; gap: .2rem; margin-top: .5rem; }
+    .gallery-item figcaption strong { font-size: .84rem; }
+    .gallery-item figcaption span { color: var(--color-text-muted); font-size: .74rem; line-height: 1.5; }
     .evidence-files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; margin-top: 1rem; }
     .file-evidence { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 0; padding: .8rem .9rem; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-bg-secondary); color: var(--color-text); text-decoration: none; }
     .file-evidence > span:first-child { display: grid; gap: .18rem; min-width: 0; }
@@ -266,6 +312,23 @@ const linkItems = [
       .timeline-item { grid-template-columns: 1fr; gap: .45rem; }
       .evidence-media-grid, .evidence-files { grid-template-columns: 1fr; }
       .evidence-media-grid--single { grid-template-columns: 1fr; }
+      .gallery-controls { display: none; }
+      .gallery-item { flex-basis: 86vw; }
+      .gallery-item--portrait { flex-basis: 68vw; }
+      .gallery-item--square { flex-basis: 72vw; }
     }
   </style>
+
+  <script>
+    document.querySelectorAll('.evidence-gallery-block').forEach((block) => {
+      const track = block.querySelector('[data-gallery-track]');
+      const prev = block.querySelector('[data-gallery-prev]');
+      const next = block.querySelector('[data-gallery-next]');
+      if (!(track instanceof HTMLElement)) return;
+
+      const amount = () => Math.max(track.clientWidth * 0.82, 280);
+      prev?.addEventListener('click', () => track.scrollBy({ left: -amount(), behavior: 'smooth' }));
+      next?.addEventListener('click', () => track.scrollBy({ left: amount(), behavior: 'smooth' }));
+    });
+  </script>
 </BaseLayout>
