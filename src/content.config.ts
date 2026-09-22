@@ -43,6 +43,7 @@ const projectsCollection = defineCollection({
         label: z.string(),
         alt: z.string().optional(),
         caption: z.string().optional(),
+        display: z.enum(['standard', 'wide', 'document']).optional(),
       })),
     })).optional(),
 
