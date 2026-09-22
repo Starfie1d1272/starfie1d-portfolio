@@ -40,14 +40,14 @@ const linkItems = [
       {linkItems.length > 0 && <div class="project-links">{linkItems.map((link) => <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>)}</div>}
     </header>
 
-    <section class="case-study-section"><h2>项目概览</h2><p>{overview}</p></section>
-    <section class="case-study-section"><h2>问题从哪里来</h2><p>{problem}</p></section>
-    <section class="case-study-section"><h2>关键约束</h2><ul class="arrow-list">{constraints.map((item) => <li>{item}</li>)}</ul></section>
-    <section class="case-study-section"><h2>我的做法</h2><p>{approach}</p></section>
+    <section class="case-study-section"><h2>这是做什么的</h2><p>{overview}</p></section>
+    <section class="case-study-section"><h2>为什么做</h2><p>{problem}</p></section>
+    <section class="case-study-section"><h2>当时有哪些限制</h2><ul class="arrow-list">{constraints.map((item) => <li>{item}</li>)}</ul></section>
+    <section class="case-study-section"><h2>怎么做</h2><p>{approach}</p></section>
 
     {screenshots && screenshots.length > 0 && (
       <section class="case-study-section">
-        <h2>界面与真实使用</h2>
+        <h2>界面与实际使用</h2>
         <div class="screenshot-list">
           {screenshots.map((shot) => (
             <figure class="project-shot">
@@ -60,7 +60,7 @@ const linkItems = [
     )}
 
     <section class="case-study-section">
-      <h2>关键决策</h2>
+      <h2>几个关键决定</h2>
       <div class="decisions-list">
         {keyDecisions.map((item) => (
           <article class="decision-item">
@@ -71,12 +71,12 @@ const linkItems = [
         ))}
       </div>
     </section>
-    <section class="case-study-section"><h2>技术与工具</h2><div class="tag-cloud">{techStack.map((tech) => <span>{tech}</span>)}</div></section>
-    <section class="case-study-section"><h2>结果与证据</h2>{impact.metrics && impact.metrics.length > 0 && <ImpactMetrics metrics={impact.metrics} />}<p>{impact.qualitative}</p></section>
-    <section class="case-study-section"><h2>复盘</h2><ul class="arrow-list">{learnings.map((item) => <li>{item}</li>)}</ul></section>
+    <section class="case-study-section"><h2>技术栈</h2><div class="tag-cloud">{techStack.map((tech) => <span>{tech}</span>)}</div></section>
+    <section class="case-study-section"><h2>结果</h2>{impact.metrics && impact.metrics.length > 0 && <ImpactMetrics metrics={impact.metrics} />}<p>{impact.qualitative}</p></section>
+    <section class="case-study-section"><h2>后来怎么看</h2><ul class="arrow-list">{learnings.map((item) => <li>{item}</li>)}</ul></section>
     {project.body && project.body.trim().length > 0 && <section class="case-study-content"><Content /></section>}
     <RelatedContent title="相关内容" relatedProjects={relatedProjects} relatedDecisions={relatedDecisions} />
-    <BackLink href="/projects" text="返回项目案例" />
+    <BackLink href="/projects" text="返回项目" />
   </main>
   <ScrollToTop />
 
