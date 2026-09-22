@@ -1,0 +1,30 @@
+---
+title: 先记录 CT 轮转事实，不急着贴 Anchor / Rotator 标签
+date: 2026-07-16
+context: Demo 里能观察到选手什么时候离开原防区、什么时候补防、回合里如何移动，但从这些事实直接推成 Anchor / Rotator 等角色标签，需要额外假设。
+decision: 第一层先保存最小、可复核的轮转事实；角色标签放到更高一层，只有证据足够时再输出。
+alternatives:
+  - option: 直接根据位置和移动阈值给角色标签
+    pros:
+      - 用户更快看到一个直观结论
+    cons:
+      - 不同地图和战术会让同一阈值含义变化
+      - 很难解释误判到底来自数据还是标签规则
+  - option: 完全不做轮转分析
+    pros:
+      - 没有误分类风险
+    cons:
+      - 浪费 Demo 中已经能可靠观察到的行为事实
+reasoning: 把“发生了什么”和“这意味着什么角色”分开，后续即使修改角色定义，也不需要重新解释原始 Demo；用户也能先看到可验证事实，再决定是否接受更高层结论。
+tags:
+  - DAK
+  - CT 轮转
+  - 可解释性
+sourceUrl: https://github.com/Starfie1d1272/cs2-demo-analysis-kit/blob/main/docs/decisions/2026-07-16-ct-rotation-minimum-facts.md
+relatedProjects:
+  - dak-studio
+relatedDecisions:
+  - dak-map-role-evidence
+---
+
+这类决定也是 DAK 和普通“给一个评分”的分析工具差别比较大的地方：先保留事实，结论可以迭代。
