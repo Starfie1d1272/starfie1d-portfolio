@@ -17,10 +17,10 @@ export const pagesConfig = {
     intro: '目前先放三个我自己长期维护的项目。',
   },
   decisions: {
-    title: '关键决策',
+    title: '决定',
     description: '项目里几条影响后续实现的决定。',
-    heading: '关键决策',
-    intro: '把几个当时需要认真取舍的问题单独记下来。',
+    heading: '决定',
+    intro: '几个当时需要单独想清楚的问题。',
   },
   about: {
     title: '关于',
