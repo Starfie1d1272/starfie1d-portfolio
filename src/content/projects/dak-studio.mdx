@@ -4,14 +4,15 @@ role: 独立开发者
 year: 2026
 duration: 2026.06–至今
 outcomeSummary: 本地 CS2 Demo 分析工具。已经发布 macOS DMG、Windows 安装程序和便携版 ZIP，也已经接进 RivalHub。
-overview: DAK Studio 是桌面端，负责导入 .dem、管理比赛、看分析结果和 2D 回放；底下的 CS2 Demo Analysis Kit 负责解析、数据格式和分析逻辑。两层分开以后，RivalHub 也可以直接复用同一套分析能力。
-problem: 最开始只是想从 Demo 里多拿一点比赛数据，但很快遇到两个问题：第一，指标算出来以后很难回到具体回合验证；第二，Python 解析器、前端分析和桌面 UI 如果直接绑在一起，格式一改就到处跟着坏。
-constraints:
-  - 默认本地导入和保存，不要求账号，也不把 demo 上传到服务器。
-  - Python 负责解析，TypeScript 负责大部分分析和产品层，两边需要一个稳定的数据格式。
-  - RivalHub、Studio 和后续其它工具最好复用同一套算法，不要各写一份。
-  - 展示出来的统计最好能回到具体回合和 tick，而不是只剩一个总分。
-approach: 我把 cs2-demo-format/3.x ZIP 定成 Python 和 TypeScript 之间的固定接口，再把分析逻辑、展示层和 Studio 桌面壳继续拆开。这样解析器升级、算法迭代和产品界面可以各自变化，不需要每次一起重写。
+metricsGroups:
+  - title: 当前版本
+    metrics:
+      - label: 发布版本
+        value: v0.8.2
+      - label: Studio 主要模块
+        value: 9 个
+      - label: 桌面分发
+        value: macOS + Windows
 keyDecisions:
   - decision: v3 ZIP 是 Python 和 TypeScript 之间唯一的运行时接缝
     reasoning: 两边不直接 import 对方内部对象，格式变了就通过 schema/version 明确处理。这样不会出现“前端刚好依赖了某个 Python 内部字段，结果解析器一改全坏”的情况。
@@ -37,29 +38,25 @@ techStack:
   - pywebview
   - PyInstaller
   - GitHub Actions
-impact:
-  metrics:
-    - label: 当前发布版本
-      value: v0.8.2
-    - label: Studio 主要模块
-      value: 9 个
-    - label: 桌面分发
-      value: macOS + Windows
-  qualitative: 现在已经有 .dem 本地导入、资料库、比赛工作台、选手档案、开局动线、排行榜等模块，并且有正式的 macOS / Windows 发布包。
-learnings:
-  - 数据格式一旦被多个产品一起用，就不能再当成解析器内部细节。
-  - 做本地桌面工具以后，安装、升级、文件放哪和旧版本兼容都会直接变成产品问题。
-  - 分析结果能不能被用户自己核对，比一次塞进去多少指标更重要。
 featured: true
 status: ongoing
 stageLabel: 已发布 / 持续迭代
-order: 3
+order: 4
 links:
   github: https://github.com/Starfie1d1272/cs2-demo-analysis-kit
   release: https://github.com/Starfie1d1272/cs2-demo-analysis-kit/releases/latest
 relatedProjects:
   - rivalhub
+relatedDecisions:
+  - dak-map-role-evidence
+  - dak-ct-rotation-facts
 ---
+
+## 为什么做
+
+最开始只是想从 Demo 里多拿一点比赛数据，但很快遇到两个问题：第一，指标算出来以后很难回到具体回合验证；第二，Python 解析器、前端分析和桌面 UI 如果直接绑在一起，格式一改就到处跟着坏。
+
+所以后来把解析、版本化数据格式、分析逻辑和桌面产品分开。Studio 负责导入 .dem、管理比赛、看分析和 2D 回放，RivalHub 也可以复用同一套分析能力。
 
 ## 为什么把 Studio 和分析库分开
 
