@@ -9,11 +9,11 @@ interface Props {
   role: string;
   year: number;
   techStack?: string[];
-  featured?: boolean;
   status?: 'completed' | 'ongoing' | 'archived';
   stageLabel?: string;
 }
-const { title, slug, outcomeSummary, role, year, techStack = [], featured = false, status = 'completed', stageLabel } = Astro.props;
+
+const { title, slug, outcomeSummary, role, year, techStack = [], status = 'completed', stageLabel } = Astro.props;
 const displayTech = techStack.slice(0, 4);
 const hasMoreTech = techStack.length > 4;
 const defaultStage = { completed: '已完成', ongoing: '持续迭代', archived: '已归档' }[status];
@@ -21,7 +21,6 @@ const defaultStage = { completed: '已完成', ongoing: '持续迭代', archived
 
 <BaseCard href={`/projects/${slug}`} class="project-card">
   <div slot="badge" class="card-badges">
-    {featured && <span class="featured-badge">重点项目</span>}
     <span class:list={['status-badge', `status--${status}`]}>{stageLabel ?? defaultStage}</span>
   </div>
   <Fragment slot="meta">{role} · {year}</Fragment>
@@ -33,13 +32,12 @@ const defaultStage = { completed: '已完成', ongoing: '持续迭代', archived
       {hasMoreTech && <span class="tag-more">+{techStack.length - 4}</span>}
     </div>
   )}
-  <ForwardLink text="查看案例" />
+  <ForwardLink text="详情" />
 </BaseCard>
+
 <style>
-  .card-badges { display:flex; align-items:center; flex-wrap:wrap; gap:.6rem; margin-bottom:.75rem; }
-  .featured-badge,.status-badge { font-size:.65rem; font-weight:650; letter-spacing:.04em; padding:.25rem .5rem; border-radius:4px; }
-  .featured-badge { color:var(--color-accent); padding-left:0; }
-  .status-badge { background:var(--color-bg-elevated); color:var(--color-text-muted); border:1px solid var(--color-border); }
-  .status--ongoing { color:#22c55e; }
-  .tag-more { font-size:.75rem; padding:.25rem .5rem; color:var(--color-text-muted); }
+  .card-badges { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; margin-bottom: .75rem; }
+  .status-badge { font-size: .65rem; font-weight: 650; letter-spacing: .04em; padding: .25rem .5rem; border-radius: 4px; background: var(--color-bg-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+  .status--ongoing { color: #22c55e; }
+  .tag-more { font-size: .75rem; padding: .25rem .5rem; color: var(--color-text-muted); }
 </style>
