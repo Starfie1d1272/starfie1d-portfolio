@@ -45,6 +45,17 @@ const projectsCollection = defineCollection({
         caption: z.string().optional(),
         display: z.enum(['standard', 'wide', 'document']).optional(),
       })),
+      galleries: z.array(z.object({
+        title: z.string(),
+        description: z.string().optional(),
+        items: z.array(z.object({
+          src: z.string(),
+          label: z.string(),
+          alt: z.string().optional(),
+          caption: z.string().optional(),
+          orientation: z.enum(['landscape', 'portrait', 'square']).default('landscape'),
+        })),
+      })).optional(),
     })).optional(),
 
     keyDecisions: z.array(z.object({
