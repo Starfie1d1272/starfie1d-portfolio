@@ -1,22 +1,21 @@
 # starfie1d-portfolio
 
-杜鑫宇的产品与工程作品集，面向校招与技术产品岗位展示。
+杜鑫宇的产品与工程作品集。
 
-当前重点案例：
+当前重点内容：
 
-- **RivalHub**：高校电竞赛事运营平台，真实线上运行；
-- **RivalHub Broadcast**：本地优先的 CS2 制播工具，持续开发中；
-- **DAK Studio / CS2 Demo Analysis Kit**：本地 Demo 分析工作台与产品中立分析管道。
+- **RivalHub**：高校电竞赛事运营平台；
+- **NJU Major 2023–2026**：连续多届校园 CS 赛事主办与总体运营；
+- **RivalHub Broadcast**：本地优先的 CS2 制播工具；
+- **DAK Studio / CS2 Demo Analysis Kit**：本地 Demo 分析工作台与分析工具链。
 
-## 定位
-
-这个仓库不是简历数据库，也不是完整个人主页。
+## 仓库边界
 
 - 职业事实、定向简历与面试资料放在 `career-bank`；
 - 科研经历、成果与摄影放在 `starfie1d-site`；
-- 本仓库只负责把产品与工程项目整理成可阅读的 Case Study。
+- 本仓库负责公开作品集页面与展示素材。
 
-内容以中文为主；`Issue`、`ADR`、`RFC`、`Runtime`、`Projection`、`Agent`、`CI` 等中文社区常用术语保留英文。
+页面不再要求每个项目套同一套 Case Study 模板。统一字段只负责标题、状态、指标、时间线、素材和关联关系；具体叙事直接写在各项目 MDX 正文里。
 
 ## 本地开发
 
@@ -24,7 +23,12 @@
 npm install
 npm run dev
 npm run build
+npm run preview
 ```
+
+## 加入真实素材
+
+见 `docs/ADDING_ASSETS.md`。
 
 ## 部署
 
