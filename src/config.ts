@@ -7,14 +7,14 @@ export const siteConfig = {
   title: getEnv('SITE_TITLE', '杜鑫宇｜产品与工程作品集'),
   description: getEnv(
     'SITE_DESCRIPTION',
-    'RivalHub、RivalHub Broadcast、DAK Studio 三个项目。',
+    'NJU Major、RivalHub、RivalHub Broadcast、DAK Studio。',
   ),
   author: {
     name: getEnv('SITE_AUTHOR_NAME', '杜鑫宇'),
     title: getEnv('SITE_AUTHOR_TITLE', '产品 / 研发效能 / 开发者工具'),
     bio: getEnv(
       'SITE_AUTHOR_BIO',
-      '南京大学 2027 届本科生，做赛事平台、CS2 制播工具和 Demo 分析工具。',
+      '南京大学 2027 届本科生，做赛事运营、赛事平台、CS2 制播和 Demo 分析。',
     ),
     email: getEnv('SITE_AUTHOR_EMAIL', 'xinyu@starfie1d.top'),
     location: getEnv('SITE_AUTHOR_LOCATION', ''),
