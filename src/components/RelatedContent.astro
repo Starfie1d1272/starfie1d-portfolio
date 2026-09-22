@@ -12,8 +12,8 @@ const hasRelated = projects.length > 0 || decisions.length > 0;
   <aside class="related-content">
     <h2>{title}</h2>
     <div class="related-grid">
-      {projects.length > 0 && <div><h3>项目案例</h3>{projects.map((project) => <a class="related-item" href={`/projects/${project.id}`}><span>{project.data.role} · {project.data.year}</span><strong>{project.data.title}</strong></a>)}</div>}
-      {decisions.length > 0 && <div><h3>关键决策</h3>{decisions.map((decision) => <a class="related-item" href={`/decisions/${decision.id}`}><span>{decision.data.date.toLocaleDateString('zh-CN')}</span><strong>{decision.data.title}</strong></a>)}</div>}
+      {projects.length > 0 && <div><h3>项目</h3>{projects.map((project) => <a class="related-item" href={`/projects/${project.id}`}><span>{project.data.role} · {project.data.year}</span><strong>{project.data.title}</strong></a>)}</div>}
+      {decisions.length > 0 && <div><h3>决定</h3>{decisions.map((decision) => <a class="related-item" href={`/decisions/${decision.id}`}><span>{decision.data.date.toLocaleDateString('zh-CN')}</span><strong>{decision.data.title}</strong></a>)}</div>}
     </div>
   </aside>
 )}
