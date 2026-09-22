@@ -49,7 +49,7 @@ const formattedDate = new Intl.DateTimeFormat('zh-CN', { year:'numeric', month:'
 
       {decision.body && decision.body.trim().length > 0 && <section class="decision-body"><Content /></section>}
       <RelatedContent title="相关内容" relatedProjects={decision.data.relatedProjects} relatedDecisions={decision.data.relatedDecisions} />
-      <BackLink href="/decisions" text="返回关键决策" />
+      <BackLink href="/decisions" text="返回决定" />
     </article>
   </main>
   <ScrollToTop />
