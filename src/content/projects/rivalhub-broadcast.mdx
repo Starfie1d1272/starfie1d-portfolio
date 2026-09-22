@@ -4,15 +4,6 @@ role: 项目负责人 / 独立开发者
 year: 2026
 duration: 2026.09–至今
 outcomeSummary: 给校园 CS2 赛事做的本地制播工具。因为我自己长期同时做解说和 OB，现有工具一直有不少使用和维护上的麻烦，所以开始重做；现在还在高速开发。
-overview: RivalHub Broadcast 目前包括比赛状态接入、Gameplay HUD、Radar、Program、Operator / Debug 等部分。目标不是单独做一张 HUD，而是把我实际直播一场比赛时要开的几套东西尽量收进一个本地工具里。
-problem: 校园赛经常没有专门的导播团队，一个人同时解说、OB、盯 HUD、看赛事后台并不罕见。我自己就是这个使用场景。现有工具能完成其中一部分，但数据来源、界面和维护方式彼此割裂，现场出问题时也很难判断到底是哪一层坏了。
-constraints:
-  - 默认就是一个人同时解说、OB 和做基础制作，所以提示不能多到反过来干扰比赛。
-  - GSI / CSTV 会断、会重连，也可能拿到过期或不属于当前比赛的数据。
-  - Lookahead 能看到正式延迟节目“未来几秒”的信息，所以绝不能进 Program 或 OBS。
-  - HUD、Radar 和 Program 即使不连接 RivalHub，也应该能单独运行。
-  - CI 和 mock 能测很多东西，但最后还是得在 Windows + CS2 + OBS 的真实环境里跑。
-approach: 我先把实时状态、选手身份、比赛连续性、Projection 和本地协议这些底层问题收住，再往上做 HUD、Radar 和 Operator。会影响很多后续组件的决定写 ADR；还没完全定的功能先放 RFC。实现里大量用 Coding Agent 和 Worktree 并行，但每个分支的范围、依赖和验收会提前写清楚。
 keyDecisions:
   - decision: Core 只保留一份 RuntimeState，不把整份状态直接丢给所有页面
     reasoning: Program、Radar、Operator、Debug 需要的数据完全不同，Radar 还会高频刷新。让每个页面只拿自己的 Projection，可以避免所有地方都自己解释一遍 GSI，也不会为了雷达坐标更新把整份状态一起广播。
@@ -36,30 +27,31 @@ techStack:
   - OBS Browser Source
   - Playwright
   - pnpm
-impact:
-  qualitative: 现在已经有 RuntimeState / Projection、Local Protocol、Gameplay HUD、Radar、Operator / Debug 等基础能力。完整 Broadcast Workspace、Lookahead Observer Assist、分发和真实赛事硬化还在继续做，所以这个项目会一直变化。
-learnings:
-  - 我一开始很容易把“技术上能拿到的信息”理解成“应该显示的信息”，后来发现现场认知负担本身就是产品限制。
-  - 实时工具最麻烦的不是正常时候，而是断流、重连、拿错比赛这类边界情况。
-  - 多 Agent 并行以后，真正耗时间的经常不是写代码，而是把不同分支的范围和依赖重新对齐。
 featured: true
 status: ongoing
 stageLabel: 高速开发中
-order: 2
+order: 3
 showcaseCommit: 1898d46f35a0a8a87145e22e3e1e19ef2df4b2a8
 links:
   github: https://github.com/Starfie1d1272/RivalHub-Broadcast
 relatedProjects:
   - rivalhub
+  - nju-major
 relatedDecisions:
   - broadcast-runtime-projections
   - program-assist-isolation
   - independent-and-connected-modes
 ---
 
-## 现在能看什么
+## 为什么做
 
-当前仓库已经能跑 Program / Operator 页面、Gameplay HUD、Radar、运行诊断和 HUD 配置。完整制播工作区和 Lookahead 还在开发，所以后面截图也会固定到一个明确的 commit，不直接跟着 main 每天变化。
+校园赛经常没有专门的导播团队，一个人同时解说、OB、盯 HUD、看赛事后台并不罕见。我自己就是这个使用场景。
+
+现有工具能完成其中一部分，但数据来源、界面和维护方式彼此割裂，现场出问题时也很难判断到底是哪一层坏了。Broadcast 想做的是把比赛状态接入、Gameplay HUD、Radar、Program、Operator / Debug 尽量收进一套本地工具里。
+
+## 现在到哪了
+
+当前仓库已经能跑 Program / Operator 页面、Gameplay HUD、Radar、运行诊断和 HUD 配置。完整制播工作区和 Lookahead 还在开发，所以后面截图会固定到明确的 commit，不直接跟着 main 每天变化。
 
 ## Lookahead 先做多窄
 
