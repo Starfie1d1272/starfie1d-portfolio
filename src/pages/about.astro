@@ -8,20 +8,34 @@ import { pagesConfig } from '../pages.config';
   <SEO slot="head" title={pagesConfig.about.title} description={pagesConfig.about.description} type="profile" />
   <main class="about-page">
     <header>
-      <p class="eyebrow">About</p>
-      <h1>关于这个作品集</h1>
-      <p class="lead">我是杜鑫宇，南京大学行星科学本科生。科研之外，我长期在真实赛事、软件工具和 AI Agent 工作流里做产品与工程实践。</p>
+      <p class="eyebrow">关于</p>
+      <h1>我是杜鑫宇。</h1>
+      <p class="lead">
+        南京大学行星科学本科生，2027 届。除了科研，我这几年也一直在做自己会真正用到的软件：
+        赛事平台、CS2 制播工具和 Demo 分析工具。
+      </p>
     </header>
+
     <section>
-      <h2>这里展示什么</h2>
-      <p>这个站只展示产品与工程项目，重点不是罗列功能，而是解释：问题从哪里来、用户是谁、哪些约束真正影响决策、我为什么选择某个方案，以及最终如何验证。</p>
-      <p>目前主要整理 RivalHub、RivalHub Broadcast 和 DAK Studio。完整科研经历、会议成果和摄影仍放在个人主页。</p>
+      <h2>这个站放什么</h2>
+      <p>
+        这里只放产品和工程项目。目前主要是 RivalHub、RivalHub Broadcast 和 DAK Studio。
+        科研经历、会议成果和摄影还放在我的个人主页。
+      </p>
     </section>
+
     <section>
-      <h2>我在项目里的角色</h2>
-      <p>在这些项目中，我通常同时承担产品负责人和独立开发者角色：负责问题定义、需求与工作流梳理、产品 / 领域建模、优先级、Issue / ADR / RFC、实现审查、测试验收、Release 与生产问题闭环。</p>
-      <p>我会大量使用 Coding Agent / Agent Harness 加速研发，但 Agent 主要承担实现与检索工作；关键判断、边界冻结、代码审查和最终验收仍由我负责。</p>
+      <h2>这些项目里我做什么</h2>
+      <p>
+        大部分项目里，我既负责产品，也会直接看代码、数据模型和日志。需求怎么定、哪些功能先不做、
+        Issue 怎么拆、PR 能不能合、上线之后出了什么问题，通常都由我自己跟到底。
+      </p>
+      <p>
+        实现里会大量使用 Coding Agent / Agent Harness，但我不会把“Agent 写出来了”当成完成。
+        规格、关键取舍、Review、测试和最后验收还是我自己负责。
+      </p>
     </section>
+
     <section class="links">
       <a href="https://starfie1d.top" target="_blank" rel="noopener noreferrer">个人主页 ↗</a>
       <a href="https://github.com/Starfie1d1272" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
@@ -31,7 +45,7 @@ import { pagesConfig } from '../pages.config';
 
   <style>
     .about-page { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-    .eyebrow { font-size: .75rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-muted); }
+    .eyebrow { font-size: .75rem; font-weight: 650; letter-spacing: .08em; color: var(--color-text-muted); }
     h1 { margin: .5rem 0 1.25rem; font-size: 2.6rem; letter-spacing: -.035em; }
     .lead { font-size: 1.2rem; line-height: 1.8; color: var(--color-text-secondary); }
     section { margin-top: 3rem; }
