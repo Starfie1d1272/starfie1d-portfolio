@@ -7,14 +7,14 @@ export const siteConfig = {
   title: getEnv('SITE_TITLE', '杜鑫宇｜产品与工程作品集'),
   description: getEnv(
     'SITE_DESCRIPTION',
-    '杜鑫宇的产品与工程作品集：RivalHub、RivalHub Broadcast、DAK Studio，以及这些项目背后的问题定义、产品判断、技术取舍与真实落地。',
+    'RivalHub、RivalHub Broadcast、DAK Studio 三个项目。',
   ),
   author: {
     name: getEnv('SITE_AUTHOR_NAME', '杜鑫宇'),
-    title: getEnv('SITE_AUTHOR_TITLE', 'Technical Product / Developer Tools'),
+    title: getEnv('SITE_AUTHOR_TITLE', '产品 / 研发效能 / 开发者工具'),
     bio: getEnv(
       'SITE_AUTHOR_BIO',
-      '南京大学 2027 届本科生，关注技术产品、研发效能、开发者工具与 AI Agent 工作流。',
+      '南京大学 2027 届本科生，做赛事平台、CS2 制播工具和 Demo 分析工具。',
     ),
     email: getEnv('SITE_AUTHOR_EMAIL', 'xinyu@starfie1d.top'),
     location: getEnv('SITE_AUTHOR_LOCATION', ''),
@@ -27,7 +27,7 @@ export const siteConfig = {
     bluesky: getEnv('SOCIAL_BLUESKY', ''),
   },
   nav: [
-    { label: '项目案例', href: '/projects' },
+    { label: '项目', href: '/projects' },
     { label: '关键决策', href: '/decisions' },
     { label: '关于', href: '/about' },
   ],
