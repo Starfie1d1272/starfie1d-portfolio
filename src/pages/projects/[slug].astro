@@ -16,7 +16,7 @@ const { slug } = Astro.params;
 const project = await getEntry('projects', slug!);
 if (!project) return Astro.redirect('/404');
 const { Content } = await render(project);
-const { title, role, year, duration, outcomeSummary, overview, problem, constraints, approach, keyDecisions, techStack, impact, learnings, relatedProjects, relatedDecisions, status, stageLabel, showcaseCommit, links } = project.data;
+const { title, role, year, duration, outcomeSummary, overview, problem, constraints, approach, keyDecisions, techStack, impact, learnings, relatedProjects, relatedDecisions, status, stageLabel, showcaseCommit, screenshots, links } = project.data;
 const defaultStage = { completed: '已完成', ongoing: '持续迭代', archived: '已归档' }[status || 'completed'];
 const linkItems = [
   links?.live && { label: '线上产品 ↗', href: links.live },
@@ -44,6 +44,21 @@ const linkItems = [
     <section class="case-study-section"><h2>问题从哪里来</h2><p>{problem}</p></section>
     <section class="case-study-section"><h2>关键约束</h2><ul class="arrow-list">{constraints.map((item) => <li>{item}</li>)}</ul></section>
     <section class="case-study-section"><h2>我的做法</h2><p>{approach}</p></section>
+
+    {screenshots && screenshots.length > 0 && (
+      <section class="case-study-section">
+        <h2>界面与真实使用</h2>
+        <div class="screenshot-list">
+          {screenshots.map((shot) => (
+            <figure class="project-shot">
+              <img src={shot.src} alt={shot.alt} loading="lazy" />
+              {shot.caption && <figcaption>{shot.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
     <section class="case-study-section">
       <h2>关键决策</h2>
       <div class="decisions-list">
@@ -89,6 +104,10 @@ const linkItems = [
     .alternatives { margin-top:1rem; padding-top:1rem; border-top:1px solid var(--color-border); }
     .alternatives strong { display:block; margin-bottom:.5rem; color:var(--color-text-muted); font-size:.75rem; }
     .alternatives ul { margin:0; padding-left:1.2rem; color:var(--color-text-secondary); line-height:1.7; }
+    .screenshot-list { display:grid; gap:1.5rem; }
+    .project-shot { margin:0; }
+    .project-shot img { display:block; width:100%; height:auto; border:1px solid var(--color-border); border-radius:8px; background:var(--color-bg-secondary); }
+    .project-shot figcaption { margin-top:.6rem; color:var(--color-text-muted); font-size:.8rem; line-height:1.6; }
     .tag-cloud { display:flex; flex-wrap:wrap; gap:.5rem; }
     .tag-cloud span { padding:.35rem .6rem; background:var(--color-bg-secondary); border:1px solid var(--color-border); border-radius:5px; color:var(--color-text-secondary); font-size:.8rem; }
     .case-study-content { margin:1rem 0 3.5rem; padding-top:2rem; border-top:1px solid var(--color-border); }
