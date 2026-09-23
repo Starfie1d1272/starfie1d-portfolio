@@ -121,6 +121,26 @@ const linkItems = [
       </section>
     )}
 
+    {keyDecisions && keyDecisions.length > 0 && (
+      <section class="case-study-section">
+        <h2>{keyDecisions.length === 1 ? '一个决定' : '几个决定'}</h2>
+        <div class="decisions-list">
+          {keyDecisions.map((item) => (
+            <article class="decision-item">
+              <h3>{item.decision}</h3>
+              <p>{item.reasoning}</p>
+              {item.alternatives && item.alternatives.length > 0 && (
+                <div class="alternatives">
+                  <strong>当时也考虑过</strong>
+                  <ul>{item.alternatives.map((alt) => <li>{alt}</li>)}</ul>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
     {evidenceSections?.map((section) => (
       <section class="case-study-section evidence-section">
         <h2>{section.title}</h2>
@@ -186,29 +206,9 @@ const linkItems = [
       </section>
     ))}
 
-    {keyDecisions && keyDecisions.length > 0 && (
-      <section class="case-study-section">
-        <h2>几个决定</h2>
-        <div class="decisions-list">
-          {keyDecisions.map((item) => (
-            <article class="decision-item">
-              <h3>{item.decision}</h3>
-              <p>{item.reasoning}</p>
-              {item.alternatives && item.alternatives.length > 0 && (
-                <div class="alternatives">
-                  <strong>当时也考虑过</strong>
-                  <ul>{item.alternatives.map((alt) => <li>{alt}</li>)}</ul>
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
-    )}
-
     {techStack && techStack.length > 0 && (
       <section class="case-study-section">
-        <h2>技术栈</h2>
+        <h2>技术</h2>
         <div class="tag-cloud">{techStack.map((tech) => <span>{tech}</span>)}</div>
       </section>
     )}
@@ -302,7 +302,18 @@ const linkItems = [
     .arrow-list li { position: relative; padding: .45rem 0 .45rem 1.35rem; color: var(--color-text-secondary); line-height: 1.75; }
     .arrow-list li::before { content: "→"; position: absolute; left: 0; color: var(--color-accent); }
     .case-study-content { margin: 1rem 0 3.5rem; padding-top: 2rem; border-top: 1px solid var(--color-border); }
-    .case-study-content :global(h3) { margin: 1.8rem 0 .8rem; }
+    .case-study-content :global(h3) { margin: 2rem 0 .9rem; font-size: 1.08rem; }
+    .case-study-content :global(.story-media) { margin: 1.25rem 0 3.25rem; }
+    .case-study-content :global(.story-media a) { display: block; }
+    .case-study-content :global(.story-media img) { display: block; width: 100%; height: auto; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .case-study-content :global(.story-media figcaption) { margin-top: .6rem; color: var(--color-text-muted); font-size: .8rem; line-height: 1.6; }
+    .case-study-content :global(.story-metrics) { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 1rem 0 1.5rem; border-top: 1px solid var(--color-border); border-left: 1px solid var(--color-border); }
+    .case-study-content :global(.story-metrics > div) { display: grid; gap: .25rem; padding: 1rem; border-right: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); background: var(--color-bg-secondary); }
+    .case-study-content :global(.story-metrics strong) { font-size: 1.15rem; color: var(--color-text); }
+    .case-study-content :global(.story-metrics span) { font-size: .72rem; color: var(--color-text-muted); }
+    .case-study-content :global(.scope-block) { margin: 1rem 0 0; padding: 1.2rem 1.3rem; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .case-study-content :global(.scope-block p) { margin: 0; }
+    .case-study-content :global(.scope-block p + p) { margin-top: .7rem; }
     .case-study-content :global(ul) { margin: .8rem 0 1.4rem; padding-left: 1.25rem; color: var(--color-text-secondary); line-height: 1.75; }
     .case-study-content :global(a) { text-decoration: underline; text-underline-offset: 3px; }
     @media (max-width: 640px) {
@@ -316,6 +327,7 @@ const linkItems = [
       .gallery-item { flex-basis: 86vw; }
       .gallery-item--portrait { flex-basis: 68vw; }
       .gallery-item--square { flex-basis: 72vw; }
+      .case-study-content :global(.story-metrics) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 
