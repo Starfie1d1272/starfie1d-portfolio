@@ -1,0 +1,116 @@
+---
+title: RivalHub
+role: 项目负责人 / 独立开发者
+year: 2026
+duration: 2026.05–至今
+outcomeSummary: 面向高校 CS 赛事的运营平台，从报名、资格、队伍到比赛和赛后数据都在同一套系统里持续运行。起于 2026 NJU Rivals，目前正在承载 2026 NJU Major。
+metricsGroups:
+  - title: 平台现状
+    asOf: 截至 2026-09-22
+    metrics:
+      - label: 注册用户
+        value: "299"
+      - label: 高校认证用户
+        value: "218"
+      - label: 近 30 日活跃用户
+        value: "267"
+      - label: 当前有效队伍
+        value: 29 支
+evidenceSections:
+  - title: 原始赛事材料
+    description: RivalHub 直接长自第一届 NJU Rivals。这里保留当时的赛事海报、规则速览和原始规则文件。
+    items:
+      - kind: image
+        src: /media/nju-rivals/2026/poster.png
+        label: 2026 NJU Rivals 海报
+        alt: 2026 NJU Rivals 赛事海报
+      - kind: image
+        src: /media/nju-rivals/2026/rules.png
+        label: 2026 NJU Rivals 规则速览
+        alt: 2026 NJU Rivals 规则速览图
+      - kind: file
+        src: /media/nju-rivals/2026/rulebook.docx
+        label: 2026 NJU Rivals 比赛规则
+        caption: 原始规则文件。
+      - kind: file
+        src: "/media/nju-rivals/2026/2026 NJU Rivals：MVP、EVP 与最佳阵容.md"
+        label: MVP、EVP 与最佳阵容
+        caption: 赛季结束后的评选与总结。
+keyDecisions:
+  - decision: 长期队伍和某一届赛事的参赛记录分开
+    reasoning: 一支队伍会跨多届比赛存在，也会改名、换人；但某一届当时是谁参赛、用什么名单，是已经发生的历史事实。比赛不能永远读取队伍“现在的成员”，所以长期队伍和单届参赛记录分开保存。
+    alternatives:
+      - 每届赛事都复制一支新的队伍
+      - 比赛时直接读取队伍当前成员
+techStack:
+  - Next.js
+  - TypeScript
+  - PostgreSQL
+  - Supabase
+  - Drizzle ORM
+  - CI/CD
+featured: true
+status: ongoing
+stageLabel: 线上运行 / 持续迭代
+order: 1
+links:
+  live: https://match.starfie1d.top
+  github: https://github.com/Starfie1d1272/RivalHub
+relatedProjects:
+  - nju-major
+  - rivalhub-broadcast
+  - dak-studio
+relatedDecisions:
+  - rivalhub-team-and-event-entry
+---
+
+## 当前正在运行
+
+<figure className="story-media">
+  <a href="/media/rivalhub/major-home.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/rivalhub/major-home.webp" alt="2026 NJU Major 报名期首页" loading="lazy" />
+  </a>
+  <figcaption>2026 NJU Major 报名期。截图时已有 25 支队伍通过审核，176 名选手进入公开赛事名单。</figcaption>
+</figure>
+
+## 从 NJU Rivals 开始
+
+2023–2025 连续几届 NJU Major 主要依赖 Excel、群聊和人工确认维护赛事。流程能跑，但很多状态只存在于表格和组织者的记忆里。
+
+2026 Spring 第一届 NJU Rivals 改成个人报名、审核、队长投票和蛇形选秀后，这套方式开始很难继续可靠维护：谁有资格、谁已经被选走、哪份名单算正式，都需要明确状态。RivalHub 就从这里开始。
+
+### 一次完整赛事验证
+
+<div className="story-metrics" aria-label="2026 NJU Rivals 赛事规模">
+  <div><strong>56 人</strong><span>参赛者</span></div>
+  <div><strong>8 支</strong><span>队伍</span></div>
+  <div><strong>42 场</strong><span>正式比赛</span></div>
+  <div><strong>59 张</strong><span>比赛地图</span></div>
+</div>
+
+<figure className="story-media">
+  <a href="/media/rivalhub/rivals-finished.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/rivalhub/rivals-finished.webp" alt="2026 NJU Rivals 已结束赛事首页" loading="lazy" />
+  </a>
+  <figcaption>第一届 NJU Rivals 完整跑完报名、队长投票、选秀、排位赛和正赛，最终完成 42 场比赛和 59 张地图。</figcaption>
+</figure>
+
+## 从 Rivals 到 Major
+
+Rivals 跑完以后，2026 NJU Major 又提出了一套不同的问题：长期队伍、整队报名、高校资格、名单变更、审核和更复杂的赛制，都要继续放进同一个系统。
+
+到 Major，RivalHub 才真正从“一届 Rivals 的工具”变成需要长期维护队伍、身份、参赛记录和历史事实的平台。
+
+<figure className="story-media">
+  <a href="/media/rivalhub/major-admin-prestart.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/rivalhub/major-admin-prestart.webp" alt="2026 NJU Major 赛前运营工作台" loading="lazy" />
+  </a>
+  <figcaption>2026 NJU Major 赛前运营工作台。截图时共有 28 条报名记录、25 支队伍已批准；正式参赛名单和比赛仍处于赛前生成阶段。</figcaption>
+</figure>
+
+## 我负责什么
+
+<div className="scope-block">
+  <p>产品定义、赛事流程建模、优先级和 Issue 拆解、实现 Review、测试验收、数据库迁移、版本发布与线上问题收尾。</p>
+  <p>开发中长期使用 Coding Agent；关键需求、取舍、Review 和最终验收由我负责。</p>
+</div>

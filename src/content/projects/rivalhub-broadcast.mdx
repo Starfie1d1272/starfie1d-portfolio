@@ -1,0 +1,65 @@
+---
+title: RivalHub Broadcast
+role: 项目负责人 / 独立开发者
+year: 2026
+duration: 2026.09–至今
+outcomeSummary: 给校园 CS2 赛事做的本地制播工具。因为我自己长期同时做解说和 OB，现有工具一直有不少使用和维护上的麻烦，所以开始重做；现在还在高速开发。
+keyDecisions:
+  - decision: Core 只保留一份 RuntimeState，不把整份状态直接丢给所有页面
+    reasoning: Program、Radar、Operator、Debug 需要的数据完全不同，Radar 还会高频刷新。让每个页面只拿自己的 Projection，可以避免所有地方都自己解释一遍 GSI，也不会为了雷达坐标更新把整份状态一起广播。
+    alternatives:
+      - 用一份巨大的 BroadcastState 直接 WebSocket 广播
+      - 每个页面自己读取和解释 Raw GSI
+  - decision: Program 和 Observer Assist 完全分开
+    reasoning: no-delay 时间轴是给机器提前解析事件用的，Delayed Program 才是正式节目。Lookahead 挂了只应该少一个辅助提示，不能影响 Program；Program 挂了也不能把 no-delay feed 顶上去。
+    alternatives:
+      - Program 故障时自动切 no-delay feed
+      - 把未来位置和事件直接显示在正式 Radar 上
+  - decision: 独立模式和 RivalHub 连接模式共用同一套 Runtime
+    reasoning: 连上 RivalHub 时可以自动拿比赛、阵容、BP 和 Branding；不连接时也应该能手动填最少的信息继续直播。两种模式的区别只应该是比赛上下文从哪来，而不是维护两套 Broadcast。
+    alternatives:
+      - Broadcast 只能作为 RivalHub 的附属工具
+      - 给独立模式单独做一套简化 Runtime
+techStack:
+  - TypeScript
+  - CS2 GSI / CSTV
+  - WebSocket
+  - OBS Browser Source
+  - Playwright
+  - pnpm
+featured: true
+status: ongoing
+stageLabel: 高速开发中
+order: 3
+showcaseCommit: 1898d46f35a0a8a87145e22e3e1e19ef2df4b2a8
+links:
+  github: https://github.com/Starfie1d1272/RivalHub-Broadcast
+relatedProjects:
+  - rivalhub
+  - nju-major
+relatedDecisions:
+  - broadcast-runtime-projections
+  - program-assist-isolation
+  - independent-and-connected-modes
+---
+
+## 为什么做
+
+校园赛经常没有专门的导播团队，一个人同时解说、OB、盯 HUD、看赛事后台并不罕见。我自己就是这个使用场景。
+
+现有工具能完成其中一部分，但数据来源、界面和维护方式彼此割裂，现场出问题时也很难判断到底是哪一层坏了。Broadcast 想做的是把比赛状态接入、Gameplay HUD、Radar、Program、Operator / Debug 尽量收进一套本地工具里。
+
+## 现在到哪了
+
+当前仓库已经能跑 Program / Operator 页面、Gameplay HUD、Radar、运行诊断和 HUD 配置。完整制播工作区和 Lookahead 还在开发，所以后面截图会固定到明确的 commit，不直接跟着 main 每天变化。
+
+## Lookahead 先做多窄
+
+第一版只想解决一个很具体的问题：**正式延迟节目到达之前，先告诉我几秒后谁会击杀谁。**
+
+```text
++5.2s
+playerA → playerB
+```
+
+我还是自己决定切谁、什么时候切、现场讲什么。第一版先不碰 AI / LLM 镜头模型、自动 TAKE、Future Radar 或重要性排名。

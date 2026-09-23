@@ -1,0 +1,178 @@
+---
+title: DAK Studio / CS2 Demo Analysis Kit
+role: 独立开发者
+year: 2026
+duration: 2026.06–至今
+outcomeSummary: 本地运行的 CS2 Demo 分析工具。把 `.dem` 解析成可检索、可比较的数据，并尽量让重要结果能继续点回具体比赛、回合和 tick，在 2D 回放里自己核对。
+metricsGroups:
+  - title: 当前产品
+    asOf: 正式版 v0.8.2
+    metrics:
+      - label: 发布版本
+        value: v0.8.2
+      - label: 桌面分发
+        value: macOS + Windows
+      - label: 运行方式
+        value: 本地解析 / 本地保存
+timeline:
+  - year: "0.3"
+    title: 从解析 Demo 到能自己回看的桌面工具
+    summary: "开始支持 `.dem` 导入、2D 回放、回合筛选和 round / tick 跳转。做出来的统计不再只停在表格里，可以继续回比赛里看。"
+  - year: "0.5"
+    title: 把解析、数据格式和分析拆开
+    summary: 切到 cs2-demo-format v3；对枪、枪法机制、系列赛和教练分析等能力陆续加入，同时开始把分析能力分成稳定、测试中和实验三档。
+  - year: "0.7"
+    title: 开始按长期桌面软件来做
+    summary: 加入赛事资源、Windows 在线安装器、应用内更新、稳定版 / 测试版通道和大库性能优化，也开始尝试控图覆盖场这类空间分析。
+  - year: "0.8"
+    title: 重新整理整个使用流程
+    summary: 之前功能已经很多，但页面和分析入口越来越散。0.8 重新整理导航、分析范围和回看路径，让用户看完一个结果以后还能继续找到它来自哪场比赛、哪一回合。
+  - year: "0.8.1–0.8.2"
+    title: 开始和 RivalHub 打通
+    summary: Studio 可以直接读取 RivalHub 在线赛事、批量导入本地 Demo，并把赛事统计继续抽成共享包，给两个产品一起使用。
+keyDecisions:
+  - decision: 指标不能只停在一个数字上
+    reasoning: 如果一个异常数据没法继续找到对应样本，很难判断它到底说明了什么。DAK 因此尽量给重要结果保留比赛、回合和 tick 的入口，让用户能直接回 2D 回放看当时发生了什么。
+    alternatives:
+      - 只展示最终统计和评分
+      - 只给结论，不暴露对应样本
+  - decision: 成熟度不同的分析分开标
+    reasoning: 有些统计已经比较稳定，有些还在补验证集或处理边界情况。DAK 会明确区分稳定、测试中和实验功能；缺失值显示 `—`，证据不够时也不为了界面完整硬给结论。
+    alternatives:
+      - 只要功能已经做出来，就统一按正式能力展示
+      - 为了让页面完整，把缺失值补成 0
+  - decision: Python 和前端分析之间只认一份版本化数据
+    reasoning: "Python 负责把 `.dem` 解析成 cs2-demo-format v3 ZIP，后面的 TypeScript 分析和界面都只认这份格式。这样解析器可以继续改，Studio 和 RivalHub 也能共用分析能力，不需要彼此依赖内部实现。"
+    alternatives:
+      - Python 和前端直接共享内部对象
+      - 每个产品各自重新解析 `.dem`
+evidenceSections:
+  - title: 更多分析能力
+    description: 这些功能成熟度不同，所以这里保留它们各自现在真实的状态。
+    items: []
+    galleries:
+      - title: 其它分析页面
+        description: 点击图片可以查看原图。
+        items:
+          - src: /media/dak/lineup.webp
+            label: 道具点位库 · 测试中
+            alt: DAK Studio 道具点位库，展示 Dust2 常用投掷点、地图落点与可回放样本
+            caption: 按地图、阵营和类型整理常用投掷，也可以继续打开对应回放和原始 Demo 核对。
+            orientation: landscape
+          - src: /media/dak/radar-field.webp
+            label: 控图覆盖场 · 描述性观察
+            alt: DAK Studio 控图覆盖场，展示 Dust2 双方空间信息差
+            caption: 目前只展示空间覆盖和信息差，不自动判断战术意图、弱区或应该怎么打。
+            orientation: portrait
+          - src: /media/dak/coach.webp
+            label: 教练模式探索 · 实验
+            alt: DAK Studio 教练模式页面，展示聚类、代表回合和 2D 回放
+            caption: 把相似回合聚在一起，再回看代表回合；目前仍是实验功能，不直接把聚类结果当成确定战术。
+            orientation: landscape
+techStack:
+  - TypeScript
+  - Python
+  - React
+  - Zod
+  - IndexedDB
+  - pywebview
+  - PyInstaller
+  - GitHub Actions
+featured: true
+status: ongoing
+stageLabel: 已发布 / 持续迭代
+order: 4
+links:
+  github: https://github.com/Starfie1d1272/cs2-demo-analysis-kit
+  release: https://github.com/Starfie1d1272/cs2-demo-analysis-kit/releases/latest
+relatedProjects:
+  - rivalhub
+relatedDecisions:
+  - dak-map-role-evidence
+  - dak-ct-rotation-facts
+---
+
+## 为什么做
+
+最开始我只是想从 Demo 里拿到比记分板更多的数据。后来越做越发现，比“还能算什么”更麻烦的是：**算出来以后，怎么知道这个结果靠不靠谱。**
+
+所以我给 DAK 定了一个很简单的要求：如果一个分析值得看，就最好能继续找到它对应的比赛、回合和 tick。看到一个异常数据时，不用先相信算法，可以直接回 2D 回放看当时到底发生了什么。
+
+<figure className="story-media">
+  <a href="/media/dak/match-workspace.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/match-workspace.webp" alt="DAK Studio v0.8.2 比赛复盘工作区" loading="eager" fetchpriority="high" />
+  </a>
+  <figcaption>v0.8.2 的比赛复盘。比分、核心统计、比赛主线、回合浏览、选手视角和 2D 回放都放在同一套页面里，不需要为了核对一个数据来回切工具。</figcaption>
+</figure>
+
+## 结果不能只停在一个数字上
+
+DAK 里很多分析都不是看完数字就结束。一个结果如果值得继续追，最好还能顺着它找到具体样本：
+
+```text
+分析结果
+↓
+具体样本
+↓
+比赛 / 回合 / tick
+↓
+2D 回放
+```
+
+早期版本已经能从不少统计跳回具体回合。0.8 主要做的是把这件事重新整理成更连续的使用流程：看完一个样本以后，仍然知道自己原来在看哪名选手、哪些比赛，以及为什么会来到这里。
+
+<figure className="story-media">
+  <a href="/media/dak/duel-mechanics.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/duel-mechanics.webp" alt="DAK Studio 选手枪法与机制分析页面" loading="lazy" />
+  </a>
+  <figcaption><strong>枪法 / 机制 · 测试中。</strong> 可以按武器看首发命中、扫射命中、急停、反应时间和预瞄误差，也会同时显示当前样本量。这类分析已经能用，但还没有被当成完全定型的稳定结论。</figcaption>
+</figure>
+
+## 有些结果可以直接用，有些还只能参考
+
+DAK 里不是所有能算出来的东西都算同一个级别。有些统计已经有比较稳定的口径，有些还在补验证集，还有一些目前只适合用来观察现象。
+
+| 状态 | 现在怎么用 | 例子 |
+| --- | --- | --- |
+| **稳定** | 已经有固定口径，可以正常用于复盘和比较 | 基础比赛事实、ADR / KAST / K-D、经济与转化、单场 RR、2D 回放 |
+| **测试中** | 已经可以分析，但算法或边界还可能继续调整 | 对枪分类、枪法机制、反应 / 预瞄、闪光效果、道具点位库、跨场 RR / PRISM |
+| **描述性观察** | 先把空间事实画出来，不自动替用户解释成战术结论 | 控图覆盖场 |
+| **实验** | 用来探索模式，暂时不适合直接据此下结论 | 教练战术模式聚类、模式探索、反战术分析文本 |
+
+这套区分的目的很简单：缺数据就显示 `—`，证据不够就少下结论。**能算出来，不等于就该把它当成答案。**
+
+<figure className="story-media">
+  <a href="/media/dak/economy.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/economy.webp" alt="DAK Studio 赛事经济与转化分析页面" loading="lazy" />
+  </a>
+  <figcaption><strong>经济与转化 · 稳定。</strong> 截图里的赛事范围包含 96 场 Demo，可以直接比较手枪局转化、5v4 / 5v3 优势转化、4v5 / 3v5 翻盘和各队明细。</figcaption>
+</figure>
+
+## 后来 RivalHub 也开始用这套分析
+
+做到后面，DAK 遇到了另一个很实际的问题：RivalHub 也需要赛事统计和 Demo 分析。如果这些逻辑都留在 Studio 页面里，两个产品迟早会各写一套。
+
+所以现在的数据链路大致是：
+
+```text
+.dem
+→ cs2df
+→ cs2-demo-format / 3.x ZIP
+→ @cs2dak/* 分析包
+→ DAK Studio / RivalHub
+```
+
+Python 只负责把 Demo 解析成一份版本化的 v3 ZIP。后面的统计和界面都基于这份格式继续做。这样解析器可以单独更新，RivalHub 需要同样的统计时也可以直接复用，不需要把 Studio 整个搬过去。
+
+<figure className="story-media">
+  <a href="/media/dak/rivalhub-tournament.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/rivalhub-tournament.webp" alt="DAK Studio 连接 RivalHub 后的赛事目录" loading="lazy" />
+  </a>
+  <figcaption>Studio 连接 RivalHub 后可以直接读取在线赛事，再把本地 Demo 对到对应阶段和系列赛。截图里的 2026 NJU Rivals 已经同步赛事结构和本地 Demo，但 Demo 解析和分析仍然在本机完成。</figcaption>
+</figure>
+
+## 现在到哪了
+
+v0.8.2 是目前正式发布的版本，macOS 和 Windows 都有完整桌面分发。后面还会继续做复盘行动项、教练赛前准备、战术板、BP 策略和地图控制模型，但这些现在还没有被当成已经完成的正式能力。
+
+DAK Studio 本身使用 AGPL-3.0-only；可以给其它产品复用的 `@cs2dak/*` 分析包和 Python 壳使用 MIT。

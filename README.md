@@ -1,123 +1,39 @@
-# Case — A Case-Study-First Portfolio Theme for Astro
+# starfie1d-portfolio
 
-[![Built with Astro](https://astro.badg.es/v2/built-with-astro/tiny.svg)](https://astro.build)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+杜鑫宇的产品与工程作品集。
 
-A case-study-first portfolio theme for Astro. Designed for professionals who want to showcase their thinking, decisions, and real impact—not just screenshots and tech stacks.
+当前重点内容：
 
-## Why Case?
+- **RivalHub**：高校电竞赛事运营平台；
+- **NJU Major 2023–2026**：连续多届校园 CS 赛事主办与总体运营；
+- **RivalHub Broadcast**：本地优先的 CS2 制播工具；
+- **DAK Studio / CS2 Demo Analysis Kit**：本地 Demo 分析工作台与分析工具链。
 
-Most portfolio themes focus on listing projects with screenshots and bullet points. Case takes a different approach: it treats every project as a case study with a structured narrative—problem, constraints, approach, key decisions, and measurable outcomes.
+## 仓库边界
 
-This lets you demonstrate not just what you built, but how you think. Hiring managers and clients see your decision-making process, trade-offs you considered, and the real impact of your work. You stand out by showing depth, not just breadth.
+- 职业事实、定向简历与面试资料放在 `career-bank`；
+- 科研经历、成果与摄影放在 `starfie1d-site`；
+- 本仓库负责公开作品集页面与展示素材。
 
-## Demo
+页面不再要求每个项目套同一套 Case Study 模板。统一字段只负责标题、状态、指标、时间线、素材和关联关系；具体叙事直接写在各项目 MDX 正文里。
 
-<div align="center">
-
-[![View Demo](https://img.shields.io/badge/View_Demo-→-0077FF?style=for-the-badge&logo=astro&logoColor=white)](https://case.erland.me)
-
-<table>
-  <tr>
-    <td width="50%">
-      <img src="./screenshots/light-mode.webp" loading="lazy" alt="Light Mode">
-      <p align="center"><em>Light Mode</em></p>
-    </td>
-    <td width="50%">
-      <img src="./screenshots/dark-mode.webp" loading="lazy" alt="Dark Mode">
-      <p align="center"><em>Dark Mode</em></p>
-    </td>
-  </tr>
-</table>
-
-</div>
-
-## Features
-
-### Case Studies Over Screenshots
-
-Document your engineering thinking with structured project narratives.
-
-- **Problem → Solution framework**: Context, constraints, approach, and measurable impact
-- **Decision documentation**: Trade-offs, alternatives, and reasoning behind key choices
-- **Quantified outcomes**: Performance improvements, team impact, and business results
-- **Strategic highlighting**: Feature your strongest work on the homepage
-
-### Built-in Decision Records
-
-Document architectural decisions with full context and alternatives.
-
-- Problem statement and background context
-- Options considered with trade-off analysis
-- Chosen approach with reasoning
-- Outcomes and learnings
-- Tag-based organization and filtering
-
-### Content Types for Technical Portfolios
-
-Purpose-built collections for engineering professionals.
-
-- **Projects** — Deep-dive case studies with structured narratives
-- **Decisions** — ADR-style technical decision logs
-- **Journey** — Career milestones, transitions, and key learnings
-- **Writing** — Technical articles with auto-generated TOC
-- **Speaking** — Talks, podcasts, and workshop materials
-- **Tools** — Tech stack and development environment
-- **Testimonials** — Peer and client recommendations
-
-## Quick Start
-
-### 1. Create a new project
+## 本地开发
 
 ```bash
-npm create astro@latest -- --template erlandv/case
-```
-
-### 2. Configure your site
-
-```bash
-cp .env.example .env
-# Edit .env with your information
-```
-
-### 3. Start development
-
-```bash
+npm install
 npm run dev
+npm run build
+npm run preview
 ```
 
-Your site is now running at [http://localhost:4321](http://localhost:4321)
+## 加入真实素材
 
-## Documentation
+见 `docs/ADDING_ASSETS.md`。
 
-Full documentation is available in the [`docs/`](./docs/) folder:
+## 部署
 
-### Getting Started
-- [Installation](./docs/01-getting-started/installation.md) — Prerequisites and setup
-- [Quick Start](./docs/01-getting-started/quick-start.md) — See results in 5 minutes
-- [Project Structure](./docs/01-getting-started/project-structure.md) — Understand the codebase
+计划部署到 Vercel，并绑定 `https://work.starfie1d.top`。
 
-### Configuration
-- [Configuration](./docs/02-configuration/configuration.md) — Environment variables, navigation, favicons
+## 上游模板与许可证
 
-### Content
-- [Content Guide](./docs/03-content/content-guide.md) — All content types and schemas
-- [Templates](./docs/03-content/templates.md) — Copy-paste templates for quick content creation
-- [Images](./docs/03-content/images.md) — Image handling and optimization
-- [Content Strategy](./docs/03-content/content-strategy.md) — Best practices for featured content
-
-### Customization
-- [Styling](./docs/04-customization/styling.md) — Colors, typography, spacing, breakpoints
-- [Components](./docs/04-customization/components.md) — Modifying and creating components
-- [Advanced](./docs/04-customization/advanced.md) — Layouts, new content collections
-
-### Deployment
-- [Deployment](./docs/05-deployment/deployment.md) — Build and deploy to various platforms
-- [Post-Deployment](./docs/05-deployment/post-deployment.md) — Verification checklist
-
-### Reference
-- [Troubleshooting](./docs/06-reference/troubleshooting.md) — Common issues and solutions
-
-## License
-
-Case Theme is free for personal and commercial use under the [MIT License](./LICENSE). Attribution is not required, but a link back to this repository is always appreciated if you find the theme useful.
+初始结构来自 [erlandv/case](https://github.com/erlandv/case)，按其 MIT License 使用和修改。原始 MIT License 保留在仓库中。

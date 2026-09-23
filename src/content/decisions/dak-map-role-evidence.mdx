@@ -1,0 +1,30 @@
+---
+title: 先把可验证证据做对，再给地图职责下结论
+date: 2026-07-15
+context: DAK 在分析大量地图和回合后，发现早期的地图职责判断里混进了结构问题。如果直接继续调阈值，看起来能得到更多标签，但结论本身并不可靠。
+decision: 先修正底层证据结构和语义，再讨论职责阈值；当证据不足时允许不给标签，而不是为了覆盖率强行分类。
+alternatives:
+  - option: 继续调阈值，让更多选手得到角色标签
+    pros:
+      - 展示结果更完整
+    cons:
+      - 会把结构问题伪装成参数问题
+      - 标签看起来确定，实际无法被可靠复核
+  - option: 只保留原始统计，不做任何职责分析
+    pros:
+      - 最保守
+    cons:
+      - 放弃了本来可以从证据中提炼出的有用信息
+reasoning: 对分析产品来说，能解释“为什么这样判断”比覆盖所有人更重要。先把证据做成可以回到具体地图和回合复核的结构，后面的职责结论才有意义。
+tags:
+  - DAK
+  - 数据分析
+  - 证据
+sourceUrl: https://github.com/Starfie1d1272/cs2-demo-analysis-kit/blob/main/docs/decisions/2026-07-15-map-role-evidence-semantics.md
+relatedProjects:
+  - dak-studio
+relatedDecisions:
+  - dak-ct-rotation-facts
+---
+
+这条决定后来直接影响了 DAK 的分析方式：不追求“每个人都必须有一个角色标签”，而是先保证标签背后的数据能被人自己核对。

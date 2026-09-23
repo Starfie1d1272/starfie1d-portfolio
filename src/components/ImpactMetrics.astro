@@ -1,39 +1,10 @@
 ---
-/**
- * ImpactMetrics Component
- * 
- * Displays project impact metrics in a clean vertical list layout. Designed to be
- * flexible for any type and length of metric value, from percentages to qualitative
- * statements.
- * 
- * Features:
- * - Vertical stack layout for consistent presentation
- * - Flexible for varying content lengths
- * - Separator lines between metrics
- * - Responsive padding for mobile
- * 
- * @component
- * 
- * @example
- * ```astro
- * <ImpactMetrics metrics={[
- *   { label: "Processing Time", value: "60% reduction (from 2.5s to 1s)" },
- *   { label: "Uptime", value: "99.9% (up from 97.2%)" },
- *   { label: "Security Incidents", value: "Zero auth-related breaches" }
- * ]} />
- * ```
- */
-
 interface Metric {
-  /** Metric category or name (displayed below value) */
   label: string;
-  
-  /** Metric value or result (displayed prominently) */
   value: string;
 }
 
 interface Props {
-  /** Array of metrics to display */
   metrics: Metric[];
 }
 
@@ -52,46 +23,52 @@ const { metrics } = Astro.props;
 <style>
   .impact-metrics {
     list-style: none;
-    padding: 1.5rem 1.75rem;
-    margin: 0 0 2rem 0;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border-top: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
   }
 
   .metric-item {
+    margin: 0;
+    min-height: 96px;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .metric-item:not(:last-child) {
-    padding-bottom: 1.25rem;
+    justify-content: center;
+    gap: .3rem;
+    padding: 1rem 1.1rem;
+    border-right: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
   }
 
   .metric-value {
-    font-size: 1.0625rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 650;
     color: var(--color-text);
-    line-height: 1.5;
+    line-height: 1.35;
   }
 
   .metric-label {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: .72rem;
     color: var(--color-text-muted);
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   @media (max-width: 480px) {
     .impact-metrics {
-      padding: 1.25rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric-item {
+      min-height: 86px;
+      padding: .9rem;
+    }
+
+    .metric-value {
+      font-size: 1.1rem;
     }
   }
 </style>

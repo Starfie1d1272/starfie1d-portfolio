@@ -1,37 +1,4 @@
 ---
-/**
- * Case Study Detail Page
- * 
- * Dynamic route that displays a comprehensive project case study following a structured
- * narrative format. Presents the complete story of a project from problem identification
- * through to measurable impact and learnings.
- * 
- * Narrative Structure (enforced order):
- * 1. Overview - High-level project summary
- * 2. Problem - Challenge being addressed
- * 3. Constraints - Limitations and boundaries
- * 4. Approach - Solution strategy
- * 5. Key Decisions - Technical choices with reasoning and alternatives
- * 6. Tech Stack - Technologies used
- * 7. Result & Impact - Quantitative metrics and qualitative outcomes
- * 8. Learnings - Insights and takeaways
- * 
- * Features:
- * - Static path generation for all project entries
- * - Structured case study presentation
- * - Impact metrics grid (when available)
- * - Reading time calculation
- * - Structured data for SEO
- * - Optional additional markdown content
- * - Scroll-to-top functionality
- * - Related content navigation
- * - Back navigation to projects list
- * 
- * Route: /projects/[slug]
- * 
- * @page
- */
-
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SEO from '../../components/SEO.astro';
 import StructuredData from '../../components/StructuredData.astro';
@@ -40,456 +7,340 @@ import BackLink from '../../components/BackLink.astro';
 import RelatedContent from '../../components/RelatedContent.astro';
 import ImpactMetrics from '../../components/ImpactMetrics.astro';
 import { getCollection, getEntry, render } from 'astro:content';
-import { calculateReadingTime, formatReadingTime } from '../../utils/readingTime';
 
-/**
- * Generates static paths for all project entries
- * 
- * Queries the projects content collection and creates a route for each entry
- * using the entry ID as the slug parameter.
- * 
- * @returns Array of path objects with params
- */
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  return projects.map((project) => ({
-    params: { slug: project.id },
-  }));
+  return projects.map((project) => ({ params: { slug: project.id } }));
 }
 
 const { slug } = Astro.params;
-
-/**
- * Retrieves the specific project entry by slug
- * 
- * Redirects to 404 if the project is not found.
- */
 const project = await getEntry('projects', slug!);
+if (!project) return Astro.redirect('/404');
 
-if (!project) {
-  return Astro.redirect('/404');
-}
-
-// Render the content (v6-compatible method)
 const { Content } = await render(project);
-
 const {
   title,
   role,
   year,
   duration,
-  teamSize,
   outcomeSummary,
-  overview,
-  problem,
-  constraints,
-  approach,
+  metricsGroups,
+  timeline,
+  screenshots,
+  evidenceSections,
   keyDecisions,
   techStack,
-  impact,
   learnings,
   relatedProjects,
   relatedDecisions,
   status,
+  stageLabel,
+  showcaseCommit,
+  links,
 } = project.data;
 
-// Status display configuration
-const statusConfig = {
-  completed: { label: 'Completed', class: 'status--completed' },
-  ongoing: { label: 'Ongoing', class: 'status--ongoing' },
-  archived: { label: 'Archived', class: 'status--archived' },
-};
-const statusInfo = statusConfig[status || 'completed'];
-
-/**
- * Calculates reading time from all case study content
- * 
- * Combines all text sections including overview, problem, approach, decisions,
- * impact, learnings, and optional markdown body to estimate total reading time.
- */
-const allText = [
-  overview,
-  problem,
-  approach,
-  ...constraints,
-  ...keyDecisions.map(d => `${d.decision} ${d.reasoning} ${d.alternatives?.join(' ') || ''}`),
-  impact.qualitative,
-  ...learnings,
-  project.body || '',
-].join(' ');
-const readingTime = formatReadingTime(calculateReadingTime(allText));
+const defaultStage = { completed: '已完成', ongoing: '持续迭代', archived: '已归档' }[status || 'completed'];
+const linkItems = [
+  links?.live && { label: '线上产品 ↗', href: links.live },
+  links?.github && { label: 'GitHub ↗', href: links.github },
+  links?.release && { label: 'Release ↗', href: links.release },
+].filter(Boolean) as { label: string; href: string }[];
 ---
 
 <BaseLayout>
-  <SEO 
-    slot="head"
-    title={`${title} - Case Study`}
-    description={outcomeSummary}
-    type="article"
-  />
-
-  <StructuredData
-    type="Project"
-    data={{
-      title,
-      outcomeSummary,
-      problem,
-      impact: impact.qualitative,
-      techStack,
-      year,
-    }}
-  />
+  <SEO slot="head" title={title} description={outcomeSummary} type="article" />
+  <StructuredData type="Project" data={{ title, outcomeSummary, techStack, year }} />
 
   <main class="case-study">
-    <!-- Case Study Header -->
     <header class="case-study-header">
       <div class="header-badges">
-        {status && status !== 'completed' && (
-          <span class:list={['status-badge', statusInfo.class]}>
-            {statusInfo.label}
-          </span>
-        )}
+        <span class:list={['status-badge', `status--${status}`]}>{stageLabel ?? defaultStage}</span>
       </div>
       <h1>{title}</h1>
       <div class="case-study-meta">
-        <span class="meta-item">{role}</span>
-        <span class="meta-separator">·</span>
-        <span class="meta-item">{year}</span>
-        {duration && (
-          <>
-            <span class="meta-separator">·</span>
-            <span class="meta-item">{duration}</span>
-          </>
-        )}
-        {teamSize && (
-          <>
-            <span class="meta-separator">·</span>
-            <span class="meta-item">{teamSize} {teamSize === 1 ? 'person' : 'people'}</span>
-          </>
-        )}
-        <span class="meta-separator">·</span>
-        <span class="meta-item">{readingTime}</span>
+        <span>{role}</span><span>·</span><span>{duration ?? year}</span>
+        {showcaseCommit && <><span>·</span><span>展示基线 {showcaseCommit.slice(0, 7)}</span></>}
       </div>
       <p class="outcome-summary">{outcomeSummary}</p>
+      {linkItems.length > 0 && (
+        <div class="project-links">
+          {linkItems.map((link) => <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>)}
+        </div>
+      )}
     </header>
 
-    <!-- Overview Section -->
-    <section class="case-study-section">
-      <h2>Overview</h2>
-      <p>{overview}</p>
-    </section>
+    {metricsGroups?.map((group) => (
+      <section class="case-study-section metric-group">
+        <div class="section-title-row">
+          <h2>{group.title}</h2>
+          {group.asOf && <span>{group.asOf}</span>}
+        </div>
+        <ImpactMetrics metrics={group.metrics} />
+      </section>
+    ))}
 
-    <!-- Problem Section -->
-    <section class="case-study-section">
-      <h2>Problem</h2>
-      <p>{problem}</p>
-    </section>
-
-    <!-- Constraints Section -->
-    <section class="case-study-section">
-      <h2>Constraints</h2>
-      <ul class="constraints-list">
-        {constraints.map((constraint) => (
-          <li>{constraint}</li>
-        ))}
-      </ul>
-    </section>
-
-    <!-- Approach Section -->
-    <section class="case-study-section">
-      <h2>Approach</h2>
-      <p>{approach}</p>
-    </section>
-
-    <!-- Key Decisions Section -->
-    <section class="case-study-section">
-      <h2>Key Decisions</h2>
-      <div class="decisions-list">
-        {keyDecisions.map((decision) => (
-          <div class="decision-item">
-            <h3 class="decision-title">{decision.decision}</h3>
-            <div class="decision-reasoning">
-              <strong>Reasoning:</strong>
-              <p>{decision.reasoning}</p>
-            </div>
-            {decision.alternatives && decision.alternatives.length > 0 && (
-              <div class="decision-alternatives">
-                <strong>Alternatives considered:</strong>
-                <ul>
-                  {decision.alternatives.map((alt) => (
-                    <li>{alt}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Tech Stack Section -->
-    <section class="case-study-section">
-      <h2>Tech Stack</h2>
-      <ul class="tech-stack-list">
-        {techStack.map((tech) => (
-          <li>{tech}</li>
-        ))}
-      </ul>
-    </section>
-
-    <!-- Result/Impact Section -->
-    <section class="case-study-section">
-      <h2>Result & Impact</h2>
-      
-      {/* Display metrics with visualization */}
-      {impact.metrics && impact.metrics.length > 0 && (
-        <ImpactMetrics metrics={impact.metrics} />
-      )}
-      
-      <p class="impact-qualitative">{impact.qualitative}</p>
-    </section>
-
-    <!-- Learnings Section -->
-    <section class="case-study-section">
-      <h2>Learnings</h2>
-      <ul class="learnings-list">
-        {learnings.map((learning) => (
-          <li>{learning}</li>
-        ))}
-      </ul>
-    </section>
-
-    <!-- Additional MDX Content (if any) -->
-    {Content && (
-      <section class="case-study-content">
-        <Content />
+    {screenshots && screenshots.length > 0 && (
+      <section class="case-study-section">
+        <h2>界面</h2>
+        <div class="screenshot-list">
+          {screenshots.map((shot) => (
+            <figure class="project-shot">
+              <img src={shot.src} alt={shot.alt} loading="lazy" />
+              {shot.caption && <figcaption>{shot.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
       </section>
     )}
 
-    <!-- Related Content -->
-    <RelatedContent 
-      relatedProjects={relatedProjects} 
-      relatedDecisions={relatedDecisions} 
-    />
+    {project.body && project.body.trim().length > 0 && (
+      <section class="case-study-content"><Content /></section>
+    )}
 
-    <BackLink href="/projects" text="All projects" />
+    {timeline && timeline.length > 0 && (
+      <section class="case-study-section">
+        <h2>时间线</h2>
+        <div class="timeline">
+          {timeline.map((item) => (
+            <article class="timeline-item">
+              <div class="timeline-year">{item.year}</div>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
+                {item.metrics && item.metrics.length > 0 && (
+                  <div class="timeline-metrics">
+                    {item.metrics.map((metric) => (
+                      <span><strong>{metric.value}</strong> {metric.label}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {keyDecisions && keyDecisions.length > 0 && (
+      <section class="case-study-section">
+        <h2>{keyDecisions.length === 1 ? '一个决定' : '几个决定'}</h2>
+        <div class="decisions-list">
+          {keyDecisions.map((item) => (
+            <article class="decision-item">
+              <h3>{item.decision}</h3>
+              <p>{item.reasoning}</p>
+              {item.alternatives && item.alternatives.length > 0 && (
+                <div class="alternatives">
+                  <strong>当时也考虑过</strong>
+                  <ul>{item.alternatives.map((alt) => <li>{alt}</li>)}</ul>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {evidenceSections?.map((section) => (
+      <section class="case-study-section evidence-section">
+        <h2>{section.title}</h2>
+        {section.description && <p>{section.description}</p>}
+
+        {section.items.some((item) => item.kind === 'image') && (
+          <div class:list={['evidence-media-grid', { 'evidence-media-grid--single': section.items.filter((item) => item.kind === 'image').length === 1 }]}>
+            {section.items.filter((item) => item.kind === 'image').map((item) => (
+              <figure class:list={['evidence-item', item.display && `evidence-item--${item.display}`]}>
+                <a class:list={['evidence-media-frame', item.display && `evidence-media-frame--${item.display}`]} href={item.src} target="_blank" rel="noopener noreferrer">
+                  <img src={item.src} alt={item.alt ?? item.label} loading="lazy" />
+                </a>
+                <figcaption>
+                  <strong>{item.label}</strong>
+                  {item.caption && <span>{item.caption}</span>}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+
+        {section.galleries?.map((gallery) => (
+          <div class="evidence-gallery-block">
+            <div class="evidence-gallery-heading">
+              <div>
+                <h3>{gallery.title}</h3>
+                {gallery.description && <p>{gallery.description}</p>}
+              </div>
+              <div class="gallery-controls" aria-hidden="true">
+                <button type="button" class="gallery-button" data-gallery-prev aria-label="向左浏览">←</button>
+                <button type="button" class="gallery-button" data-gallery-next aria-label="向右浏览">→</button>
+              </div>
+            </div>
+            <div class="evidence-gallery" data-gallery-track>
+              {gallery.items.map((item) => (
+                <figure class:list={['gallery-item', `gallery-item--${item.orientation}`]}>
+                  <a class="gallery-media" href={item.src} target="_blank" rel="noopener noreferrer">
+                    <img src={item.src} alt={item.alt ?? item.label} loading="lazy" decoding="async" fetchpriority="low" />
+                  </a>
+                  <figcaption>
+                    <strong>{item.label}</strong>
+                    {item.caption && <span>{item.caption}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        {section.items.some((item) => item.kind === 'file') && (
+          <div class="evidence-files">
+            {section.items.filter((item) => item.kind === 'file').map((item) => (
+              <a class="file-evidence" href={item.src} target="_blank" rel="noopener noreferrer">
+                <span>
+                  <strong>{item.label}</strong>
+                  {item.caption && <small>{item.caption}</small>}
+                </span>
+                <span class="file-open">原文件 ↗</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+    ))}
+
+    {techStack && techStack.length > 0 && (
+      <section class="case-study-section">
+        <h2>技术</h2>
+        <div class="tag-cloud">{techStack.map((tech) => <span>{tech}</span>)}</div>
+      </section>
+    )}
+
+    {learnings && learnings.length > 0 && (
+      <section class="case-study-section">
+        <h2>补充</h2>
+        <ul class="arrow-list">{learnings.map((item) => <li>{item}</li>)}</ul>
+      </section>
+    )}
+
+    <RelatedContent title="相关内容" relatedProjects={relatedProjects} relatedDecisions={relatedDecisions} />
+    <BackLink href="/projects" text="返回项目" />
   </main>
-
   <ScrollToTop />
 
   <style>
-    .case-study {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
-
-    .case-study-header {
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .header-badges {
-      margin-bottom: 0.75rem;
-    }
-
-    .header-badges:empty {
-      display: none;
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.6875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.3rem 0.625rem;
-      border-radius: 4px;
-    }
-
-    .status--ongoing {
-      background: rgba(34, 197, 94, 0.15);
-      color: #22c55e;
-    }
-
-    .status--archived {
-      background: rgba(115, 115, 115, 0.15);
-      color: var(--color-text-muted);
-    }
-
-    .case-study-header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .case-study-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9375rem;
-      color: var(--color-text-secondary);
-      margin-bottom: 1.5rem;
-    }
-
-    .meta-separator {
-      opacity: 0.5;
-    }
-
-    .outcome-summary {
-      font-size: 1.125rem;
-      line-height: 1.6;
-      color: var(--color-text-secondary);
-    }
-
-    .case-study-section {
-      margin-bottom: 3rem;
-    }
-
-    .case-study-section h2 {
-      font-size: 1.75rem;
-      margin-bottom: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .case-study-section p {
-      font-size: 1.125rem;
-      line-height: 1.7;
-      color: var(--color-text-secondary);
-    }
-
-    .constraints-list,
-    .tech-stack-list,
-    .learnings-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .constraints-list li,
-    .tech-stack-list li,
-    .learnings-list li {
-      font-size: 1.0625rem;
-      line-height: 1.7;
-      padding: 0.5rem 0;
-      padding-left: 1.5rem;
-      position: relative;
-      color: var(--color-text-secondary);
-    }
-
-    .constraints-list li::before,
-    .tech-stack-list li::before,
-    .learnings-list li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--color-accent);
-    }
-
-    .decisions-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .decision-item {
-      padding: 1.5rem;
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      background: var(--color-bg-secondary);
-    }
-
-    .decision-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: var(--color-text);
-    }
-
-    .decision-reasoning,
-    .decision-alternatives {
-      margin-top: 1rem;
-    }
-
-    .decision-reasoning strong,
-    .decision-alternatives strong {
-      display: block;
-      font-size: 0.9375rem;
-      color: var(--color-text-muted);
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .decision-reasoning p {
-      font-size: 1.0625rem;
-      margin-top: 0.5rem;
-      color: var(--color-text-secondary);
-    }
-
-    .decision-alternatives ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 0.5rem;
-    }
-
-    .decision-alternatives li {
-      font-size: 1.0625rem;
-      line-height: 1.6;
-      padding: 0.25rem 0;
-      padding-left: 1.25rem;
-      position: relative;
-      color: var(--color-text-secondary);
-    }
-
-    .decision-alternatives li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--color-accent);
-    }
-
-    .impact-qualitative {
-      font-size: 1.125rem;
-      line-height: 1.7;
-      color: var(--color-text-secondary);
-    }
-
-    .case-study-content {
-      margin-top: 3rem;
-      font-size: 1.0625rem;
-      line-height: 1.7;
-      color: var(--color-text-secondary);
-    }
-
-    @media (max-width: 768px) {
-      .case-study {
-        padding: 1.5rem 1rem;
-      }
-
-      .case-study-header h1 {
-        font-size: 2rem;
-      }
-
-      .outcome-summary {
-        font-size: 1.125rem;
-      }
-
-      .case-study-section h2 {
-        font-size: 1.5rem;
-      }
-
-      .case-study-section p {
-        font-size: 1rem;
-      }
-
-      .decision-item {
-        padding: 1.25rem;
-      }
+    .case-study { max-width: 900px; margin: 0 auto; padding: 3.5rem 1.5rem 6rem; }
+    .case-study-header { padding-bottom: 2.5rem; margin-bottom: 3rem; border-bottom: 1px solid var(--color-border); }
+    .header-badges { margin-bottom: .85rem; }
+    .status-badge { display: inline-flex; padding: .3rem .6rem; border: 1px solid var(--color-border); border-radius: 4px; font-size: .7rem; font-weight: 650; color: var(--color-text-muted); }
+    .status--ongoing { color: #22c55e; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.08; letter-spacing: -.04em; margin-bottom: 1rem; }
+    .case-study-meta { display: flex; flex-wrap: wrap; gap: .55rem; color: var(--color-text-muted); font-size: .86rem; }
+    .outcome-summary { margin-top: 1.25rem; max-width: 780px; font-size: 1.15rem; line-height: 1.75; color: var(--color-text-secondary); }
+    .project-links { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.5rem; }
+    .project-links a { padding: .55rem .8rem; border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); font-size: .85rem; font-weight: 600; }
+    .case-study-section { margin-bottom: 3.5rem; }
+    .case-study-section h2, .case-study-content :global(h2) { font-size: 1.55rem; margin-bottom: 1.25rem; letter-spacing: -.02em; }
+    .case-study-section > p, .case-study-content :global(p) { color: var(--color-text-secondary); font-size: 1.03rem; line-height: 1.85; }
+    .section-title-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; }
+    .section-title-row h2 { margin: 0; }
+    .section-title-row span { color: var(--color-text-muted); font-size: .78rem; }
+    .screenshot-list { display: grid; gap: 1.5rem; }
+    .project-shot { margin: 0; }
+    .project-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .project-shot figcaption { margin-top: .6rem; color: var(--color-text-muted); font-size: .8rem; line-height: 1.6; }
+    .timeline { border-top: 1px solid var(--color-border); }
+    .timeline-item { display: grid; grid-template-columns: 90px 1fr; gap: 1.25rem; padding: 1.25rem 0; border-bottom: 1px solid var(--color-border); }
+    .timeline-year { color: var(--color-text-muted); font-size: .86rem; font-weight: 650; }
+    .timeline-item h3 { margin: 0 0 .45rem; font-size: 1.02rem; }
+    .timeline-item p { margin: 0; color: var(--color-text-secondary); line-height: 1.75; }
+    .timeline-metrics { display: flex; flex-wrap: wrap; gap: .7rem 1rem; margin-top: .8rem; color: var(--color-text-muted); font-size: .8rem; }
+    .timeline-metrics strong { color: var(--color-text); }
+    .evidence-media-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+    .evidence-media-grid--single { grid-template-columns: minmax(0, 620px); }
+    .evidence-item { margin: 0; min-width: 0; }
+    .evidence-item--wide, .evidence-item--document { grid-column: 1 / -1; }
+    .evidence-item--document { width: min(100%, 560px); justify-self: center; }
+    .evidence-media-frame { display: flex; align-items: center; justify-content: center; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .evidence-media-frame--wide, .evidence-media-frame--document { aspect-ratio: auto; }
+    .evidence-media-frame img { display: block; max-width: 100%; max-height: 100%; width: 100%; height: 100%; object-fit: contain; }
+    .evidence-media-frame--wide img, .evidence-media-frame--document img { height: auto; }
+    .evidence-item figcaption { display: grid; gap: .25rem; margin-top: .55rem; }
+    .evidence-item figcaption strong { font-size: .88rem; }
+    .evidence-item figcaption span { color: var(--color-text-muted); font-size: .78rem; line-height: 1.55; }
+    .evidence-gallery-block { margin-top: 1.5rem; }
+    .evidence-gallery-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+    .evidence-gallery-heading h3 { margin: 0; font-size: 1rem; }
+    .evidence-gallery-heading p { margin: .3rem 0 0; color: var(--color-text-muted); font-size: .78rem; line-height: 1.55; }
+    .gallery-controls { display: flex; gap: .4rem; }
+    .gallery-button { width: 2rem; height: 2rem; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-bg); color: var(--color-text); cursor: pointer; }
+    .gallery-button:hover { background: var(--color-bg-secondary); }
+    .evidence-gallery { display: flex; gap: 1rem; overflow-x: auto; padding: 0 0 .8rem; scroll-snap-type: x mandatory; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+    .gallery-item { flex: 0 0 min(78vw, 520px); margin: 0; scroll-snap-align: start; min-width: 0; }
+    .gallery-item--portrait { flex-basis: min(60vw, 320px); }
+    .gallery-item--square { flex-basis: min(64vw, 360px); }
+    .gallery-media { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .gallery-item--portrait .gallery-media { aspect-ratio: 4 / 5; }
+    .gallery-item--square .gallery-media { aspect-ratio: 1 / 1; }
+    .gallery-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .gallery-item figcaption { display: grid; gap: .2rem; margin-top: .5rem; }
+    .gallery-item figcaption strong { font-size: .84rem; }
+    .gallery-item figcaption span { color: var(--color-text-muted); font-size: .74rem; line-height: 1.5; }
+    .evidence-files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; margin-top: 1rem; }
+    .file-evidence { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 0; padding: .8rem .9rem; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-bg-secondary); color: var(--color-text); text-decoration: none; }
+    .file-evidence > span:first-child { display: grid; gap: .18rem; min-width: 0; }
+    .file-evidence strong { font-size: .86rem; }
+    .file-evidence small { color: var(--color-text-muted); font-size: .72rem; line-height: 1.45; }
+    .file-evidence .file-open { flex-shrink: 0; color: var(--color-text-muted); font-size: .75rem; font-weight: 600; }
+    .decisions-list { display: grid; gap: 1rem; }
+    .decision-item { padding: 1.35rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; }
+    .decision-item h3 { margin-bottom: .7rem; font-size: 1.1rem; }
+    .decision-item p { color: var(--color-text-secondary); line-height: 1.75; }
+    .alternatives { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
+    .alternatives strong { display: block; margin-bottom: .5rem; color: var(--color-text-muted); font-size: .75rem; }
+    .alternatives ul { margin: 0; padding-left: 1.2rem; color: var(--color-text-secondary); line-height: 1.7; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag-cloud span { padding: .35rem .6rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 5px; color: var(--color-text-secondary); font-size: .8rem; }
+    .arrow-list { list-style: none; padding: 0; }
+    .arrow-list li { position: relative; padding: .45rem 0 .45rem 1.35rem; color: var(--color-text-secondary); line-height: 1.75; }
+    .arrow-list li::before { content: "→"; position: absolute; left: 0; color: var(--color-accent); }
+    .case-study-content { margin: 1rem 0 3.5rem; padding-top: 2rem; border-top: 1px solid var(--color-border); }
+    .case-study-content :global(h3) { margin: 2rem 0 .9rem; font-size: 1.08rem; }
+    .case-study-content :global(.story-media) { margin: 1.25rem 0 3.25rem; }
+    .case-study-content :global(.story-media a) { display: block; }
+    .case-study-content :global(.story-media img) { display: block; width: 100%; height: auto; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .case-study-content :global(.story-media figcaption) { margin-top: .6rem; color: var(--color-text-muted); font-size: .8rem; line-height: 1.6; }
+    .case-study-content :global(.story-metrics) { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 1rem 0 1.5rem; border-top: 1px solid var(--color-border); border-left: 1px solid var(--color-border); }
+    .case-study-content :global(.story-metrics > div) { display: grid; gap: .25rem; padding: 1rem; border-right: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); background: var(--color-bg-secondary); }
+    .case-study-content :global(.story-metrics strong) { font-size: 1.15rem; color: var(--color-text); }
+    .case-study-content :global(.story-metrics span) { font-size: .72rem; color: var(--color-text-muted); }
+    .case-study-content :global(.scope-block) { margin: 1rem 0 0; padding: 1.2rem 1.3rem; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary); }
+    .case-study-content :global(.scope-block p) { margin: 0; }
+    .case-study-content :global(.scope-block p + p) { margin-top: .7rem; }
+    .case-study-content :global(ul) { margin: .8rem 0 1.4rem; padding-left: 1.25rem; color: var(--color-text-secondary); line-height: 1.75; }
+    .case-study-content :global(a) { text-decoration: underline; text-underline-offset: 3px; }
+    @media (max-width: 640px) {
+      .case-study { padding: 2.5rem 1rem 4rem; }
+      .case-study-section { margin-bottom: 3rem; }
+      .section-title-row { align-items: flex-start; flex-direction: column; gap: .35rem; }
+      .timeline-item { grid-template-columns: 1fr; gap: .45rem; }
+      .evidence-media-grid, .evidence-files { grid-template-columns: 1fr; }
+      .evidence-media-grid--single { grid-template-columns: 1fr; }
+      .gallery-controls { display: none; }
+      .gallery-item { flex-basis: 86vw; }
+      .gallery-item--portrait { flex-basis: 68vw; }
+      .gallery-item--square { flex-basis: 72vw; }
+      .case-study-content :global(.story-metrics) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
+
+  <script>
+    document.querySelectorAll('.evidence-gallery-block').forEach((block) => {
+      const track = block.querySelector('[data-gallery-track]');
+      const prev = block.querySelector('[data-gallery-prev]');
+      const next = block.querySelector('[data-gallery-next]');
+      if (!(track instanceof HTMLElement)) return;
+
+      const amount = () => Math.max(track.clientWidth * 0.82, 280);
+      prev?.addEventListener('click', () => track.scrollBy({ left: -amount(), behavior: 'smooth' }));
+      next?.addEventListener('click', () => track.scrollBy({ left: amount(), behavior: 'smooth' }));
+    });
+  </script>
 </BaseLayout>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import { pagesConfig } from '../pages.config';
+---
+
+<BaseLayout>
+  <SEO slot="head" title={pagesConfig.about.title} description={pagesConfig.about.description} type="profile" />
+  <main class="about-page">
+    <header>
+      <p class="eyebrow">关于</p>
+      <h1>我是杜鑫宇。</h1>
+      <p class="lead">
+        南京大学行星科学本科生，2027 届。除了科研，我这几年也一直在办校园 CS 赛事，
+        以及做自己会真正用到的软件。
+      </p>
+    </header>
+
+    <section>
+      <h2>这个站放什么</h2>
+      <p>
+        目前主要放 NJU Major、RivalHub、RivalHub Broadcast 和 DAK Studio。
+        科研经历、会议成果和摄影还放在我的个人主页。
+      </p>
+    </section>
+
+    <section>
+      <h2>我一般负责什么</h2>
+      <p>
+        这些项目里，我通常会从问题和规则开始，一直跟到实际使用。软件项目里会直接看代码、
+        数据模型和日志；赛事里会处理赛制、资格、赛程、队伍沟通和现场异常。
+      </p>
+      <p>
+        实现里会大量使用 Coding Agent / Agent Harness，但我不会把“Agent 写出来了”当成完成。
+        规格、关键取舍、Review、测试和最后验收还是我自己负责。
+      </p>
+    </section>
+
+    <section class="links">
+      <a href="https://starfie1d.top" target="_blank" rel="noopener noreferrer">个人主页 ↗</a>
+      <a href="https://github.com/Starfie1d1272" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href="mailto:xinyu@starfie1d.top">xinyu@starfie1d.top</a>
+    </section>
+  </main>
+
+  <style>
+    .about-page { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+    .eyebrow { font-size: .75rem; font-weight: 650; letter-spacing: .08em; color: var(--color-text-muted); }
+    h1 { margin: .5rem 0 1.25rem; font-size: 2.6rem; letter-spacing: -.035em; }
+    .lead { font-size: 1.2rem; line-height: 1.8; color: var(--color-text-secondary); }
+    section { margin-top: 3rem; }
+    h2 { margin-bottom: 1rem; font-size: 1.35rem; }
+    section p { margin-bottom: 1rem; color: var(--color-text-secondary); line-height: 1.85; }
+    .links { display: flex; flex-wrap: wrap; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--color-border); }
+    .links a { font-weight: 600; }
+    @media (max-width: 640px) { .about-page { padding: 3rem 1rem 4rem; } h1 { font-size: 2rem; } .lead { font-size: 1.05rem; } }
+  </style>
+</BaseLayout>
