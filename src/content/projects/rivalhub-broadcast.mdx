@@ -49,17 +49,23 @@ relatedDecisions:
 
 现有工具能完成其中一部分，但数据来源、界面和维护方式彼此割裂，现场出问题时也很难判断到底是哪一层坏了。Broadcast 想做的是把比赛状态接入、Gameplay HUD、Radar、Program、Operator / Debug 尽量收进一套本地工具里。
 
+## 现场里实际要同时看什么
+
+一场校园赛里，我经常同时做解说和 OB，还要盯 HUD、Radar、赛事后台和 OBS。几个页面的信息节奏不同：Radar 更新很快，Program 要稳定，Operator 更关心控制和状态，Debug 则需要完整诊断信息。
+
+现在的 Runtime / Projection 设计就是从这个使用场景里长出来的：底层只维护一份比赛状态，各个页面只拿自己真正需要的那部分数据。这样现场排查问题时，也更容易判断是哪一层出了问题。
+
 ## 现在到哪了
 
-当前仓库已经能跑 Program / Operator 页面、Gameplay HUD、Radar、运行诊断和 HUD 配置。完整制播工作区和 Lookahead 还在开发，所以后面截图会固定到明确的 commit，不直接跟着 main 每天变化。
+当前仓库已经能跑 Program / Operator 页面、Gameplay HUD、Radar、运行诊断和 HUD 配置。完整制播工作区和 Lookahead 还在开发，所以后面截图会固定到明确的 commit，便于回看当时的真实状态。
 
-## Lookahead 先做多窄
+## Lookahead 第一版只做一件事
 
-第一版只想解决一个很具体的问题：**正式延迟节目到达之前，先告诉我几秒后谁会击杀谁。**
+第一版只解决一个很具体的问题：**正式延迟节目到达之前，先告诉我几秒后谁会击杀谁。**
 
 ```text
 +5.2s
 playerA → playerB
 ```
 
-我还是自己决定切谁、什么时候切、现场讲什么。第一版先不碰 AI / LLM 镜头模型、自动 TAKE、Future Radar 或重要性排名。
+这个提示只负责给观察员多一点准备时间。切谁、什么时候切、现场讲什么仍然由人来判断；后续能力会继续根据真实制播中的使用反馈扩展。
