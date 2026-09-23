@@ -46,6 +46,29 @@ keyDecisions:
     alternatives:
       - Python 和前端直接共享内部对象
       - 每个产品各自重新解析 `.dem`
+evidenceSections:
+  - title: 更多能力切片
+    description: 这些能力处在不同成熟度。作品集按仓库中的真实边界展示，不因为画面已经做出来就把它们都写成同一级别的结论。
+    items: []
+    galleries:
+      - title: 分析范围
+        description: Beta、描述性探索和 Experimental 能力都保留对应标注；点击图片可查看原图。
+        items:
+          - src: /media/dak/lineup.webp
+            label: 道具点位库 · Beta
+            alt: DAK Studio 道具点位库，展示 Dust2 常用投掷点、地图落点与可回放样本
+            caption: 把常用投掷按地图、阵营、类型和样本量组织起来，并保留回放与原始 Demo 核对入口。
+            orientation: landscape
+          - src: /media/dak/radar-field.webp
+            label: RadarField · 描述性探索
+            alt: DAK Studio RadarField 控图覆盖场，展示 Dust2 双方空间信息差
+            caption: 当前只表达空间覆盖与信息差，不自动推断战术意图、弱区或对策。
+            orientation: portrait
+          - src: /media/dak/coach.webp
+            label: Coach PatternExplorer · Experimental
+            alt: DAK Studio Coach 战术模式页面，展示聚类、代表回合和 2D 回放
+            caption: 从真实回合事实聚类相似模式并回看代表回合；当前仍是探索性能力，不直接包装成战术结论。
+            orientation: landscape
 techStack:
   - TypeScript
   - Python
@@ -75,12 +98,12 @@ relatedDecisions:
 
 如果一个分析结果只能停在一个数字上，用户很难知道它来自哪些样本、发生在哪一回合，也很难判断算法到底是在描述事实，还是已经跨到了推断。DAK 后来的产品方向因此逐渐收敛到一件事：**关键分析尽量保留到比赛、回合和 tick 的证据链，让人可以自己回到 2D 回放核对。**
 
-{/*
-  DAK_SCREENSHOT_SLOT_01 — Match Workspace / 产品主图
-  目标文件：/media/dak/match-workspace.webp
-  取景：保留完整桌面产品感；最好同时出现比赛上下文、核心指标、回合 / Evidence 入口和 2D 回放区域。
-  角色：证明“这是一个真正发布和使用的桌面产品”，不是单独的数据组件。
-*/}
+<figure className="story-media">
+  <a href="/media/dak/match-workspace.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/match-workspace.webp" alt="DAK Studio v0.8.2 比赛复盘工作区" loading="eager" fetchpriority="high" />
+  </a>
+  <figcaption>v0.8.2 比赛复盘工作区。单场比赛的比分、核心统计、比赛主线、回合浏览、选手视角和 2D 回放都留在同一个分析上下文里。</figcaption>
+</figure>
 
 ## 从“算一个数字”到“能自己核对”
 
@@ -100,12 +123,12 @@ DAK 的分析路径不是“统计 → 结论”就结束，而是尽量继续�
 
 0.8 又把这条路径从零散的“统计跳回放”升级成统一的分析上下文：看完证据以后，仍然知道自己刚才在分析谁、哪些比赛、和什么基线比较，以及为什么来到这个样本。
 
-{/*
-  DAK_SCREENSHOT_SLOT_02 — Duel & Mechanics
-  目标文件：/media/dak/duel-mechanics.webp
-  取景：建议截组件级而不是整页；至少保留样本总量、一个机制/分类摘要、具体 duel 样本与 Evidence 入口。
-  标注：Beta。不要把三分类、反应时间或预瞄写成已经完成精度验证的确定判断。
-*/}
+<figure className="story-media">
+  <a href="/media/dak/duel-mechanics.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/duel-mechanics.webp" alt="DAK Studio 选手枪法与机制分析页面" loading="lazy" />
+  </a>
+  <figcaption><strong>枪法 / 机制 · Beta。</strong> 按武器拆开首发命中、扫射命中、急停、反应时间、预瞄误差等指标，同时把样本量和当前范围放在同一页面；这类能力仍保留 Beta 边界。</figcaption>
+</figure>
 
 ## 不同分析，不同证据强度
 
@@ -120,15 +143,12 @@ DAK 没有把“已经能算出来”当成“已经可以下结论”。仓库�
 
 这个边界本身就是产品的一部分：**能算出来，不等于应该把它说成答案。**
 
-{/*
-  DAK_OPTIONAL_GALLERY — 能力图库（等截图齐后再落地，不先放空容器）
-  建议 3–4 张：
-  1. /media/dak/economy.webp      — Stable；核心经济矩阵 / 转化组件
-  2. /media/dak/lineup.webp       — Beta；地图 + 点位详情
-  3. /media/dak/radar-field.webp  — 描述性探索；地图 + scope + legend
-  4. /media/dak/coach.webp        — Experimental；Pattern / 代表回合 Evidence
-  这些图不需要完整侧栏，优先裁到“组件标题 + 必要 scope/legend + 核心内容”。
-*/}
+<figure className="story-media">
+  <a href="/media/dak/economy.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/economy.webp" alt="DAK Studio 赛事经济与转化分析页面" loading="lazy" />
+  </a>
+  <figcaption><strong>经济与转化 · Stable。</strong> 赛事级聚合 96 场 Demo，把手枪局转化、5v4 / 5v3 优势转化、4v5 / 3v5 翻盘和队伍明细放进同一数据口径。</figcaption>
+</figure>
 
 ## 从一个桌面产品到共享分析层
 
@@ -146,15 +166,12 @@ DAK 后来遇到的另一个问题是：同一套统计和证据能力不应该�
 
 其中 v3 ZIP 是 Python 解析和 TypeScript 分析之间唯一的运行时数据接缝；共享分析包负责产品中立的事实与 View Model，Studio 和 RivalHub 分别负责自己的业务上下文和界面。
 
-{/*
-  DAK_SCREENSHOT_SLOT_03 — RivalHub / Tournament integration
-  目标文件：/media/dak/rivalhub-tournament.webp
-  取景优先级：
-  A. RivalHub 在线赛事进入 Studio 后的赛事总览 / Series Inspector；
-  B. 带 RivalHub 来源与同步状态的资料库 / 导入状态；
-  C. 能同时表现赛事结构 + 已导入 Demo Evidence 的画面。
-  角色：证明 DAK 已从孤立桌面工具演进为 RivalHub 的下游分析层。
-*/}
+<figure className="story-media">
+  <a href="/media/dak/rivalhub-tournament.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/dak/rivalhub-tournament.webp" alt="DAK Studio 连接 RivalHub 后的赛事目录" loading="lazy" />
+  </a>
+  <figcaption>Studio 连接 RivalHub 后读取在线赛事结构，并把本地 Demo 与远程赛事、阶段和系列赛关联。截图中 2026 NJU Rivals 已同步赛事结构与本地 Demo，分析仍在本机完成。</figcaption>
+</figure>
 
 ## 当前边界
 
