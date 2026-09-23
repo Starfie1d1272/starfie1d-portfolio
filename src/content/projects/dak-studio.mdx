@@ -3,32 +3,49 @@ title: DAK Studio / CS2 Demo Analysis Kit
 role: 独立开发者
 year: 2026
 duration: 2026.06–至今
-outcomeSummary: 本地 CS2 Demo 分析工具。已经发布 macOS DMG、Windows 安装程序和便携版 ZIP，也已经接进 RivalHub。
+outcomeSummary: 本地优先的 CS2 Demo 分析工作台。把 `.dem` 变成可检索、可比较的分析结果，同时尽量保留回到具体比赛、回合和 tick 的证据链。
 metricsGroups:
-  - title: 当前版本
+  - title: 当前产品
+    asOf: 正式版 v0.8.2
     metrics:
       - label: 发布版本
         value: v0.8.2
-      - label: Studio 主要模块
-        value: 9 个
       - label: 桌面分发
         value: macOS + Windows
+      - label: 运行方式
+        value: 本地解析 / 本地保存
+timeline:
+  - year: "0.3"
+    title: 从解析 Demo 到可核对的桌面工具
+    summary: `.dem` 导入、2D 回放、回合筛选和 round / tick 跳转开始形成完整使用路径；分析不再停在导出一张统计表。
+  - year: "0.5"
+    title: 把数据接口和分析能力拆开
+    summary: 切到 cs2-demo-format v3，对枪、枪法机制、系列赛和 Coach 开始成型；Stable / Beta / Experimental 分级进入正式产品规则。
+  - year: "0.7"
+    title: 从分析工具变成长期开着的桌面软件
+    summary: 赛事资产、Web Installer、应用内更新、稳定版 / 测试版通道、大库性能和 RadarField 相继落地，桌面分发与维护链路基本成型。
+  - year: "0.8"
+    title: 从功能集合重构为证据型分析工作台
+    summary: 用 AnalysisContext 统一分析对象与范围，把 Finding → Evidence → 比赛 / 回合 / tick → 返回原问题做成连续工作流，并重新划分页面职责。
+  - year: "0.8.1–0.8.2"
+    title: 接入 RivalHub，分析能力开始成为共享层
+    summary: Studio 可以读取 RivalHub 在线赛事、批量导入 Demo 并生成 Evidence；赛事分析继续抽成共享包，不再只服务一个桌面界面。
 keyDecisions:
-  - decision: v3 ZIP 是 Python 和 TypeScript 之间唯一的运行时接缝
-    reasoning: 两边不直接 import 对方内部对象，格式变了就通过 schema/version 明确处理。这样不会出现“前端刚好依赖了某个 Python 内部字段，结果解析器一改全坏”的情况。
+  - decision: 指标要能回到具体证据
+    reasoning: 聚合结果只有在能继续定位到样本、比赛、回合或 tick 时才真正可核对。DAK 因此把 EvidenceLink 和 2D 回放当成分析基础设施，而不是额外附加功能。
+    alternatives:
+      - 只展示最终统计和评分
+      - 让解释层替用户总结，但不暴露样本
+  - decision: 不同成熟度的分析不能包装成同一种结论
+    reasoning: Stable、Beta 和 Experimental 有不同承诺；缺失值显示 `—` 而不是补 0。RadarField 目前保持描述性观察，Coach TacticalCluster 也明确保留实验边界。
+    alternatives:
+      - 所有已实现指标都按正式能力展示
+      - 为了界面完整度隐藏样本和降级条件
+  - decision: Python 解析和产品分析之间只留版本化数据接口
+    reasoning: `.dem` 先由 cs2df 转成 cs2-demo-format v3 ZIP，TypeScript 分析层只消费这个版本化合同。这样 parser、分析包、Studio 和 RivalHub 可以分别演进，而不互相依赖内部对象。
     alternatives:
       - Python 和前端直接共享内部对象
-      - 每个产品自己重新解析 .dem
-  - decision: 指标要能回到具体证据
-    reasoning: 看一个评分没有太大意义，至少要知道它对应哪场比赛、哪一回合、哪个 tick。现在很多分析结果都可以继续跳回 2D 回放核对。
-    alternatives:
-      - 只展示聚合评分
-      - 只让模型解释最终统计
-  - decision: 分析逻辑不写死在 Studio 里
-    reasoning: RivalHub 也需要这些分析。如果算法全部放在桌面 UI 里，之后每个产品都得重写一遍，所以共享的 core / presentation 和 Studio 本身分开维护。
-    alternatives:
-      - 所有分析都写进 Studio
-      - RivalHub 单独维护一套统计
+      - 每个产品各自重新解析 `.dem`
 techStack:
   - TypeScript
   - Python
@@ -54,10 +71,93 @@ relatedDecisions:
 
 ## 为什么做
 
-最开始只是想从 Demo 里多拿一点比赛数据，但很快遇到两个问题：第一，指标算出来以后很难回到具体回合验证；第二，Python 解析器、前端分析和桌面 UI 如果直接绑在一起，格式一改就到处跟着坏。
+最开始只是想从 Demo 里拿到比记分板更多的数据。真正做下去以后，问题很快从“还能算什么”变成了“这个结果到底值不值得相信”。
 
-所以后来把解析、版本化数据格式、分析逻辑和桌面产品分开。Studio 负责导入 .dem、管理比赛、看分析和 2D 回放，RivalHub 也可以复用同一套分析能力。
+如果一个分析结果只能停在一个数字上，用户很难知道它来自哪些样本、发生在哪一回合，也很难判断算法到底是在描述事实，还是已经跨到了推断。DAK 后来的产品方向因此逐渐收敛到一件事：**关键分析尽量保留到比赛、回合和 tick 的证据链，让人可以自己回到 2D 回放核对。**
 
-## 为什么把 Studio 和分析库分开
+{/*
+  DAK_SCREENSHOT_SLOT_01 — Match Workspace / 产品主图
+  目标文件：/media/dak/match-workspace.webp
+  取景：保留完整桌面产品感；最好同时出现比赛上下文、核心指标、回合 / Evidence 入口和 2D 回放区域。
+  角色：证明“这是一个真正发布和使用的桌面产品”，不是单独的数据组件。
+*/}
 
-DAK Studio 用 AGPL-3.0-only；共享的 `@cs2dak/*` 包和 Python 壳用 MIT。许可证边界和代码边界是一致的：其它产品可以直接复用分析能力，但不需要把 Studio 整个搬过去。
+## 从“算一个数字”到“能自己核对”
+
+DAK 的分析路径不是“统计 → 结论”就结束，而是尽量继续往下落到可以核验的样本：
+
+```text
+分析结果 / Finding
+↓
+具体样本 / Evidence
+↓
+比赛 / 回合 / tick
+↓
+2D Replay
+↓
+返回原来的分析问题
+```
+
+0.8 又把这条路径从零散的“统计跳回放”升级成统一的分析上下文：看完证据以后，仍然知道自己刚才在分析谁、哪些比赛、和什么基线比较，以及为什么来到这个样本。
+
+{/*
+  DAK_SCREENSHOT_SLOT_02 — Duel & Mechanics
+  目标文件：/media/dak/duel-mechanics.webp
+  取景：建议截组件级而不是整页；至少保留样本总量、一个机制/分类摘要、具体 duel 样本与 Evidence 入口。
+  标注：Beta。不要把三分类、反应时间或预瞄写成已经完成精度验证的确定判断。
+*/}
+
+## 不同分析，不同证据强度
+
+DAK 没有把“已经能算出来”当成“已经可以下结论”。仓库里长期维护稳定性分级，并把样本、数据完整性、几何依赖和降级条件当成产品信息的一部分。
+
+| 状态 | 作品集里怎么理解 | 代表能力 |
+| --- | --- | --- |
+| **Stable** | 口径已有固定验证依据，可作为稳定分析使用 | 基础比赛事实、ADR / KAST / K-D、经济与转化、单场 RR、2D Replay / EvidenceLink |
+| **Beta** | 已经可用，但仍需要验证集或更多数据质量约束 | 对枪三分类、枪法机制、反应 / 预瞄、Flash Value、Lineup Library、跨场 RR / PRISM |
+| **描述性探索** | 先忠实展示空间事实，不自动推断战术意图或“弱区” | RadarField / 控图覆盖场 |
+| **Experimental** | 用来探索模式，不直接包装成确定战术判断 | Coach TacticalCluster / PatternExplorer、Anti-strat 文本 |
+
+这个边界本身就是产品的一部分：**能算出来，不等于应该把它说成答案。**
+
+{/*
+  DAK_OPTIONAL_GALLERY — 能力图库（等截图齐后再落地，不先放空容器）
+  建议 3–4 张：
+  1. /media/dak/economy.webp      — Stable；核心经济矩阵 / 转化组件
+  2. /media/dak/lineup.webp       — Beta；地图 + 点位详情
+  3. /media/dak/radar-field.webp  — 描述性探索；地图 + scope + legend
+  4. /media/dak/coach.webp        — Experimental；Pattern / 代表回合 Evidence
+  这些图不需要完整侧栏，优先裁到“组件标题 + 必要 scope/legend + 核心内容”。
+*/}
+
+## 从一个桌面产品到共享分析层
+
+DAK 后来遇到的另一个问题是：同一套统计和证据能力不应该只属于 Studio。RivalHub 也需要赛事级聚合和 Demo Evidence，如果分析逻辑全部写死在桌面 UI 里，两边会不断复制口径。
+
+现在的边界更接近：
+
+```text
+.dem
+→ cs2df
+→ cs2-demo-format / 3.x ZIP
+→ @cs2dak/core / cohort / presentation / tournament
+→ DAK Studio / RivalHub
+```
+
+其中 v3 ZIP 是 Python 解析和 TypeScript 分析之间唯一的运行时数据接缝；共享分析包负责产品中立的事实与 View Model，Studio 和 RivalHub 分别负责自己的业务上下文和界面。
+
+{/*
+  DAK_SCREENSHOT_SLOT_03 — RivalHub / Tournament integration
+  目标文件：/media/dak/rivalhub-tournament.webp
+  取景优先级：
+  A. RivalHub 在线赛事进入 Studio 后的赛事总览 / Series Inspector；
+  B. 带 RivalHub 来源与同步状态的资料库 / 导入状态；
+  C. 能同时表现赛事结构 + 已导入 Demo Evidence 的画面。
+  角色：证明 DAK 已从孤立桌面工具演进为 RivalHub 的下游分析层。
+*/}
+
+## 当前边界
+
+作品集这里固定的是 **v0.8.2 这个已发布 checkpoint**，不是把 roadmap 上所有方向都写成已经完成。后续仍会继续做 Actionable Review、Coach preparation、战术板、BP 策略和地图控制价值模型；这些在当前页面只作为后续方向，不作为现有能力证明。
+
+DAK Studio 产品层使用 AGPL-3.0-only；共享的 `@cs2dak/*` 包与 Python 壳使用 MIT。许可证边界与代码边界保持一致：其它产品可以复用分析能力，但不需要把 Studio 整个搬过去。
