@@ -37,7 +37,7 @@ keyDecisions:
       - 只展示最终统计和评分
       - 只给结论，不暴露对应样本
   - decision: 成熟度不同的分析分开标
-    reasoning: 有些统计已经比较稳定，有些还在补验证集或处理边界情况。DAK 用 Stable、Beta 和 Experimental 明确区分；缺失值显示 `—`，证据不够时也不为了界面完整硬给结论。
+    reasoning: 有些统计已经比较稳定，有些还在补验证集或处理边界情况。DAK 会明确区分稳定、测试中和实验功能；缺失值显示 `—`，证据不够时也不为了界面完整硬给结论。
     alternatives:
       - 只要功能已经做出来，就统一按正式能力展示
       - 为了让页面完整，把缺失值补成 0
@@ -55,7 +55,7 @@ evidenceSections:
         description: 点击图片可以查看原图。
         items:
           - src: /media/dak/lineup.webp
-            label: 道具点位库 · Beta
+            label: 道具点位库 · 测试中
             alt: DAK Studio 道具点位库，展示 Dust2 常用投掷点、地图落点与可回放样本
             caption: 按地图、阵营和类型整理常用投掷，也可以继续打开对应回放和原始 Demo 核对。
             orientation: landscape
@@ -65,7 +65,7 @@ evidenceSections:
             caption: 目前只展示空间覆盖和信息差，不自动判断战术意图、弱区或应该怎么打。
             orientation: portrait
           - src: /media/dak/coach.webp
-            label: Coach PatternExplorer · Experimental
+            label: Coach 模式探索 · 实验
             alt: DAK Studio Coach 战术模式页面，展示聚类、代表回合和 2D 回放
             caption: 把相似回合聚在一起，再回看代表回合；目前仍是实验功能，不直接把聚类结果当成确定战术。
             orientation: landscape
@@ -125,7 +125,7 @@ DAK 里很多分析都不是看完数字就结束。一个结果如果值得继�
   <a href="/media/dak/duel-mechanics.webp" target="_blank" rel="noopener noreferrer">
     <img src="/media/dak/duel-mechanics.webp" alt="DAK Studio 选手枪法与机制分析页面" loading="lazy" />
   </a>
-  <figcaption><strong>枪法 / 机制 · Beta。</strong> 可以按武器看首发命中、扫射命中、急停、反应时间和预瞄误差，也会同时显示当前样本量。这类分析已经能用，但还没有被当成完全定型的稳定结论。</figcaption>
+  <figcaption><strong>枪法 / 机制 · 测试中。</strong> 可以按武器看首发命中、扫射命中、急停、反应时间和预瞄误差，也会同时显示当前样本量。这类分析已经能用，但还没有被当成完全定型的稳定结论。</figcaption>
 </figure>
 
 ## 有些结果可以直接用，有些还只能参考
@@ -134,10 +134,10 @@ DAK 里不是所有能算出来的东西都算同一个级别。有些统计已�
 
 | 状态 | 现在怎么用 | 例子 |
 | --- | --- | --- |
-| **Stable** | 已经有固定口径，可以正常用于复盘和比较 | 基础比赛事实、ADR / KAST / K-D、经济与转化、单场 RR、2D Replay |
-| **Beta** | 已经可以分析，但算法或边界还可能继续调整 | 对枪分类、枪法机制、反应 / 预瞄、Flash Value、Lineup Library、跨场 RR / PRISM |
-| **描述性观察** | 先把空间事实画出来，不自动替用户解释成战术结论 | RadarField |
-| **Experimental** | 用来探索模式，暂时不适合直接据此下结论 | Coach TacticalCluster / PatternExplorer、Anti-strat 文本 |
+| **稳定** | 已经有固定口径，可以正常用于复盘和比较 | 基础比赛事实、ADR / KAST / K-D、经济与转化、单场 RR、2D 回放 |
+| **测试中** | 已经可以分析，但算法或边界还可能继续调整 | 对枪分类、枪法机制、反应 / 预瞄、闪光效果、道具点位库、跨场 RR / PRISM |
+| **描述性观察** | 先把空间事实画出来，不自动替用户解释成战术结论 | 控图覆盖场 |
+| **实验** | 用来探索模式，暂时不适合直接据此下结论 | Coach 战术模式聚类、模式探索、反战术分析文本 |
 
 这套区分的目的很简单：缺数据就显示 `—`，证据不够就少下结论。**能算出来，不等于就该把它当成答案。**
 
