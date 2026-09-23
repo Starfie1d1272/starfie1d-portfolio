@@ -17,7 +17,7 @@ metricsGroups:
 timeline:
   - year: "0.3"
     title: 从解析 Demo 到可核对的桌面工具
-    summary: `.dem` 导入、2D 回放、回合筛选和 round / tick 跳转开始形成完整使用路径；分析不再停在导出一张统计表。
+    summary: "`.dem` 导入、2D 回放、回合筛选和 round / tick 跳转开始形成完整使用路径；分析不再停在导出一张统计表。"
   - year: "0.5"
     title: 把数据接口和分析能力拆开
     summary: 切到 cs2-demo-format v3，对枪、枪法机制、系列赛和 Coach 开始成型；Stable / Beta / Experimental 分级进入正式产品规则。
@@ -42,7 +42,7 @@ keyDecisions:
       - 所有已实现指标都按正式能力展示
       - 为了界面完整度隐藏样本和降级条件
   - decision: Python 解析和产品分析之间只留版本化数据接口
-    reasoning: `.dem` 先由 cs2df 转成 cs2-demo-format v3 ZIP，TypeScript 分析层只消费这个版本化合同。这样 parser、分析包、Studio 和 RivalHub 可以分别演进，而不互相依赖内部对象。
+    reasoning: "`.dem` 先由 cs2df 转成 cs2-demo-format v3 ZIP，TypeScript 分析层只消费这个版本化合同。这样 parser、分析包、Studio 和 RivalHub 可以分别演进，而不互相依赖内部对象。"
     alternatives:
       - Python 和前端直接共享内部对象
       - 每个产品各自重新解析 `.dem`
