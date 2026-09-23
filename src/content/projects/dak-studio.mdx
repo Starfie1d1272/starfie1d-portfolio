@@ -20,10 +20,10 @@ timeline:
     summary: "开始支持 `.dem` 导入、2D 回放、回合筛选和 round / tick 跳转。做出来的统计不再只停在表格里，可以继续回比赛里看。"
   - year: "0.5"
     title: 把解析、数据格式和分析拆开
-    summary: 切到 cs2-demo-format v3；对枪、枪法机制、系列赛和 Coach 等能力陆续加入，同时开始明确区分 Stable / Beta / Experimental。
+    summary: 切到 cs2-demo-format v3；对枪、枪法机制、系列赛和教练分析等能力陆续加入，同时开始把分析能力分成稳定、测试中和实验三档。
   - year: "0.7"
     title: 开始按长期桌面软件来做
-    summary: 加入赛事资源、Web Installer、应用内更新、稳定版 / 测试版通道和大库性能优化，也开始尝试 RadarField 这类空间分析。
+    summary: 加入赛事资源、Windows 在线安装器、应用内更新、稳定版 / 测试版通道和大库性能优化，也开始尝试控图覆盖场这类空间分析。
   - year: "0.8"
     title: 重新整理整个使用流程
     summary: 之前功能已经很多，但页面和分析入口越来越散。0.8 重新整理导航、分析范围和回看路径，让用户看完一个结果以后还能继续找到它来自哪场比赛、哪一回合。
@@ -60,13 +60,13 @@ evidenceSections:
             caption: 按地图、阵营和类型整理常用投掷，也可以继续打开对应回放和原始 Demo 核对。
             orientation: landscape
           - src: /media/dak/radar-field.webp
-            label: RadarField · 描述性观察
-            alt: DAK Studio RadarField 控图覆盖场，展示 Dust2 双方空间信息差
+            label: 控图覆盖场 · 描述性观察
+            alt: DAK Studio 控图覆盖场，展示 Dust2 双方空间信息差
             caption: 目前只展示空间覆盖和信息差，不自动判断战术意图、弱区或应该怎么打。
             orientation: portrait
           - src: /media/dak/coach.webp
-            label: Coach 模式探索 · 实验
-            alt: DAK Studio Coach 战术模式页面，展示聚类、代表回合和 2D 回放
+            label: 教练模式探索 · 实验
+            alt: DAK Studio 教练模式页面，展示聚类、代表回合和 2D 回放
             caption: 把相似回合聚在一起，再回看代表回合；目前仍是实验功能，不直接把聚类结果当成确定战术。
             orientation: landscape
 techStack:
@@ -137,7 +137,7 @@ DAK 里不是所有能算出来的东西都算同一个级别。有些统计已�
 | **稳定** | 已经有固定口径，可以正常用于复盘和比较 | 基础比赛事实、ADR / KAST / K-D、经济与转化、单场 RR、2D 回放 |
 | **测试中** | 已经可以分析，但算法或边界还可能继续调整 | 对枪分类、枪法机制、反应 / 预瞄、闪光效果、道具点位库、跨场 RR / PRISM |
 | **描述性观察** | 先把空间事实画出来，不自动替用户解释成战术结论 | 控图覆盖场 |
-| **实验** | 用来探索模式，暂时不适合直接据此下结论 | Coach 战术模式聚类、模式探索、反战术分析文本 |
+| **实验** | 用来探索模式，暂时不适合直接据此下结论 | 教练战术模式聚类、模式探索、反战术分析文本 |
 
 这套区分的目的很简单：缺数据就显示 `—`，证据不够就少下结论。**能算出来，不等于就该把它当成答案。**
 
@@ -145,7 +145,7 @@ DAK 里不是所有能算出来的东西都算同一个级别。有些统计已�
   <a href="/media/dak/economy.webp" target="_blank" rel="noopener noreferrer">
     <img src="/media/dak/economy.webp" alt="DAK Studio 赛事经济与转化分析页面" loading="lazy" />
   </a>
-  <figcaption><strong>经济与转化 · Stable。</strong> 截图里的赛事范围包含 96 场 Demo，可以直接比较手枪局转化、5v4 / 5v3 优势转化、4v5 / 3v5 翻盘和各队明细。</figcaption>
+  <figcaption><strong>经济与转化 · 稳定。</strong> 截图里的赛事范围包含 96 场 Demo，可以直接比较手枪局转化、5v4 / 5v3 优势转化、4v5 / 3v5 翻盘和各队明细。</figcaption>
 </figure>
 
 ## 后来 RivalHub 也开始用这套分析
@@ -173,6 +173,6 @@ Python 只负责把 Demo 解析成一份版本化的 v3 ZIP。后面的统计和
 
 ## 现在到哪了
 
-v0.8.2 是目前正式发布的版本，macOS 和 Windows 都有完整桌面分发。后面还会继续做复盘行动项、Coach 准备、战术板、BP 策略和地图控制模型，但这些现在还没有被当成已经完成的正式能力。
+v0.8.2 是目前正式发布的版本，macOS 和 Windows 都有完整桌面分发。后面还会继续做复盘行动项、教练赛前准备、战术板、BP 策略和地图控制模型，但这些现在还没有被当成已经完成的正式能力。
 
 DAK Studio 本身使用 AGPL-3.0-only；可以给其它产品复用的 `@cs2dak/*` 分析包和 Python 壳使用 MIT。
