@@ -6,19 +6,19 @@ duration: 2026.05–至今
 outcomeSummary: 面向高校 CS 赛事的运营平台，从报名、资格、队伍到比赛和赛后数据都在同一套系统里持续运行。起于 2026 NJU Rivals，目前正在承载 2026 NJU Major。
 metricsGroups:
   - title: 平台现状
-    asOf: 截至 2026-09-23
+    asOf: 截至 2026-09-24
     metrics:
       - label: 有效账号
-        value: "299"
+        value: "303"
       - label: 高校认证用户
-        value: "221"
+        value: "225"
       - label: 近 30 日活跃用户
-        value: "268"
+        value: "272"
       - label: 当前有效队伍
-        value: 29 支
+        value: 30 支
 evidenceSections:
   - title: 原始赛事材料
-    description: RivalHub 直接长自第一届 NJU Rivals。这里保留当时的赛事海报、规则速览和原始规则文件。
+    description: 2026 NJU Rivals 是 RivalHub 的直接开发触发和第一场完整赛事验证。这里保留当时的赛事海报、规则速览和原始规则文件。
     items:
       - kind: image
         src: /media/nju-rivals/2026/poster.png
@@ -73,11 +73,11 @@ relatedDecisions:
   <figcaption>2026 NJU Major 报名期。截图时已有 25 支队伍通过审核，176 名选手进入公开赛事名单。</figcaption>
 </figure>
 
-## 从 NJU Rivals 开始
+## 从腾讯文档到 RivalHub
 
-2023–2025 连续几届 NJU Major 主要依赖 Excel、群聊和人工确认维护赛事。流程能跑，但很多状态只存在于表格和组织者的记忆里。
+2023 年第一次办 24 支队伍的 NJU Major 时，赛前用腾讯文档收参赛意愿、玩家实力、基本资料和联系方式；比赛推进后的排期、资格检查、BP 和结果也主要靠群聊、表格和人工确认完成。
 
-2026 Spring 第一届 NJU Rivals 改成个人报名、审核、队长投票和蛇形选秀后，这套方式开始很难继续可靠维护：谁有资格、谁已经被选走、哪份名单算正式，都需要明确状态。RivalHub 就从这里开始。
+连续几届赛事让我反复遇到同一类问题：同一份信息每届重新收、比赛时间要临时协调、身份和首发资格靠人工核对、比赛数据最后集中到主办者手里补录。2026 Spring NJU Rivals 又采用个人报名、审核、队长投票和蛇形选秀，原来的表格和群聊开始很难继续维护这些关系，RivalHub 从这里开始开发。
 
 ### 一次完整赛事验证
 
@@ -88,12 +88,108 @@ relatedDecisions:
   <div><strong>59 张</strong><span>比赛地图</span></div>
 </div>
 
-<figure className="story-media">
-  <a href="/media/rivalhub/rivals-finished.webp" target="_blank" rel="noopener noreferrer">
-    <img src="/media/rivalhub/rivals-finished.webp" alt="2026 NJU Rivals 已结束赛事首页" loading="lazy" />
-  </a>
-  <figcaption>第一届 NJU Rivals 完整跑完报名、队长投票、选秀、排位赛和正赛，最终完成 42 场比赛和 59 张地图。</figcaption>
-</figure>
+<div className="evidence-gallery-block">
+  <div className="evidence-gallery-heading">
+    <div>
+      <h3>2026 NJU Rivals 运营记录</h3>
+      <p>从赛事首页、队长投票到选秀完成，保留上一届赛事在 RivalHub 中实际运行的页面。</p>
+    </div>
+    <div className="gallery-controls" aria-hidden="true">
+      <button type="button" className="gallery-button" data-gallery-prev aria-label="向左浏览">←</button>
+      <button type="button" className="gallery-button" data-gallery-next aria-label="向右浏览">→</button>
+    </div>
+  </div>
+  <div className="evidence-gallery" data-gallery-track>
+    <figure className="gallery-item gallery-item--landscape">
+      <a className="gallery-media" href="/media/rivalhub/rivals-finished.webp" target="_blank" rel="noopener noreferrer">
+        <img src="/media/rivalhub/rivals-finished.webp" alt="2026 NJU Rivals 已结束赛事首页" loading="lazy" decoding="async" fetchpriority="low" />
+      </a>
+      <figcaption><strong>赛事首页</strong><span>上一届 NJU Rivals 的赛事首页，页面已标记赛事结束。</span></figcaption>
+    </figure>
+    <figure className="gallery-item gallery-item--landscape">
+      <a className="gallery-media" href="/media/rivalhub/captain-vote-results.webp" target="_blank" rel="noopener noreferrer">
+        <img src="/media/rivalhub/captain-vote-results.webp" alt="2026 NJU Rivals 队长投票结束后的候选排名和票数" loading="lazy" decoding="async" fetchpriority="low" />
+      </a>
+      <figcaption><strong>队长投票结果</strong><span>投票结束后的候选排名与票数；每位通过报名的选手最多投 3 票。</span></figcaption>
+    </figure>
+    <figure className="gallery-item gallery-item--landscape">
+      <a className="gallery-media" href="/media/rivalhub/team-draft-review.webp" target="_blank" rel="noopener noreferrer">
+        <img src="/media/rivalhub/team-draft-review.webp" alt="2026 NJU Rivals 选秀回顾与八支队伍阵容" loading="lazy" decoding="async" fetchpriority="low" />
+      </a>
+      <figcaption><strong>选秀完成记录</strong><span>选秀结束后保留的 8 支队伍完整选人记录。</span></figcaption>
+    </figure>
+  </div>
+</div>
+
+<p>第一届 NJU Rivals 完整跑完报名、队长投票、选秀、排位赛和正赛，最终完成 42 场比赛和 59 张地图；赛事页面记录了首页状态、投票结果和最终选人名单。</p>
+
+## 几个反复出现的赛务问题
+
+这些问题在几届比赛里反复出现，后来逐步做进了 RivalHub。
+
+<div className="workflow-list">
+  <article className="workflow-story">
+    <div className="workflow-copy">
+      <span className="workflow-kicker">01 · 参赛资料与运营</span>
+      <h3>一次性问卷变成长期资料</h3>
+      <p>2023 年的问卷会一次收齐实力、联系方式和参赛意愿。每届比赛都要重新整理，主办者也很难持续看清玩家池、队伍结构和活跃情况。</p>
+      <div className="workflow-now">
+        <strong>现在</strong>
+        <p>用户长期维护昵称、QQ、Steam64、竞技档案和教育身份；报名时直接复用这些资料，并保存本届参赛信息。管理员可以直接查看 24 小时 / 7 日 / 30 日活跃、认证覆盖、玩家池和队伍人数分布，并通过操作日志追踪关键操作。</p>
+      </div>
+    </div>
+  </article>
+
+  <article className="workflow-story">
+    <div className="workflow-copy">
+      <span className="workflow-kicker">02 · 比赛排期</span>
+      <h3>从“问卷提交”变成具体的一场比赛</h3>
+      <p>早期会给不同时间段分别建腾讯问卷，每个问卷最多收两份，对应最多两场比赛。队长本应先和对手商量再由一方提交；如果同一场比赛的两个队长同时提交，两份响应会直接占满这个时段，实际上只排进了一场。</p>
+      <div className="workflow-now">
+        <strong>现在</strong>
+        <p>双方现在直接围绕同一场比赛提议、接受或拒绝时间；超时可以自动确定，管理员也可以处理特殊情况。下一步会把有官方解说的时间段直接放进排期流程：赛委会可以设置每个时段最多覆盖几场比赛，队长选择时先临时占住一个名额，双方确认后再正式锁定；如果名额已满，可以改选其它官方时段，也可以自由约定没有官方解说的比赛时间。</p>
+      </div>
+      <p className="workflow-note">时间协商已上线；官方解说时段的名额占用与确认机制已完成设计，待后续落地。</p>
+    </div>
+  </article>
+
+  <article className="workflow-story workflow-story--with-shot">
+    <div className="workflow-copy">
+      <span className="workflow-kicker">03 · 身份、名单与资格</span>
+      <h3>把赛前人工检查变成系统校验</h3>
+      <p>过去由队长一次替全队填个人信息；新生暂时拿不到学信网材料时，录取通知书要私聊发给主办者。规则里的本校成员数量和外校实力限制，也长期依赖赛前人工检查和赛后举报。</p>
+      <div className="workflow-now">
+        <strong>现在</strong>
+        <p>教育认证有学校邮箱、学信网材料和新生录取通知书三条路径；报名和单场首发会直接读取认证与竞技资料，系统会检查身份、名单和实力限制，并明确提示不符合规则的原因。</p>
+      </div>
+      <div className="workflow-proof" aria-label="教育认证生产数据">
+        <div><strong>225 / 303</strong><span>有效用户已认证</span></div>
+        <div><strong>74.3%</strong><span>认证覆盖率</span></div>
+        <div><strong>43 所</strong><span>高校</span></div>
+      </div>
+      <p className="workflow-note">首次通过认证：学信网 150 人（66.7%）、学校邮箱 69 人（30.7%）、新生录取通知书 6 人（2.7%）。认证身份中，在读 198 人、已毕业 27 人。</p>
+    </div>
+    <figure className="workflow-shot">
+      <a href="/media/rivalhub/education-overview.webp" target="_blank" rel="noopener noreferrer">
+        <img src="/media/rivalhub/education-overview.webp" alt="RivalHub 教育认证概览，展示认证人数、学校分布和学籍身份分布" loading="lazy" />
+      </a>
+      <figcaption>2026 年 9 月 24 日生产后台截图：225 / 303 名有效平台注册用户已认证，覆盖 43 所高校；认证身份中 198 人在读、27 人已毕业。</figcaption>
+    </figure>
+  </article>
+
+  <article className="workflow-story">
+    <div className="workflow-copy">
+      <span className="workflow-kicker">04 · BP、比分与比赛数据</span>
+      <h3>让比赛数据尽量在发生时进入系统</h3>
+      <p>Spring Rivals 期间，赛后截图 OCR、BP、比分和统计主要由我集中补录；同时处理其它赛务时，数据更新会自然产生延迟。</p>
+      <div className="workflow-now">
+        <strong>现在</strong>
+        <p>RivalHub 已经统一保存比赛、BP、比分、赛果和后续更正；OCR 与 DAK 继续补充赛后证据和统计。下一步会让双方队长直接在网站完成 BP；RivalHub Broadcast 接入后，再把现场能够可靠获取的基础比赛数据同步回来。</p>
+      </div>
+      <p className="workflow-note">队长在线 BP 已完成设计，待后续落地；RivalHub Broadcast 的数据回传属于下一阶段联动。</p>
+    </div>
+  </article>
+</div>
 
 ## 从 Rivals 到 Major
 
