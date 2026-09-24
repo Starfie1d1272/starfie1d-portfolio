@@ -312,7 +312,8 @@ const linkItems = [
     .case-study-content :global(.story-metrics strong) { font-size: 1.15rem; color: var(--color-text); }
     .case-study-content :global(.story-metrics span) { font-size: .72rem; color: var(--color-text-muted); }
     .case-study-content :global(.workflow-list) { display: grid; gap: 1.5rem; margin: 1.25rem 0 3rem; }
-    .case-study-content :global(.workflow-story) { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: 1.35rem; align-items: start; padding: 1.35rem; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-bg-secondary); }
+    .case-study-content :global(.workflow-story) { display: grid; gap: 1.35rem; align-items: start; padding: 1.35rem; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-bg-secondary); }
+    .case-study-content :global(.workflow-story--with-shot) { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
     .case-study-content :global(.workflow-copy) { min-width: 0; }
     .case-study-content :global(.workflow-kicker) { display: inline-block; margin-bottom: .55rem; color: var(--color-text-muted); font-size: .72rem; font-weight: 650; letter-spacing: .02em; }
     .case-study-content :global(.workflow-story h3) { margin: 0 0 .75rem; font-size: 1.12rem; }
@@ -346,7 +347,8 @@ const linkItems = [
       .gallery-item--portrait { flex-basis: 68vw; }
       .gallery-item--square { flex-basis: 72vw; }
       .case-study-content :global(.story-metrics) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .case-study-content :global(.workflow-story) { grid-template-columns: 1fr; padding: 1rem; }
+      .case-study-content :global(.workflow-story) { padding: 1rem; }
+      .case-study-content :global(.workflow-story--with-shot) { grid-template-columns: 1fr; }
       .case-study-content :global(.story-media-placeholder) { min-height: 210px; }
     }
   </style>
