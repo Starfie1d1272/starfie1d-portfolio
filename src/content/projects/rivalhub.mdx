@@ -3,7 +3,7 @@ title: RivalHub
 role: 项目负责人 / 独立开发者
 year: 2026
 duration: 2026.05–至今
-outcomeSummary: 面向高校 CS 赛事的运营平台，把报名、身份、队伍、排期、比赛和赛后数据沉淀为可复用、可校验和可审计的长期事实。2026 NJU Rivals 已完整跑通，目前正在承载 2026 NJU Major。
+outcomeSummary: 面向高校 CS 赛事的运营平台，把报名、身份、队伍、排期、比赛和赛后数据放进同一套长期维护、可核验、可追溯的系统。2026 NJU Rivals 已完整跑通，目前正在承载 2026 NJU Major。
 metricsGroups:
   - title: 平台现状
     asOf: 截至 2026-09-24 17:30（UTC+8）
@@ -77,7 +77,7 @@ relatedDecisions:
 
 2023 年第一次办 24 支队伍的 NJU Major 时，赛前用腾讯文档收参赛意愿、玩家实力、基本资料和联系方式；比赛推进后的排期、资格检查、BP 和结果也主要靠群聊、表格和人工确认完成。
 
-连续几届赛事让我反复遇到同一类问题：同一份信息每届重新收、比赛时间要临时协调、身份和首发资格靠人工核对、比赛事实最后集中到主办者手里补录。2026 Spring NJU Rivals 又采用个人报名、审核、队长投票和蛇形选秀，长期积累的问题第一次变成了必须由系统明确维护的状态。RivalHub 从这里开始开发。
+连续几届赛事让我反复遇到同一类问题：同一份信息每届重新收、比赛时间要临时协调、身份和首发资格靠人工核对、比赛事实最后集中到主办者手里补录。2026 春季 NJU Rivals 又采用个人报名、审核、队长投票和蛇形选秀，长期积累的问题第一次变成了必须由系统明确维护的状态。RivalHub 从这里开始开发。
 
 ### 第一场完整赛事验证
 
@@ -97,7 +97,7 @@ relatedDecisions:
 
 ## 四条流程怎么进入系统
 
-这四条线都来自实际赛务。重点不是把旧表格换成网页，而是把一次性填写、人工核对和重复搬运逐步变成长期资料、明确的比赛对象、自动资格判断和统一的比赛事实。
+这四条线都来自实际赛务。一次性填写、人工核对和重复搬运，后来分别变成了长期资料、按场次管理的排期、自动资格检查和统一的比赛记录。
 
 <div className="workflow-list">
   <article className="workflow-story">
@@ -107,38 +107,22 @@ relatedDecisions:
       <p>2023 年的问卷会一次收齐实力、联系方式和参赛意愿。每届比赛都要重新整理，主办者也很难持续看清玩家池、队伍结构和活跃情况。</p>
       <div className="workflow-now">
         <strong>现在</strong>
-        <p>用户长期维护昵称、QQ、Steam64、竞技档案和教育身份；赛事在需要时引用当届事实。管理员可以直接查看 24 小时 / 7 日 / 30 日活跃、认证覆盖、玩家池和队伍人数分布，并通过审计日志追踪关键操作。</p>
+        <p>用户长期维护昵称、QQ、Steam64、竞技档案和教育身份；报名时直接复用这些资料，并保存本届参赛信息。管理员可以直接查看 24 小时 / 7 日 / 30 日活跃、认证覆盖、玩家池和队伍人数分布，并通过操作日志追踪关键操作。</p>
       </div>
     </div>
-    {/* 截图位：public/media/rivalhub/platform-operations.webp */}
-    <figure className="workflow-shot workflow-shot--placeholder">
-      <div className="story-media-placeholder">
-        <strong>截图位 · 平台运营概览</strong>
-        <span>建议放有效用户、活跃度、认证、玩家池和队伍分布同屏的后台截图。</span>
-      </div>
-      <figcaption>建议文件：<code>/media/rivalhub/platform-operations.webp</code></figcaption>
-    </figure>
   </article>
 
   <article className="workflow-story">
     <div className="workflow-copy">
       <span className="workflow-kicker">02 · 比赛排期</span>
-      <h3>从“问卷响应”变成具体的一场 Match</h3>
+      <h3>从“问卷提交”变成具体的一场比赛</h3>
       <p>早期会给不同时间段分别建腾讯问卷，每个问卷最多收两份，对应最多两场比赛。队长本应先和对手商量再由一方提交；如果同一场比赛的两个队长同时提交，两份响应会直接占满这个时段，实际上只排进了一场。</p>
       <div className="workflow-now">
         <strong>现在</strong>
-        <p>双方围绕同一个 Match 提议、接受或拒绝时间；超时可以自动裁定，管理员保留强制设定入口。下一层的官方解说资源已经在 Match Runtime 中设计为可配置 capacity，并用 Hold / Allocation 管理有限覆盖名额。</p>
+        <p>双方现在直接围绕同一场比赛提议、接受或拒绝时间；超时可以自动确定，管理员也可以处理特殊情况。下一步会把有限的官方解说时段做成可配置容量，并通过临时占位和双方确认来分配名额。</p>
       </div>
-      <p className="workflow-note">时间协商已上线；Coverage Slot / capacity 属于下一阶段实现。</p>
+      <p className="workflow-note">时间协商已上线；官方解说时段的容量管理已完成设计，待后续落地。</p>
     </div>
-    {/* 截图位：public/media/rivalhub/match-scheduling.webp */}
-    <figure className="workflow-shot workflow-shot--placeholder">
-      <div className="story-media-placeholder">
-        <strong>截图位 · 比赛时间协商</strong>
-        <span>建议放双方提议 / 接受 / 拒绝时间的比赛页面，能看到推荐解说时段更好。</span>
-      </div>
-      <figcaption>建议文件：<code>/media/rivalhub/match-scheduling.webp</code></figcaption>
-    </figure>
   </article>
 
   <article className="workflow-story">
@@ -148,7 +132,7 @@ relatedDecisions:
       <p>过去由队长一次替全队填个人信息；新生暂时拿不到学信网材料时，录取通知书要私聊发给主办者。规则里的本校成员数量和外校实力限制，也长期依赖赛前人工检查和赛后举报。</p>
       <div className="workflow-now">
         <strong>现在</strong>
-        <p>教育认证有学校邮箱、学信网材料和新生录取通知书三条路径；报名和单场首发会统一消费认证与竞技事实，系统直接给出 qualification / roster preflight 结果。</p>
+        <p>教育认证有学校邮箱、学信网材料和新生录取通知书三条路径；报名和单场首发会统一消费认证与竞技事实，系统会直接检查身份、名单和实力限制，并明确提示不符合规则的原因。</p>
       </div>
       <div className="workflow-proof" aria-label="教育认证生产数据">
         <div><strong>224 / 302</strong><span>有效用户已认证</span></div>
@@ -157,43 +141,34 @@ relatedDecisions:
       </div>
       <p className="workflow-note">首次通过认证：学信网 149 人（66.5%）、学校邮箱 69 人（30.8%）、新生录取通知书 6 人（2.7%）。</p>
     </div>
-    {/* 截图位：public/media/rivalhub/education-overview.webp */}
+    {/* 待补截图：public/media/rivalhub/education-overview.webp */}
     <figure className="workflow-shot workflow-shot--placeholder">
       <div className="story-media-placeholder">
-        <strong>截图位 · 教育认证概览</strong>
-        <span>放生产后台的认证覆盖率、学校分布和身份分布截图。</span>
+        <strong>待补 · 教育认证概览</strong>
+        <span>生产后台的认证覆盖率、学校分布和身份分布。</span>
       </div>
-      <figcaption>建议文件：<code>/media/rivalhub/education-overview.webp</code></figcaption>
     </figure>
   </article>
 
   <article className="workflow-story">
     <div className="workflow-copy">
       <span className="workflow-kicker">04 · BP、比分与比赛数据</span>
-      <h3>让比赛事实尽量在发生时进入系统</h3>
+      <h3>让比赛数据尽量在发生时进入系统</h3>
       <p>Spring Rivals 期间，赛后截图 OCR、BP、比分和统计主要由我集中补录；同时处理其它赛务时，数据更新会自然产生延迟。</p>
       <div className="workflow-now">
         <strong>现在</strong>
-        <p>RivalHub 已有统一 Match、BP / veto、比分、赛果和更正链路，OCR 与 DAK 继续补充赛后证据和统计。Captain Veto Room 会让双方队长直接产生 canonical BP；Broadcast 接入后再把现场可可靠观察的基础比赛事实接回同一条链路。</p>
+        <p>RivalHub 已经统一保存比赛、BP、比分、赛果和后续更正；OCR 与 DAK 继续补充赛后证据和统计。下一步会让双方队长直接在网站完成 BP；RivalHub Broadcast 接入后，再把现场能够可靠获取的基础比赛数据同步回来。</p>
       </div>
-      <p className="workflow-note">Captain Veto 对应 #713 待落地；Broadcast 自动写回属于后续联动。</p>
+      <p className="workflow-note">队长在线 BP 已完成设计，待后续落地；RivalHub Broadcast 的数据回传属于下一阶段联动。</p>
     </div>
-    {/* 截图位：public/media/rivalhub/match-workbench.webp */}
-    <figure className="workflow-shot workflow-shot--placeholder">
-      <div className="story-media-placeholder">
-        <strong>截图位 · Match / BP 工作台</strong>
-        <span>建议放当前管理员单场比赛工作台，突出 BP、赛果或 Demo / DAK 入口。</span>
-      </div>
-      <figcaption>建议文件：<code>/media/rivalhub/match-workbench.webp</code></figcaption>
-    </figure>
   </article>
 </div>
 
 ## 从 Rivals 到 Major
 
-Rivals 验证了一整届比赛能在网站里跑完。2026 NJU Major 继续把长期 Team、整队报名、高校资格、名单 revision、正式赛事名单、复杂赛制和赛务恢复接进同一套平台。
+Rivals 验证了一整届比赛能在网站里跑完。2026 NJU Major 继续把长期队伍、整队报名、高校资格、名单变更、正式赛事名单、复杂赛制和异常处理接进同一套平台。
 
-这时需要维护的已经不只是“一届比赛当前发生什么”，还包括长期队伍与单届参赛事实之间的边界，以及报名、审核、开赛和赛后更正过程中哪些事实可以继续变化、哪些需要冻结。
+这时系统还要同时处理长期队伍和单届参赛记录：队伍可以继续换人和调整资料，而已经发生的报名、首发和比赛结果需要保留当时的记录。
 
 <figure className="story-media">
   <a href="/media/rivalhub/major-admin-prestart.webp" target="_blank" rel="noopener noreferrer">
@@ -208,7 +183,7 @@ Rivals 结束后，一名队员自己在群里发出的截图里出现了玩家�
 
 我当时既是赛事主办者，也是这支队的队长和参赛选手。调查结束后，我决定撤销自己队伍的冠军和名次。
 
-这次复盘也进入后续赛事流程：关键参赛资格使用可核验材料，赛后争议提前约定证据留存和处罚规则。当前教育认证已经覆盖学校邮箱、学信网和新生录取通知书；赛事规则也明确 POV、Demo、账号记录和聊天记录等可用材料。
+这次复盘也进入后续赛事流程：关键参赛资格使用可核验材料，赛后争议提前约定证据留存和处罚规则。当前教育认证已经覆盖学校邮箱、学信网和新生录取通知书；赛事规则也明确 第一视角录像、比赛 Demo、账号记录和聊天记录等可用材料。
 
 ## 我负责什么
 
