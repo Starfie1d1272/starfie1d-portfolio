@@ -1,28 +1,37 @@
 ---
 import { getCollection } from 'astro:content';
-interface Props { relatedProjects?:string[]; relatedDecisions?:string[]; title?:string; }
-const { relatedProjects = [], relatedDecisions = [], title = '相关内容' } = Astro.props;
+
+interface Props {
+  relatedProjects?: string[];
+  title?: string;
+}
+
+const { relatedProjects = [], title = '相关项目' } = Astro.props;
 const allProjects = await getCollection('projects');
-const allDecisions = await getCollection('decisions');
-const projects = relatedProjects.map((slug) => allProjects.find((item) => item.id === slug)).filter((item): item is NonNullable<typeof item> => item !== undefined);
-const decisions = relatedDecisions.map((slug) => allDecisions.find((item) => item.id === slug)).filter((item): item is NonNullable<typeof item> => item !== undefined);
-const hasRelated = projects.length > 0 || decisions.length > 0;
+const projects = relatedProjects
+  .map((slug) => allProjects.find((item) => item.id === slug))
+  .filter((item): item is NonNullable<typeof item> => item !== undefined);
 ---
-{hasRelated && (
+
+{projects.length > 0 && (
   <aside class="related-content">
     <h2>{title}</h2>
     <div class="related-grid">
-      {projects.length > 0 && <div><h3>项目</h3>{projects.map((project) => <a class="related-item" href={`/projects/${project.id}`}><span>{project.data.role} · {project.data.year}</span><strong>{project.data.title}</strong></a>)}</div>}
-      {decisions.length > 0 && <div><h3>决定</h3>{decisions.map((decision) => <a class="related-item" href={`/decisions/${decision.id}`}><span>{decision.data.date.toLocaleDateString('zh-CN')}</span><strong>{decision.data.title}</strong></a>)}</div>}
+      {projects.map((project) => (
+        <a class="related-item" href={`/projects/${project.id}`}>
+          <span>{project.data.role} · {project.data.year}</span>
+          <strong>{project.data.title}</strong>
+        </a>
+      ))}
     </div>
   </aside>
 )}
+
 <style>
   .related-content { margin-top:3rem; padding-top:2rem; border-top:1px solid var(--color-border); }
   .related-content>h2 { margin-bottom:1.5rem; font-size:1.25rem; }
   .related-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
-  .related-grid h3 { margin-bottom:.7rem; color:var(--color-text-muted); font-size:.75rem; }
-  .related-item { display:block; padding:.9rem 1rem; margin-bottom:.6rem; border:1px solid var(--color-border); border-radius:6px; background:var(--color-bg-secondary); color:var(--color-text); }
+  .related-item { display:block; padding:.9rem 1rem; border:1px solid var(--color-border); border-radius:6px; background:var(--color-bg-secondary); color:var(--color-text); }
   .related-item span { display:block; margin-bottom:.25rem; color:var(--color-text-muted); font-size:.7rem; }
   .related-item strong { font-size:.9rem; }
   @media (max-width:640px) { .related-grid { grid-template-columns:1fr; } }

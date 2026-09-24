@@ -11,10 +11,6 @@ const featuredProjects = (await getCollection('projects'))
   .filter((project) => project.data.featured)
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
   .slice(0, 4);
-
-const recentDecisions = (await getCollection('decisions'))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
 ---
 
 <BaseLayout>
@@ -31,7 +27,6 @@ const recentDecisions = (await getCollection('decisions'))
       </p>
       <div class="hero-actions">
         <a class="btn-primary" href="/projects">项目</a>
-        <a class="btn-secondary" href="/decisions">决定</a>
         <a class="btn-secondary" href="https://starfie1d.top" target="_blank" rel="noopener noreferrer">个人主页 ↗</a>
       </div>
     </section>
@@ -56,24 +51,6 @@ const recentDecisions = (await getCollection('decisions'))
         ))}
       </div>
     </section>
-
-    <section class="section-block">
-      <div class="section-header">
-        <h2>决定</h2>
-        <ForwardLink href="/decisions" text="全部决定" variant="muted" />
-      </div>
-      <div class="decision-list">
-        {recentDecisions.map((decision) => (
-          <a href={`/decisions/${decision.id}`} class="decision-row">
-            <span class="decision-date">
-              {decision.data.date.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' })}
-            </span>
-            <span class="decision-title">{decision.data.title}</span>
-            <span class="decision-arrow">→</span>
-          </a>
-        ))}
-      </div>
-    </section>
   </main>
 
   <style>
@@ -90,17 +67,11 @@ const recentDecisions = (await getCollection('decisions'))
     .section-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
     .section-header h2 { margin: 0; font-size: 1.45rem; letter-spacing: -.02em; }
     .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .decision-list { border-top: 1px solid var(--color-border); }
-    .decision-row { display: grid; grid-template-columns: 72px 1fr auto; gap: 1rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; }
-    .decision-date { color: var(--color-text-muted); font-size: .8rem; }
-    .decision-title { font-weight: 550; }
-    .decision-arrow { color: var(--color-text-muted); }
     @media (max-width: 760px) { .project-grid { grid-template-columns: 1fr; } }
     @media (max-width: 640px) {
       .home-page { padding: 0 1rem 3rem; }
       .hero { padding: 3rem 0 2.5rem; }
       .section-block { padding: 3rem 0; }
-      .decision-row { grid-template-columns: 58px 1fr auto; gap: .6rem; }
     }
   </style>
 </BaseLayout>

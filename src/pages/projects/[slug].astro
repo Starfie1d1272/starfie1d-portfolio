@@ -28,11 +28,9 @@ const {
   timeline,
   screenshots,
   evidenceSections,
-  keyDecisions,
   techStack,
   learnings,
   relatedProjects,
-  relatedDecisions,
   status,
   stageLabel,
   showcaseCommit,
@@ -121,25 +119,6 @@ const linkItems = [
       </section>
     )}
 
-    {keyDecisions && keyDecisions.length > 0 && (
-      <section class="case-study-section">
-        <h2>{keyDecisions.length === 1 ? '一个决定' : '几个决定'}</h2>
-        <div class="decisions-list">
-          {keyDecisions.map((item) => (
-            <article class="decision-item">
-              <h3>{item.decision}</h3>
-              <p>{item.reasoning}</p>
-              {item.alternatives && item.alternatives.length > 0 && (
-                <div class="alternatives">
-                  <strong>当时也考虑过</strong>
-                  <ul>{item.alternatives.map((alt) => <li>{alt}</li>)}</ul>
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
-    )}
 
     {evidenceSections?.map((section) => (
       <section class="case-study-section evidence-section">
@@ -220,7 +199,7 @@ const linkItems = [
       </section>
     )}
 
-    <RelatedContent title="相关内容" relatedProjects={relatedProjects} relatedDecisions={relatedDecisions} />
+    <RelatedContent title="相关项目" relatedProjects={relatedProjects} />
     <BackLink href="/projects" text="返回项目" />
   </main>
   <ScrollToTop />
@@ -289,13 +268,6 @@ const linkItems = [
     .file-evidence strong { font-size: .86rem; }
     .file-evidence small { color: var(--color-text-muted); font-size: .72rem; line-height: 1.45; }
     .file-evidence .file-open { flex-shrink: 0; color: var(--color-text-muted); font-size: .75rem; font-weight: 600; }
-    .decisions-list { display: grid; gap: 1rem; }
-    .decision-item { padding: 1.35rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; }
-    .decision-item h3 { margin-bottom: .7rem; font-size: 1.1rem; }
-    .decision-item p { color: var(--color-text-secondary); line-height: 1.75; }
-    .alternatives { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
-    .alternatives strong { display: block; margin-bottom: .5rem; color: var(--color-text-muted); font-size: .75rem; }
-    .alternatives ul { margin: 0; padding-left: 1.2rem; color: var(--color-text-secondary); line-height: 1.7; }
     .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
     .tag-cloud span { padding: .35rem .6rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 5px; color: var(--color-text-secondary); font-size: .8rem; }
     .arrow-list { list-style: none; padding: 0; }

@@ -16,12 +16,6 @@ export const pagesConfig = {
     heading: '项目',
     intro: '现在主要放这些。',
   },
-  decisions: {
-    title: '决定',
-    description: '项目里几条影响后续实现的决定。',
-    heading: '决定',
-    intro: '几个当时需要单独想清楚的问题。',
-  },
   about: {
     title: '关于',
     description: '关于杜鑫宇和这个作品集。',

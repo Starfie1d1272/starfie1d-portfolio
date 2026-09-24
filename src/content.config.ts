@@ -57,13 +57,6 @@ const projectsCollection = defineCollection({
         })),
       })).optional(),
     })).optional(),
-
-    keyDecisions: z.array(z.object({
-      decision: z.string(),
-      reasoning: z.string(),
-      alternatives: z.array(z.string()).optional(),
-    })).optional(),
-
     techStack: z.array(z.string()).optional(),
     learnings: z.array(z.string()).optional(),
 
@@ -80,31 +73,10 @@ const projectsCollection = defineCollection({
     }).optional(),
 
     relatedProjects: z.array(z.string()).optional(),
-    relatedDecisions: z.array(z.string()).optional(),
   }),
 });
 
-const decisionsCollection = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/decisions' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    context: z.string(),
-    decision: z.string(),
-    alternatives: z.array(z.object({
-      option: z.string(),
-      pros: z.array(z.string()).optional(),
-      cons: z.array(z.string()).optional(),
-    })),
-    reasoning: z.string(),
-    tags: z.array(z.string()).optional(),
-    sourceUrl: z.string().url().optional(),
-    relatedProjects: z.array(z.string()).optional(),
-    relatedDecisions: z.array(z.string()).optional(),
-  }),
-});
 
 export const collections = {
   projects: projectsCollection,
-  decisions: decisionsCollection,
 };

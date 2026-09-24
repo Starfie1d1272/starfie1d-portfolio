@@ -28,7 +28,6 @@ export const siteConfig = {
   },
   nav: [
     { label: '项目', href: '/projects' },
-    { label: '决定', href: '/decisions' },
     { label: '关于', href: '/about' },
   ],
 } as const;

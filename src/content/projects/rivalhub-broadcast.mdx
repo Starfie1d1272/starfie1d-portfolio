@@ -4,17 +4,6 @@ role: 项目负责人 / 独立开发者
 year: 2026
 duration: 2026.09–至今
 outcomeSummary: 给校园 CS2 赛事做的中文开源 HUD / 制播工具。起因是我自己长期解说兼 OB 时遇到的延迟、定制和维护问题；现在先把 HUD、雷达和控制台做稳，再继续做 OB 辅助。
-keyDecisions:
-  - decision: 自己做一套中文开源 HUD
-    reasoning: 我真正缺的是一套自己能长期维护、能按赛事需要持续改的工具。现有开源和闭源方案都有值得参考的地方，但很难同时满足中文、本地运行、视觉定制和长期维护。Broadcast 因此从自己的真实比赛需求出发重新搭底层，并把高频数据不积压、断线恢复和可复现测试作为基础要求。
-    alternatives:
-      - 继续基于已有开源 HUD 二次开发
-      - 直接使用成熟的闭源 / 付费方案
-  - decision: OB 辅助先只给击杀提示
-    reasoning: 更早的比赛流可以让系统提前知道有延迟的直播画面几秒后会发生什么，但我实际需要的是准备切视角的时间，不是让系统替我导播。第一版只提示“几秒后谁会击杀谁”，把自动切镜、AI 镜头推荐和未来雷达留到以后再判断有没有必要。
-    alternatives:
-      - 直接做 AI / 自动导播
-      - 展示完整的提前局势和未来雷达
 techStack:
   - TypeScript
   - CS2 GSI / CSTV
@@ -32,9 +21,6 @@ links:
 relatedProjects:
   - rivalhub
   - nju-major
-relatedDecisions:
-  - broadcast-build-own-open-hud
-  - broadcast-simple-ob-assist
 ---
 
 ## 为什么做

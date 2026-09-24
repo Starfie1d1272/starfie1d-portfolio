@@ -30,22 +30,6 @@ timeline:
   - year: "0.8.1–0.8.2"
     title: 开始和 RivalHub 打通
     summary: Studio 可以直接读取 RivalHub 在线赛事、批量导入本地 Demo，并把赛事统计继续抽成共享包，给两个产品一起使用。
-keyDecisions:
-  - decision: 指标不能只停在一个数字上
-    reasoning: 如果一个异常数据没法继续找到对应样本，很难判断它到底说明了什么。DAK 因此尽量给重要结果保留比赛、回合和 tick 的入口，让用户能直接回 2D 回放看当时发生了什么。
-    alternatives:
-      - 只展示最终统计和评分
-      - 只给结论，不暴露对应样本
-  - decision: 成熟度不同的分析分开标
-    reasoning: 有些统计已经比较稳定，有些还在补验证集或处理边界情况。DAK 会明确区分稳定、测试中和实验功能；缺失值显示 `—`，证据不够时也不为了界面完整硬给结论。
-    alternatives:
-      - 只要功能已经做出来，就统一按正式能力展示
-      - 为了让页面完整，把缺失值补成 0
-  - decision: Python 和前端分析之间只认一份版本化数据
-    reasoning: "Python 负责把 `.dem` 解析成 cs2-demo-format v3 ZIP，后面的 TypeScript 分析和界面都只认这份格式。这样解析器可以继续改，Studio 和 RivalHub 也能共用分析能力，不需要彼此依赖内部实现。"
-    alternatives:
-      - Python 和前端直接共享内部对象
-      - 每个产品各自重新解析 `.dem`
 evidenceSections:
   - title: 更多分析能力
     description: 这些功能成熟度不同，所以这里保留它们各自现在真实的状态。
@@ -87,9 +71,6 @@ links:
   release: https://github.com/Starfie1d1272/cs2-demo-analysis-kit/releases/latest
 relatedProjects:
   - rivalhub
-relatedDecisions:
-  - dak-map-role-evidence
-  - dak-ct-rotation-facts
 ---
 
 ## 为什么做
