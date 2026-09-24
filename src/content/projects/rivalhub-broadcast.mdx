@@ -51,7 +51,21 @@ relatedDecisions:
 
 ## 现在到哪了
 
-当前仓库已经能跑 Program / Operator 页面、Gameplay HUD、Radar、运行诊断和 HUD 配置。完整制播工作区和 Lookahead 还在开发，所以后面截图会固定到明确的 commit，不直接跟着 main 每天变化。
+当前仓库已经搭起从比赛数据接入到正式节目输出的基础链路：
+
+- **比赛状态接入**：接收 CS2 的实时状态，并把 GSI、CSTV 等不同来源整理成 Broadcast 内部统一使用的比赛状态。
+- **正式节目**：Gameplay HUD、Radar、比分与回合状态、选手信息已经能够组成实际的 1920 × 1080 Program 画面。
+- **制作控制**：Operator 可以直接预览正式节目，并调整 HUD 的预设、布局、外观和 Radar 等配置。
+- **可靠运行**：数据源重连、比赛与地图连续性、本地 WebSocket、可复现测试数据、运行诊断和自动化验证已经进入底层实现。
+
+完整 Broadcast Workspace、Observer Assist / Lookahead，以及与 RivalHub 更完整的赛事上下文联动仍在继续开发。
+
+<figure className="story-media">
+  <a href="/media/rivalhub-broadcast/operator-program.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/rivalhub-broadcast/operator-program.webp" alt="RivalHub Broadcast 制作界面，左侧为正式节目预览，右侧为 HUD 配置" loading="lazy" />
+  </a>
+  <figcaption>当前 Broadcast 制作界面。左侧预览 1920 × 1080 正式节目，右侧调整 HUD 预设、布局、外观和 Radar；完整制播工作区仍在继续开发。</figcaption>
+</figure>
 
 ## Lookahead 先做多窄
 
