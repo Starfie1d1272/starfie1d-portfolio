@@ -12,9 +12,9 @@ export const pagesConfig = {
   },
   projects: {
     title: '项目',
-    description: '我自己长期做的几个项目。',
+    description: '持续投入并实际运行过的项目，主要围绕赛事运营、制播工具和 Demo 分析。',
     heading: '项目',
-    intro: '现在主要放这些。',
+    intro: '这里记录我持续投入并实际运行过的项目，主要围绕赛事运营、制播工具和 Demo 分析。',
   },
   about: {
     title: '关于',
