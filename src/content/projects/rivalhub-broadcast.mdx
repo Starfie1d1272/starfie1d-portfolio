@@ -3,23 +3,18 @@ title: RivalHub Broadcast
 role: 项目负责人 / 独立开发者
 year: 2026
 duration: 2026.09–至今
-outcomeSummary: 给校园 CS2 赛事做的本地制播工具。因为我自己长期同时做解说和 OB，现有工具一直有不少使用和维护上的麻烦，所以开始重做；现在还在高速开发。
+outcomeSummary: 给校园 CS2 赛事做的中文开源 HUD / 制播工具。起因是我自己长期解说兼 OB 时遇到的延迟、定制和维护问题；现在先把 HUD、雷达和控制台做稳，再继续做 OB 辅助。
 keyDecisions:
-  - decision: Core 只保留一份 RuntimeState，不把整份状态直接丢给所有页面
-    reasoning: Program、Radar、Operator、Debug 需要的数据完全不同，Radar 还会高频刷新。让每个页面只拿自己的 Projection，可以避免所有地方都自己解释一遍 GSI，也不会为了雷达坐标更新把整份状态一起广播。
+  - decision: 自己做一套中文开源 HUD
+    reasoning: 我真正缺的是一套自己能长期维护、能按赛事需要持续改的工具。现有开源和闭源方案都有值得参考的地方，但很难同时满足中文、本地运行、视觉定制和长期维护。Broadcast 因此从自己的真实比赛需求出发重新搭底层，并把高频数据不积压、断线恢复和可复现测试作为基础要求。
     alternatives:
-      - 用一份巨大的 BroadcastState 直接 WebSocket 广播
-      - 每个页面自己读取和解释 Raw GSI
-  - decision: Program 和 Observer Assist 完全分开
-    reasoning: no-delay 时间轴是给机器提前解析事件用的，Delayed Program 才是正式节目。Lookahead 挂了只应该少一个辅助提示，不能影响 Program；Program 挂了也不能把 no-delay feed 顶上去。
+      - 继续基于已有开源 HUD 二次开发
+      - 直接使用成熟的闭源 / 付费方案
+  - decision: OB 辅助先只给击杀提示
+    reasoning: 更早的比赛流可以让系统提前知道有延迟的直播画面几秒后会发生什么，但我实际需要的是准备切视角的时间，不是让系统替我导播。第一版只提示“几秒后谁会击杀谁”，把自动切镜、AI 镜头推荐和未来雷达留到以后再判断有没有必要。
     alternatives:
-      - Program 故障时自动切 no-delay feed
-      - 把未来位置和事件直接显示在正式 Radar 上
-  - decision: 独立模式和 RivalHub 连接模式共用同一套 Runtime
-    reasoning: 连上 RivalHub 时可以自动拿比赛、阵容、BP 和 Branding；不连接时也应该能手动填最少的信息继续直播。两种模式的区别只应该是比赛上下文从哪来，而不是维护两套 Broadcast。
-    alternatives:
-      - Broadcast 只能作为 RivalHub 的附属工具
-      - 给独立模式单独做一套简化 Runtime
+      - 直接做 AI / 自动导播
+      - 展示完整的提前局势和未来雷达
 techStack:
   - TypeScript
   - CS2 GSI / CSTV
@@ -38,42 +33,49 @@ relatedProjects:
   - rivalhub
   - nju-major
 relatedDecisions:
-  - broadcast-runtime-projections
-  - program-assist-isolation
-  - independent-and-connected-modes
+  - broadcast-build-own-open-hud
+  - broadcast-simple-ob-assist
 ---
 
 ## 为什么做
 
-校园赛经常没有专门的导播团队，一个人同时解说、OB、盯 HUD、看赛事后台并不罕见。我自己就是这个使用场景。
+校园赛里，一个人同时解说、OB、盯 HUD、看赛事后台并不罕见，我自己就是这个使用场景。
 
-现有工具能完成其中一部分，但数据来源、界面和维护方式彼此割裂，现场出问题时也很难判断到底是哪一层坏了。Broadcast 想做的是把比赛状态接入、Gameplay HUD、Radar、Program、Operator / Debug 尽量收进一套本地工具里。
+我之前用过的一套 HUD，在长时间运行后会逐渐产生画面延迟，刷新以后才能恢复。更麻烦的是解说自己未必能及时发现，最后可能是直播间已经出现延迟了才知道。这个经历让我很在意高频数据能不能长期稳定更新、断线以后怎么恢复，以及出问题时能不能快速定位。
+
+另外，我一直没有找到一套同时满足中文、开源、视觉可定制、又能长期自己维护的 CS2 HUD。成熟好看的方案不少是闭源的；开源项目各有优点，但本地化、功能完整度、维护状态和底层结构很难同时符合我的使用方式。我平时看不同赛事，也会不断看到想拿回来用的 HUD 细节、雷达设计和制播功能。
+
+所以我决定自己做一套：参考不同赛事和开源项目里做得好的部分，视觉和功能按自己的比赛需要定制，底层从一开始就把长期运行、可测试和后续扩展考虑进去。对中文校园赛和社区赛来说，它也可以逐步变成一套能直接下载、自己部署和继续修改的开源工具。
 
 ## 现在到哪了
 
-当前仓库已经搭起从比赛数据接入到正式节目输出的基础链路：
+现在已经搭起从比赛数据到 HUD 画面的基础链路：
 
-- **比赛状态接入**：接收 CS2 的实时状态，并把 GSI、CSTV 等不同来源整理成 Broadcast 内部统一使用的比赛状态。
-- **正式节目**：Gameplay HUD、Radar、比分与回合状态、选手信息已经能够组成实际的 1920 × 1080 Program 画面。
-- **制作控制**：Operator 可以直接预览正式节目，并调整 HUD 的预设、布局、外观和 Radar 等配置。
-- **可靠运行**：数据源重连、比赛与地图连续性、本地 WebSocket、可复现测试数据、运行诊断和自动化验证已经进入底层实现。
+- **比赛数据**：可以接收 CS2 的实时数据，并把 GSI、CSTV 等不同来源整理成 HUD、雷达和控制台可以直接使用的比赛状态。
+- **HUD 和雷达**：比分、回合计时、双方选手信息、装备、C4 状态和雷达已经能组成实际的 1920 × 1080 HUD 画面。
+- **控制台**：可以直接预览 HUD，并调整预设、布局、外观和雷达显示。
+- **长时间运行**：高频状态只保留最新内容，避免旧数据越积越多；同时已经处理断线重连、比赛和地图切换、运行诊断、可复现测试和自动化验证。
 
-完整 Broadcast Workspace、Observer Assist / Lookahead，以及与 RivalHub 更完整的赛事上下文联动仍在继续开发。
+完整的制播工作区、和 RivalHub 更深入的联动，以及 OB 提前提示仍在继续开发。
 
 <figure className="story-media">
   <a href="/media/rivalhub-broadcast/operator-program.webp" target="_blank" rel="noopener noreferrer">
-    <img src="/media/rivalhub-broadcast/operator-program.webp" alt="RivalHub Broadcast 制作界面，左侧为正式节目预览，右侧为 HUD 配置" loading="lazy" />
+    <img src="/media/rivalhub-broadcast/operator-program.webp" alt="RivalHub Broadcast HUD 控制台，左侧为 HUD 预览，右侧为布局与外观配置" loading="lazy" />
   </a>
-  <figcaption>当前 Broadcast 制作界面。左侧预览 1920 × 1080 正式节目，右侧调整 HUD 预设、布局、外观和 Radar；完整制播工作区仍在继续开发。</figcaption>
+  <figcaption>当前 HUD 控制台。左侧预览 1920 × 1080 HUD 画面，右侧调整预设、布局、外观和雷达；界面和交互仍在继续打磨。</figcaption>
 </figure>
 
-## Lookahead 先做多窄
+## OB 提前提示先做什么
 
-第一版只想解决一个很具体的问题：**正式延迟节目到达之前，先告诉我几秒后谁会击杀谁。**
+这个想法来自一个很直接的问题：如果我同时拿到一条更早的比赛流和一条有延迟的直播流，能不能利用前一条流，提前几秒告诉自己直播画面马上会发生什么？
+
+继续调研以后，我发现已经有项目和商业工具在做类似的延迟提示，也有方案继续往 AI 导播、自动切镜和更完整的未来信息展示上走。但我自己的场景是一个人同时解说和 OB，最需要的是一点准备切视角的时间。
+
+所以第一版只显示：
 
 ```text
 +5.2s
 playerA → playerB
 ```
 
-我还是自己决定切谁、什么时候切、现场讲什么。第一版先不碰 AI / LLM 镜头模型、自动 TAKE、Future Radar 或重要性排名。
+它只告诉我几秒后谁会击杀谁。切谁、什么时候切、现场怎么讲仍然由我自己决定。第一版先不做自动切镜、AI 镜头推荐、未来雷达或复杂的事件判断。
