@@ -1,0 +1,33 @@
+---
+title: 自己做一套中文开源 HUD
+date: 2026-09-16
+context: 我长期自己解说兼 OB，之前实际用过的 HUD 长时间运行后会逐渐出现画面延迟，往往要刷新才能恢复，而且操作的人未必第一时间察觉。与此同时，我也没有找到一套同时满足中文、开源、视觉可定制、能长期自己维护的 CS2 HUD。
+decision: 不再把某个现成 HUD 当长期底座，自己从比赛数据接入、HUD、雷达和控制台重新搭一套本地工具；参考不同赛事和开源项目里做得好的部分，但视觉、功能和运行方式由自己的真实比赛需求决定。
+alternatives:
+  - option: 继续基于已有开源 HUD 二次开发
+    pros:
+      - 可以更快得到一套能用的界面
+      - 已有项目里有很多成熟功能可以直接参考
+    cons:
+      - 也会一起继承原项目的结构、历史包袱和维护边界
+      - 中文、本地化、视觉和功能取舍仍然受现有底座限制
+  - option: 直接使用成熟的闭源 / 付费方案
+    pros:
+      - 视觉和现成功能通常更完整
+      - 前期部署成本更低
+    cons:
+      - 很难按自己的赛事流程持续改
+      - 底层运行方式和后续功能不在自己控制范围内
+reasoning: 我真正需要的是一套自己会长期使用和维护的工具。性能问题只是最直接的触发点；更长期的价值在于可以自己决定 HUD 怎么长、哪些功能值得做、哪些赛事设计值得吸收，以及底层怎样保证长时间运行和后续扩展。中文、开源、本地优先也让它以后有机会直接服务校园赛和社区赛，而不只是一套我自己能用的 HUD。
+tags:
+  - Broadcast
+  - HUD
+  - 开源
+sourceUrl: https://github.com/Starfie1d1272/RivalHub-Broadcast/blob/main/docs/references.md
+relatedProjects:
+  - rivalhub-broadcast
+relatedDecisions:
+  - broadcast-simple-ob-assist
+---
+
+仓库里会持续参考 HOT、Eon、Lexogrine、Zhenhai HUD Manager、Boltobserv、M3MONs/CS2-HUD 等项目，但参考的是它们做得好的产品和工程选择，不把任何一个项目的整套历史结构直接继承过来。
