@@ -33,7 +33,6 @@ const {
   relatedProjects,
   status,
   stageLabel,
-  showcaseCommit,
   links,
 } = project.data;
 
@@ -57,7 +56,6 @@ const linkItems = [
       <h1>{title}</h1>
       <div class="case-study-meta">
         <span>{role}</span><span>·</span><span>{duration ?? year}</span>
-        {showcaseCommit && <><span>·</span><span>展示基线 {showcaseCommit.slice(0, 7)}</span></>}
       </div>
       <p class="outcome-summary">{outcomeSummary}</p>
       {linkItems.length > 0 && (

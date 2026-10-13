@@ -8,13 +8,13 @@ interface PageMeta {
 export const pagesConfig = {
   home: {
     title: '杜鑫宇｜产品与工程作品集',
-    description: 'NJU Major、RivalHub、RivalHub Broadcast、DAK Studio。',
+    description: '从校园赛事到日常工具：RivalHub、Mizar、DAK Studio、SendToMyself 与策星。',
   },
   projects: {
     title: '项目',
-    description: '持续投入并实际运行过的项目，主要围绕赛事运营、制播工具和 Demo 分析。',
+    description: '从校园赛事到个人工具，记录我从需求、设计到实现与持续迭代的工作。',
     heading: '项目',
-    intro: '这里记录我持续投入并实际运行过的项目，主要围绕赛事运营、制播工具和 Demo 分析。',
+    intro: '从校园赛事到个人工具，这里记录我从需求、设计到实现与持续迭代的工作。',
   },
   about: {
     title: '关于',

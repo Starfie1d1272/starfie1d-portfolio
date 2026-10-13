@@ -47,6 +47,7 @@ export default defineConfig({
    * and hosting flexibility. All pages are pre-rendered.
    */
   output: 'static',
+  redirects: { '/projects/rivalhub-broadcast': '/projects/mizar' },
   
   /**
    * Astro integrations

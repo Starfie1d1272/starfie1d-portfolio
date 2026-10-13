@@ -1,0 +1,80 @@
+---
+title: Mizar
+role: 项目负责人 / 独立开发者
+year: 2026
+duration: 2026.09–至今
+outcomeSummary: 从自己解说兼 OB 的现场经验出发，做一套校园与社区 CS2 赛事制播系统。把比赛数据、HUD、雷达和 OBS 串成完整节目，让小团队也能认真呈现一场比赛。
+techStack:
+  - TypeScript
+  - React
+  - CS2 GSI
+  - OBS WebSocket
+  - Windows / WebView2
+  - Playwright
+featured: true
+status: ongoing
+stageLabel: 已发布 / 持续迭代
+order: 3
+showcaseCommit: 255ebaa908653953f907099a3c530dea96c6592a
+cover:
+  src: /media/mizar/hud.webp
+  alt: Mizar Pulse 的 CS2 局内 HUD 画面
+links:
+  github: https://github.com/Starfie1d1272/Mizar
+  release: https://github.com/Starfie1d1272/Mizar/releases
+relatedProjects:
+  - rivalhub
+  - nju-major
+  - dak-studio
+---
+
+## 让校园赛事，也有职业赛场的转播呈现
+
+办校园 CS 比赛时，我经常同时负责解说和 OB。一边跟着比赛讲，一边切选手视角，还要照顾比分、地图信息和下一张节目画面。这段现场经历，慢慢变成了 Mizar 的产品起点。
+
+我想做一套自己愿意带到下一场比赛里的工具：打开就能准备赛事，进入比赛后随时掌握场上局势，也能把校园赛事自己的视觉风格带进直播。早期的 RivalHub Broadcast 就沿着这个方向，逐步发展成了今天的 Mizar。
+
+<figure className="story-media">
+  <a href="/media/mizar/workspace.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/mizar/workspace.webp" alt="Mizar 制播工作台，同时呈现比赛画面、大雷达和制作控制" loading="eager" fetchpriority="high" />
+  </a>
+  <figcaption>Mizar 制播工作台。比赛画面、大雷达和制作控制放在同一屏，方便解说与导播随时掌握现场。</figcaption>
+</figure>
+
+## 把一场比赛做成连贯的节目
+
+我按实际办赛的顺序组织产品：赛前准备队伍与地图资料，展示 BP 和对阵；比赛开始后进入局内 HUD；半场看数据，结束后留下赛果。每一段都有对应的节目画面，也共享同一份比赛信息。
+
+Mizar 通过 GSI 读取比赛进展，结合赛事资料推进节目，并与 OBS 场景联动。需要临场调整时，制作人员可以手动接管，再选择合适的时机恢复自动。自动流程和现场判断都有各自清楚的位置。
+
+<figure className="story-media">
+  <a href="/media/mizar/veto.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/mizar/veto.webp" alt="Mizar 地图禁选节目画面" loading="lazy" />
+  </a>
+  <figcaption>地图禁选也是节目的一部分。双方的选择按顺序展开，为接下来的对阵和局内画面铺好节奏。</figcaption>
+</figure>
+
+## 画面有自己的风格，工具也要顺手
+
+默认的 **Mizar Pulse** 从赛前到赛后保持统一包装；局内 HUD 还提供四套参考不同职业赛事视觉的风格。组件、布局和外观可以在编辑器里调整，预览后用于播出，也可以把预设留给下一场比赛。
+
+我特别在意解说兼 OB 的使用节奏。工作台把真实游戏画面和大雷达放在眼前，让我既能跟住当前视角，也能看清另一侧的局势；OBS 画面预览和播出状态则帮助制作人员确认观众正在看到什么。
+
+<figure className="story-media">
+  <a href="/media/mizar/hud.webp" target="_blank" rel="noopener noreferrer">
+    <img src="/media/mizar/hud.webp" alt="Mizar Pulse HUD 展示比分、选手装备、实时雷达与当前观察视角" loading="lazy" />
+  </a>
+  <figcaption>Mizar Pulse 局内画面，取自项目公开产品图集。比赛信息围绕游戏画面展开，重点信息随比赛进程呈现。</figcaption>
+</figure>
+
+## 从赛事网站接到制作现场
+
+Mizar 可以直接在本机创建比赛，也可以连接 RivalHub，复用队伍、赛程和 BP 资料，再把实时比赛状态与雷达送回网站。
+
+这几个项目逐渐形成了我自己的办赛工作流：**RivalHub 组织比赛，Mizar 呈现比赛，DAK 分析比赛。** 赛事资料沿着同一场比赛继续流转，运营、制播和复盘也因此接在一起。
+
+## 我把哪些事情做进了产品
+
+从现场需求、节目流程和视觉包装，到实时数据处理、Windows 工作台和 OBS 联动，我持续负责整个产品的设计与实现。工程上，我把 HUD、雷达和节目统一到同一份比赛状态，并将编辑预览与正式输出分别管理；高频更新、连接恢复和比赛切换也都有对应的处理与回归检查。
+
+Mizar 已提供 Windows 安装器与便携包，并以 AGPL-3.0 开源。接下来会继续打磨节目衔接与现场操作，让更多校园和社区赛事可以用上这套工具。

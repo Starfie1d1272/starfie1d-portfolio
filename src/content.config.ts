@@ -14,6 +14,7 @@ const projectsCollection = defineCollection({
     year: z.number(),
     duration: z.string().optional(),
     outcomeSummary: z.string(),
+    cover: z.object({ src: z.string(), alt: z.string() }).optional(),
 
     metricsGroups: z.array(z.object({
       title: z.string(),

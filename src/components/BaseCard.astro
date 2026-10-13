@@ -44,6 +44,7 @@ const { href, class: className } = Astro.props;
 ---
 
 <a href={href} class:list={['base-card', className]}>
+  <slot name="cover" />
   <slot name="badge" />
   <span class="card-meta"><slot name="meta" /></span>
   <span class="card-title"><slot name="title" /></span>

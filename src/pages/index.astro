@@ -10,7 +10,7 @@ import { siteConfig } from '../config';
 const featuredProjects = (await getCollection('projects'))
   .filter((project) => project.data.featured)
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
-  .slice(0, 4);
+  .slice(0, 6);
 ---
 
 <BaseLayout>
@@ -21,9 +21,11 @@ const featuredProjects = (await getCollection('projects'))
   <main class="home-page">
     <section class="hero">
       <p class="eyebrow">南京大学 · 2027 届</p>
-      <h1>杜鑫宇</h1>
+      <p class="hero-name">杜鑫宇 · 产品与工程作品集</p>
+      <h1>从自己的现场出发，<br />把想法做成产品。</h1>
       <p class="hero-copy">
-        长期做校园赛事运营，也把实际赛务中的问题做成赛事平台、CS2 制播和 Demo 分析工具。
+        从校园赛事到日常工具，我把自己会反复用到的东西做成软件。
+        做产品，也写代码，跟着真实使用持续打磨。
       </p>
       <div class="hero-actions">
         <a class="btn-primary" href="/projects">项目</a>
@@ -33,7 +35,7 @@ const featuredProjects = (await getCollection('projects'))
 
     <section class="section-block">
       <div class="section-header">
-        <h2>项目</h2>
+        <h2>做出来的东西</h2>
         <ForwardLink href="/projects" text="全部项目" variant="muted" />
       </div>
       <div class="project-grid">
@@ -47,6 +49,7 @@ const featuredProjects = (await getCollection('projects'))
             techStack={project.data.techStack}
             status={project.data.status}
             stageLabel={project.data.stageLabel}
+            cover={project.data.cover}
           />
         ))}
       </div>
@@ -55,9 +58,10 @@ const featuredProjects = (await getCollection('projects'))
 
   <style>
     .home-page { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 5rem; }
-    .hero { padding: 4rem 0 3.25rem; border-bottom: 1px solid var(--color-border); }
+    .hero { padding: 4rem 0 4rem; border-bottom: 1px solid var(--color-border); }
     .eyebrow { font-size: .75rem; font-weight: 600; letter-spacing: .04em; color: var(--color-text-muted); }
-    .hero h1 { margin: .65rem 0 .9rem; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.1; letter-spacing: -.035em; }
+    .hero-name { margin-top: 2rem; color: var(--color-text-secondary); font-size: .9rem; }
+    .hero h1 { margin: .65rem 0 .9rem; font-size: clamp(2rem, 5vw, 3.7rem); line-height: 1.25; text-wrap: balance; letter-spacing: -.035em; }
     .hero-copy { max-width: 680px; color: var(--color-text-secondary); font-size: 1rem; line-height: 1.75; }
     .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.6rem; }
     .btn-primary, .btn-secondary { display: inline-flex; align-items: center; padding: .65rem .95rem; border-radius: 6px; font-size: .88rem; font-weight: 600; text-decoration: none; }
