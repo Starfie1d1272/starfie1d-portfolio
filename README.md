@@ -6,8 +6,10 @@
 
 - **RivalHub**：高校电竞赛事运营平台；
 - **NJU Major 2023–2026**：连续多届校园 CS 赛事主办与总体运营；
-- **RivalHub Broadcast**：本地优先的 CS2 制播工具；
-- **DAK Studio / CS2 Demo Analysis Kit**：本地 Demo 分析工作台与分析工具链。
+- **Mizar**：覆盖赛前、局内与赛后的 CS2 制播系统；
+- **DAK Studio / CS2 Demo Analysis Kit**：本地 Demo 分析工作台与分析工具链；
+- **SendToMyself**：自托管的跨设备个人信息流；
+- **策星 · Cexing**：正在开发中的 HarmonyOS 原生代理客户端。
 
 ## 仓库边界
 
@@ -32,7 +34,11 @@ npm run preview
 
 ## 部署
 
-计划部署到 Vercel，并绑定 `https://work.starfie1d.top`。
+Vercel 项目：`starfie1d-portfolio`，正式域名为 `https://work.starfie1d.top`，另可通过 `https://starfie1d-portfolio.vercel.app` 访问。
+
+GitHub 集成跟随 `main` 发布，框架为 Astro，运行 `npm run build` 后发布 `dist/`。Vercel 的 `SITE_URL` 使用正式访问地址，供 canonical、站点地图与分享信息使用。
+
+域名由 Cloudflare 管理，`work` 的 CNAME 指向 Vercel 项目域名设置提供的目标。GitHub Pages 工作流保留。
 
 ## 上游模板与许可证
 

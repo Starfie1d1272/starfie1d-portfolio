@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/projects/rivalhub-broadcast", "destination": "/projects/mizar", "permanent": true },
+    { "source": "/projects/rivalhub-broadcast/", "destination": "/projects/mizar", "permanent": true }
+  ]
+}
