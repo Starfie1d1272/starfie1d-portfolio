@@ -16,48 +16,72 @@ const projectsCollection = defineCollection({
     outcomeSummary: z.string(),
     cover: z.object({ src: z.string(), alt: z.string() }).optional(),
 
-    metricsGroups: z.array(z.object({
-      title: z.string(),
-      asOf: z.string().optional(),
-      metrics: z.array(metricSchema),
-    })).optional(),
+    metricsGroups: z
+      .array(
+        z.object({
+          title: z.string(),
+          asOf: z.string().optional(),
+          metrics: z.array(metricSchema),
+        }),
+      )
+      .optional(),
 
-    timeline: z.array(z.object({
-      year: z.string(),
-      title: z.string(),
-      summary: z.string(),
-      metrics: z.array(metricSchema).optional(),
-    })).optional(),
+    timeline: z
+      .array(
+        z.object({
+          year: z.string(),
+          title: z.string(),
+          summary: z.string(),
+          metrics: z.array(metricSchema).optional(),
+        }),
+      )
+      .optional(),
 
-    screenshots: z.array(z.object({
-      src: z.string(),
-      alt: z.string(),
-      caption: z.string().optional(),
-    })).optional(),
-
-    evidenceSections: z.array(z.object({
-      title: z.string(),
-      description: z.string().optional(),
-      items: z.array(z.object({
-        kind: z.enum(['image', 'file']),
-        src: z.string(),
-        label: z.string(),
-        alt: z.string().optional(),
-        caption: z.string().optional(),
-        display: z.enum(['standard', 'wide', 'document']).optional(),
-      })),
-      galleries: z.array(z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        items: z.array(z.object({
+    screenshots: z
+      .array(
+        z.object({
           src: z.string(),
-          label: z.string(),
-          alt: z.string().optional(),
+          alt: z.string(),
           caption: z.string().optional(),
-          orientation: z.enum(['landscape', 'portrait', 'square']).default('landscape'),
-        })),
-      })).optional(),
-    })).optional(),
+        }),
+      )
+      .optional(),
+
+    evidenceSections: z
+      .array(
+        z.object({
+          title: z.string(),
+          description: z.string().optional(),
+          items: z.array(
+            z.object({
+              kind: z.enum(['image', 'file']),
+              src: z.string(),
+              label: z.string(),
+              alt: z.string().optional(),
+              caption: z.string().optional(),
+              display: z.enum(['standard', 'wide', 'document']).optional(),
+            }),
+          ),
+          galleries: z
+            .array(
+              z.object({
+                title: z.string(),
+                description: z.string().optional(),
+                items: z.array(
+                  z.object({
+                    src: z.string(),
+                    label: z.string(),
+                    alt: z.string().optional(),
+                    caption: z.string().optional(),
+                    orientation: z.enum(['landscape', 'portrait', 'square']).default('landscape'),
+                  }),
+                ),
+              }),
+            )
+            .optional(),
+        }),
+      )
+      .optional(),
     techStack: z.array(z.string()).optional(),
     learnings: z.array(z.string()).optional(),
 
@@ -67,16 +91,17 @@ const projectsCollection = defineCollection({
     order: z.number().optional(),
     showcaseCommit: z.string().optional(),
 
-    links: z.object({
-      live: z.string().url().optional(),
-      github: z.string().url().optional(),
-      release: z.string().url().optional(),
-    }).optional(),
+    links: z
+      .object({
+        live: z.string().url().optional(),
+        github: z.string().url().optional(),
+        release: z.string().url().optional(),
+      })
+      .optional(),
 
     relatedProjects: z.array(z.string()).optional(),
   }),
 });
-
 
 export const collections = {
   projects: projectsCollection,

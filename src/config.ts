@@ -1,5 +1,4 @@
-const getEnv = (key: string, fallback = ''): string =>
-  import.meta.env[key] ?? fallback;
+const getEnv = (key: string, fallback = ''): string => import.meta.env[key] ?? fallback;
 
 export const siteConfig = {
   url: getEnv('SITE_URL', 'https://work.starfie1d.top'),
@@ -34,4 +33,4 @@ export const siteConfig = {
 
 export type SiteConfig = typeof siteConfig;
 export type SocialLinks = typeof siteConfig.social;
-export type NavItem = typeof siteConfig.nav[number];
+export type NavItem = (typeof siteConfig.nav)[number];
