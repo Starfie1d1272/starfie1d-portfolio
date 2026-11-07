@@ -47,6 +47,8 @@ export default defineConfig({
    * and hosting flexibility. All pages are pre-rendered.
    */
   output: 'static',
+  // Keep HTML-aware whitespace handling when upgrading to Astro 7.
+  compressHTML: true,
   redirects: { '/projects/rivalhub-broadcast': '/projects/mizar' },
   
   /**
