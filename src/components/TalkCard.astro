@@ -1,16 +1,16 @@
 ---
 /**
  * TalkCard Component
- * 
+ *
  * Displays a speaking engagement entry with comprehensive details including event information,
  * date, location, talk type, and optional links to slides and video recordings. Each talk type
  * has a distinct color-coded badge for easy visual identification.
- * 
+ *
  * Unlike other card components, TalkCard uses an article element instead of extending BaseCard
  * to accommodate the more complex layout requirements of speaking engagements.
- * 
+ *
  * @component
- * 
+ *
  * @example
  * ```astro
  * <TalkCard
@@ -33,70 +33,70 @@
 interface Props {
   /** Talk title (displayed as card heading) */
   title: string;
-  
+
   /** Brief description of the talk content */
   description: string;
-  
+
   /** Name of the event or venue */
   event: string;
-  
+
   /** Optional URL to the event website */
   eventUrl?: string;
-  
+
   /** Date of the speaking engagement (formatted as "Month Year") */
   date: Date;
-  
+
   /** Location of the event (city, country, or "Online") */
   location: string;
-  
+
   /** Type of speaking engagement (determines badge color) */
   type: 'conference' | 'meetup' | 'podcast' | 'workshop' | 'webinar';
-  
+
   /** Optional URL to presentation slides */
   slides?: string;
-  
+
   /** Optional URL to video recording */
   video?: string;
-  
+
   /** Optional duration of the talk (e.g., "45 min", "1 hour") */
   duration?: string;
-  
+
   /** Optional array of topics covered in the talk */
   topics?: string[];
-  
+
   /** Whether to display the featured badge (default: false) */
   featured?: boolean;
 }
 
-const { 
+const {
   title,
   description,
-  event, 
-  eventUrl, 
-  date, 
-  location, 
-  type, 
-  slides, 
-  video, 
+  event,
+  eventUrl,
+  date,
+  location,
+  type,
+  slides,
+  video,
   duration,
   topics = [],
-  featured = false 
+  featured = false,
 } = Astro.props;
 
 /**
  * Formats the talk date to show month and year only
- * 
+ *
  * Uses US English locale with long month format.
  * Example output: "June 2024"
  */
 const formattedDate = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
-  month: 'long'
+  month: 'long',
 }).format(date);
 
 /**
  * Human-readable labels for talk types
- * 
+ *
  * Maps internal type values to display labels shown in the badge.
  */
 const typeLabels: Record<string, string> = {
@@ -104,7 +104,7 @@ const typeLabels: Record<string, string> = {
   meetup: 'Meetup',
   podcast: 'Podcast',
   workshop: 'Workshop',
-  webinar: 'Webinar'
+  webinar: 'Webinar',
 };
 ---
 
@@ -117,21 +117,31 @@ const typeLabels: Record<string, string> = {
       Featured
     </span>
   )}
-  
+
   <div class="talk-meta">
-    <span class="talk-type" data-type={type}>{typeLabels[type]}</span>
+    <span class="talk-type" data-type={type}>
+      {typeLabels[type]}
+    </span>
     <span class="talk-date">{formattedDate}</span>
   </div>
-  
+
   <h3 class="talk-title">{title}</h3>
-  
+
   <p class="talk-description">{description}</p>
-  
+
   <div class="talk-event">
     {eventUrl ? (
       <a href={eventUrl} target="_blank" rel="noopener noreferrer" class="event-link">
         {event}
-        <svg class="external-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="external-icon"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
           <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -143,7 +153,7 @@ const typeLabels: Record<string, string> = {
     <span class="talk-location">· {location}</span>
     {duration && <span class="talk-duration">· {duration}</span>}
   </div>
-  
+
   {topics.length > 0 && (
     <div class="tags-list">
       {topics.map((topic) => (
@@ -151,12 +161,19 @@ const typeLabels: Record<string, string> = {
       ))}
     </div>
   )}
-  
+
   {(slides || video) && (
     <div class="talk-links">
       {slides && (
         <a href={slides} target="_blank" rel="noopener noreferrer" class="talk-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
             <line x1="8" y1="21" x2="16" y2="21"></line>
             <line x1="12" y1="17" x2="12" y2="21"></line>
@@ -166,7 +183,14 @@ const typeLabels: Record<string, string> = {
       )}
       {video && (
         <a href={video} target="_blank" rel="noopener noreferrer" class="talk-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <polygon points="5 3 19 12 5 21 5 3"></polygon>
           </svg>
           Video
@@ -183,7 +207,9 @@ const typeLabels: Record<string, string> = {
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
   }
 
   .talk-card:hover {
@@ -225,27 +251,27 @@ const typeLabels: Record<string, string> = {
     border: 1px solid var(--color-border);
   }
 
-  .talk-type[data-type="conference"] {
+  .talk-type[data-type='conference'] {
     color: var(--color-accent);
     border-color: var(--color-accent);
   }
 
-  .talk-type[data-type="meetup"] {
+  .talk-type[data-type='meetup'] {
     color: #10b981;
     border-color: #10b981;
   }
 
-  .talk-type[data-type="podcast"] {
+  .talk-type[data-type='podcast'] {
     color: #8b5cf6;
     border-color: #8b5cf6;
   }
 
-  .talk-type[data-type="workshop"] {
+  .talk-type[data-type='workshop'] {
     color: #f59e0b;
     border-color: #f59e0b;
   }
 
-  .talk-type[data-type="webinar"] {
+  .talk-type[data-type='webinar'] {
     color: #ec4899;
     border-color: #ec4899;
   }

@@ -1,16 +1,16 @@
 ---
 /**
  * Footer Component
- * 
+ *
  * Site-wide footer displaying copyright information and social media links.
  * Automatically filters and displays only configured social links from site config.
  * Responsive layout that stacks vertically on mobile devices.
- * 
+ *
  * Social links are pulled from siteConfig.social and only displayed if they have
  * a URL value configured. Links open in new tabs with proper security attributes.
- * 
+ *
  * @component
- * 
+ *
  * @example
  * ```astro
  * <Footer />
@@ -25,24 +25,26 @@ const currentYear = new Date().getFullYear();
 
 /**
  * Filters and formats social links from site configuration
- * 
+ *
  * Only includes platforms that have a URL configured (non-empty values).
  * Capitalizes platform names for display (e.g., "github" becomes "Github").
- * 
+ *
  * @returns Array of social link objects with platform name and URL
  */
 const socialLinks = Object.entries(siteConfig.social)
-  .filter(([_, url]) => url)
+  .filter(([, url]) => url)
   .map(([platform, url]) => ({
     platform: platform.charAt(0).toUpperCase() + platform.slice(1),
-    url
+    url,
   }));
 ---
 
 <footer class="site-footer">
   <div class="footer-container">
-    <span class="copyright">© {currentYear} {siteConfig.author.name}</span>
-    
+    <span class="copyright">
+      © {currentYear} {siteConfig.author.name}
+    </span>
+
     {socialLinks.length > 0 && (
       <div class="footer-social">
         {socialLinks.map((link, index) => (

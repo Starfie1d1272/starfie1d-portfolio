@@ -5,7 +5,12 @@ import { pagesConfig } from '../pages.config';
 ---
 
 <BaseLayout>
-  <SEO slot="head" title={pagesConfig.about.title} description={pagesConfig.about.description} type="profile" />
+  <SEO
+    slot="head"
+    title={pagesConfig.about.title}
+    description={pagesConfig.about.description}
+    type="profile"
+  />
   <main class="about-page">
     <header>
       <p class="eyebrow">关于</p>
@@ -19,9 +24,8 @@ import { pagesConfig } from '../pages.config';
     <section>
       <h2>这个站放什么</h2>
       <p>
-        这里记录我做的赛事项目，也展示 SendToMyself 和策星这样的日常工具。
-        从 RivalHub 到 Mizar、DAK Studio，几款产品也在逐步连成自己的办赛工作流。
-        科研经历、会议成果和摄影还放在我的个人主页。
+        这里记录我做的赛事项目，也展示 SendToMyself 和策星这样的日常工具。 从 RivalHub 到 Mizar、DAK
+        Studio，几款产品也在逐步连成自己的办赛工作流。 科研经历、会议成果和摄影还放在我的个人主页。
       </p>
     </section>
 
@@ -46,22 +50,70 @@ import { pagesConfig } from '../pages.config';
     </section>
 
     <section class="links">
-      <a href="https://starfie1d.top" target="_blank" rel="noopener noreferrer">个人主页 ↗</a>
-      <a href="https://github.com/Starfie1d1272" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href="https://starfie1d.top" target="_blank" rel="noopener noreferrer">
+        个人主页 ↗
+      </a>
+      <a href="https://github.com/Starfie1d1272" target="_blank" rel="noopener noreferrer">
+        GitHub ↗
+      </a>
       <a href="mailto:xinyu@starfie1d.top">xinyu@starfie1d.top</a>
     </section>
   </main>
 
   <style>
-    .about-page { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-    .eyebrow { font-size: .75rem; font-weight: 650; letter-spacing: .08em; color: var(--color-text-muted); }
-    h1 { margin: .5rem 0 1.25rem; font-size: 2.6rem; letter-spacing: -.035em; }
-    .lead { font-size: 1.2rem; line-height: 1.8; color: var(--color-text-secondary); }
-    section { margin-top: 3rem; }
-    h2 { margin-bottom: 1rem; font-size: 1.35rem; }
-    section p { margin-bottom: 1rem; color: var(--color-text-secondary); line-height: 1.85; }
-    .links { display: flex; flex-wrap: wrap; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--color-border); }
-    .links a { font-weight: 600; }
-    @media (max-width: 640px) { .about-page { padding: 3rem 1rem 4rem; } h1 { font-size: 2rem; } .lead { font-size: 1.05rem; } }
+    .about-page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+    }
+    h1 {
+      margin: 0.5rem 0 1.25rem;
+      font-size: 2.6rem;
+      letter-spacing: -0.035em;
+    }
+    .lead {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: var(--color-text-secondary);
+    }
+    section {
+      margin-top: 3rem;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.35rem;
+    }
+    section p {
+      margin-bottom: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.85;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--color-border);
+    }
+    .links a {
+      font-weight: 600;
+    }
+    @media (max-width: 640px) {
+      .about-page {
+        padding: 3rem 1rem 4rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .lead {
+        font-size: 1.05rem;
+      }
+    }
   </style>
 </BaseLayout>

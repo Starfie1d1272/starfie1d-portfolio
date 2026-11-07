@@ -1,15 +1,53 @@
 ---
 import { siteConfig } from '../config';
-interface Props { type:'WebSite'|'Project'|'Person'; data?:Record<string,any>; }
+interface Props {
+  type: 'WebSite' | 'Project' | 'Person';
+  data?: {
+    title?: string;
+    outcomeSummary?: string;
+    year?: number;
+    techStack?: string[];
+    problem?: string;
+  };
+}
 const { type, data = {} } = Astro.props;
-const siteURL = siteConfig.url.replace(/\/$/,'');
+const siteURL = siteConfig.url.replace(/\/$/, '');
 const socialLinks = Object.values(siteConfig.social).filter(Boolean);
 function build() {
   const context = 'https://schema.org';
-  if (type === 'WebSite') return { '@context':context,'@type':'WebSite',name:siteConfig.title,description:siteConfig.description,url:siteURL,inLanguage:siteConfig.language,author:{'@type':'Person',name:siteConfig.author.name,url:'https://starfie1d.top'} };
-  if (type === 'Person') return { '@context':context,'@type':'Person',name:siteConfig.author.name,description:siteConfig.author.bio,url:'https://starfie1d.top',sameAs:socialLinks,email:siteConfig.author.email,knowsAbout:['技术产品','研发效能','开发者工具','AI Agent 工作流'] };
-  return { '@context':context,'@type':'CreativeWork',name:data.title,description:data.outcomeSummary,author:{'@type':'Person',name:siteConfig.author.name},dateCreated:data.year ? `${data.year}-01-01` : undefined,keywords:data.techStack?.join(', '),about:data.problem };
+  if (type === 'WebSite')
+    return {
+      '@context': context,
+      '@type': 'WebSite',
+      name: siteConfig.title,
+      description: siteConfig.description,
+      url: siteURL,
+      inLanguage: siteConfig.language,
+      author: { '@type': 'Person', name: siteConfig.author.name, url: 'https://starfie1d.top' },
+    };
+  if (type === 'Person')
+    return {
+      '@context': context,
+      '@type': 'Person',
+      name: siteConfig.author.name,
+      description: siteConfig.author.bio,
+      url: 'https://starfie1d.top',
+      sameAs: socialLinks,
+      email: siteConfig.author.email,
+      knowsAbout: ['技术产品', '研发效能', '开发者工具', 'AI Agent 工作流'],
+    };
+  return {
+    '@context': context,
+    '@type': 'CreativeWork',
+    name: data.title,
+    description: data.outcomeSummary,
+    author: { '@type': 'Person', name: siteConfig.author.name },
+    dateCreated: data.year ? `${data.year}-01-01` : undefined,
+    keywords: data.techStack?.join(', '),
+    about: data.problem,
+  };
 }
 const structuredData = build();
 ---
+
 <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />

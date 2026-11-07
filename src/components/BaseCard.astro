@@ -1,26 +1,26 @@
 ---
 /**
  * BaseCard Component
- * 
+ *
  * Foundation component providing consistent styling and structure for all card types.
  * This component should not be used directly - instead use specialized cards like
  * ArticleCard, ProjectCard, or TalkCard for specific content types.
- * 
+ *
  * Features:
  * - Consistent hover effects and transitions
  * - Responsive padding and typography
  * - Flexible slot-based content structure
  * - Accessible link wrapper
- * 
+ *
  * @component
- * 
+ *
  * @slot badge - Optional badge/label at top (e.g., "Featured")
  * @slot meta - Metadata line (date, role, category, etc.)
  * @slot title - Card heading/title
  * @slot description - Card description or summary text
  * @slot tags - Container for tag list
  * @slot default - CTA links or additional content at bottom
- * 
+ *
  * @example
  * ```astro
  * <BaseCard href="/example" class="custom-card">
@@ -35,7 +35,7 @@
 interface Props {
   /** Target URL for the card link (required) */
   href: string;
-  
+
   /** Additional CSS classes to apply to the card */
   class?: string;
 }
@@ -46,9 +46,15 @@ const { href, class: className } = Astro.props;
 <a href={href} class:list={['base-card', className]}>
   <slot name="cover" />
   <slot name="badge" />
-  <span class="card-meta"><slot name="meta" /></span>
-  <span class="card-title"><slot name="title" /></span>
-  <span class="card-description"><slot name="description" /></span>
+  <span class="card-meta">
+    <slot name="meta" />
+  </span>
+  <span class="card-title">
+    <slot name="title" />
+  </span>
+  <span class="card-description">
+    <slot name="description" />
+  </span>
   <slot name="tags" />
   <slot />
 </a>
@@ -62,7 +68,9 @@ const { href, class: className } = Astro.props;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     text-decoration: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
   }
 
   .base-card:hover {

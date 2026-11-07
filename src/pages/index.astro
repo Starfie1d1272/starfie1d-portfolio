@@ -14,7 +14,13 @@ const featuredProjects = (await getCollection('projects'))
 ---
 
 <BaseLayout>
-  <SEO slot="head" title={siteConfig.title} description={siteConfig.description} type="website" noSuffix />
+  <SEO
+    slot="head"
+    title={siteConfig.title}
+    description={siteConfig.description}
+    type="website"
+    noSuffix
+  />
   <StructuredData type="WebSite" />
   <StructuredData type="Person" />
 
@@ -22,14 +28,27 @@ const featuredProjects = (await getCollection('projects'))
     <section class="hero">
       <p class="eyebrow">南京大学 · 2027 届</p>
       <p class="hero-name">杜鑫宇 · 产品与工程作品集</p>
-      <h1>从自己的现场出发，<br />把想法做成产品。</h1>
+      <h1>
+        从自己的现场出发，
+        <br />
+        把想法做成产品。
+      </h1>
       <p class="hero-copy">
         从校园赛事到日常工具，我把自己会反复用到的东西做成软件。
         做产品，也写代码，跟着真实使用持续打磨。
       </p>
       <div class="hero-actions">
-        <a class="btn-primary" href="/projects">项目</a>
-        <a class="btn-secondary" href="https://starfie1d.top" target="_blank" rel="noopener noreferrer">个人主页 ↗</a>
+        <a class="btn-primary" href="/projects">
+          项目
+        </a>
+        <a
+          class="btn-secondary"
+          href="https://starfie1d.top"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          个人主页 ↗
+        </a>
       </div>
     </section>
 
@@ -57,25 +76,99 @@ const featuredProjects = (await getCollection('projects'))
   </main>
 
   <style>
-    .home-page { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 5rem; }
-    .hero { padding: 4rem 0 4rem; border-bottom: 1px solid var(--color-border); }
-    .eyebrow { font-size: .75rem; font-weight: 600; letter-spacing: .04em; color: var(--color-text-muted); }
-    .hero-name { margin-top: 2rem; color: var(--color-text-secondary); font-size: .9rem; }
-    .hero h1 { margin: .65rem 0 .9rem; font-size: clamp(2rem, 5vw, 3.7rem); line-height: 1.25; text-wrap: balance; letter-spacing: -.035em; }
-    .hero-copy { max-width: 680px; color: var(--color-text-secondary); font-size: 1rem; line-height: 1.75; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.6rem; }
-    .btn-primary, .btn-secondary { display: inline-flex; align-items: center; padding: .65rem .95rem; border-radius: 6px; font-size: .88rem; font-weight: 600; text-decoration: none; }
-    .btn-primary { background: var(--color-text); color: var(--color-bg); }
-    .btn-secondary { border: 1px solid var(--color-border); color: var(--color-text); }
-    .section-block { padding: 3.5rem 0; border-bottom: 1px solid var(--color-border); }
-    .section-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .section-header h2 { margin: 0; font-size: 1.45rem; letter-spacing: -.02em; }
-    .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    @media (max-width: 760px) { .project-grid { grid-template-columns: 1fr; } }
+    .home-page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+    .hero {
+      padding: 4rem 0 4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+    }
+    .hero-name {
+      margin-top: 2rem;
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+    }
+    .hero h1 {
+      margin: 0.65rem 0 0.9rem;
+      font-size: clamp(2rem, 5vw, 3.7rem);
+      line-height: 1.25;
+      text-wrap: balance;
+      letter-spacing: -0.035em;
+    }
+    .hero-copy {
+      max-width: 680px;
+      color: var(--color-text-secondary);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.6rem;
+    }
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.65rem 0.95rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+    .btn-secondary {
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+    }
+    .section-block {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: -0.02em;
+    }
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    @media (max-width: 760px) {
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     @media (max-width: 640px) {
-      .home-page { padding: 0 1rem 3rem; }
-      .hero { padding: 3rem 0 2.5rem; }
-      .section-block { padding: 3rem 0; }
+      .home-page {
+        padding: 0 1rem 3rem;
+      }
+      .hero {
+        padding: 3rem 0 2.5rem;
+      }
+      .section-block {
+        padding: 3rem 0;
+      }
     }
   </style>
 </BaseLayout>

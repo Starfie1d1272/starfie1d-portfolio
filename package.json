@@ -5,14 +5,20 @@
   "private": true,
   "description": "杜鑫宇的产品与工程作品集",
   "author": "Xinyu Du <xinyu@starfie1d.top>",
-  "repository": { "type": "git", "url": "https://github.com/Starfie1d1272/starfie1d-portfolio.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Starfie1d1272/starfie1d-portfolio.git"
+  },
   "homepage": "https://work.starfie1d.top",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write \"src/**/*.{astro,ts,js,css}\"",
+    "format:check": "prettier --check \"src/**/*.{astro,ts,js,css}\"",
+    "lint": "eslint src"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
@@ -22,6 +28,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
-    "typescript": "^5.6.0"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.2",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.72.1"
   }
 }
