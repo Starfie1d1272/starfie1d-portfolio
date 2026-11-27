@@ -6,10 +6,10 @@ duration: 2026.06–至今
 outcomeSummary: 本地运行的 CS2 Demo 分析工具。把 `.dem` 解析成可检索、可比较的数据，并尽量让重要结果能继续点回具体比赛、回合和 tick，在 2D 回放里自己核对。
 metricsGroups:
   - title: 当前产品
-    asOf: 正式版 v0.8.2
+    asOf: 0.8 系列持续迭代
     metrics:
-      - label: 发布版本
-        value: v0.8.2
+      - label: 产品阶段
+        value: 0.8 系列正式版
       - label: 桌面分发
         value: macOS + Windows
       - label: 运行方式
@@ -27,9 +27,9 @@ timeline:
   - year: "0.8"
     title: 重新整理整个使用流程
     summary: 之前功能已经很多，但页面和分析入口越来越散。0.8 重新整理导航、分析范围和回看路径，让用户看完一个结果以后还能继续找到它来自哪场比赛、哪一回合。
-  - year: "0.8.1–0.8.2"
-    title: 开始和 RivalHub 打通
-    summary: Studio 可以直接读取 RivalHub 在线赛事、批量导入本地 Demo，并把赛事统计继续抽成共享包，给两个产品一起使用。
+  - year: "0.8.x"
+    title: 与 RivalHub 打通并持续迭代
+    summary: Studio 可以直接读取 RivalHub 在线赛事、通过独立赛事上传器同步本地 Demo，并把赛事统计抽成共享包给两个产品一起复用。
 evidenceSections:
   - title: 更多分析能力
     description: 这些功能成熟度不同，所以这里保留它们各自现在真实的状态。
@@ -46,12 +46,12 @@ evidenceSections:
           - src: /media/dak/radar-field.webp
             label: 控图覆盖场 · 描述性观察
             alt: DAK Studio 控图覆盖场，展示 Dust2 双方空间信息差
-            caption: 目前只展示空间覆盖和信息差，不自动判断战术意图、弱区或应该怎么打。
+            caption: 展示双方空间覆盖与信息差，将战术解读留给复盘者自己判断。
             orientation: portrait
           - src: /media/dak/coach.webp
             label: 教练模式探索 · 实验
             alt: DAK Studio 教练模式页面，展示聚类、代表回合和 2D 回放
-            caption: 把相似回合聚在一起，再回看代表回合；目前仍是实验功能，不直接把聚类结果当成确定战术。
+            caption: 把相似回合聚在一起并回看代表回合，用于快速定位复盘切入点。
             orientation: landscape
 techStack:
   - TypeScript
@@ -109,7 +109,7 @@ DAK 里很多分析都不是看完数字就结束。一个结果如果值得继�
   <a href="/media/dak/duel-mechanics.webp" target="_blank" rel="noopener noreferrer">
     <img src="/media/dak/duel-mechanics.webp" alt="DAK Studio 选手枪法与机制分析页面" loading="lazy" />
   </a>
-  <figcaption><strong>枪法 / 机制 · 测试中。</strong> 可以按武器看首发命中、扫射命中、急停、反应时间和预瞄误差，也会同时显示当前样本量。这类分析已经能用，但还没有被当成完全定型的稳定结论。</figcaption>
+  <figcaption><strong>枪法 / 机制 · 测试中。</strong> 可以按武器看首发命中、扫射命中、急停、反应时间和预瞄误差，同时标明样本量便于结合回放核对。</figcaption>
 </figure>
 
 ## 有些结果可以直接用，有些还在继续验证
@@ -122,7 +122,7 @@ DAK 的正式成熟度分成三档：稳定、测试中和实验。稳定能力�
 | **测试中** | 已经可以分析，但算法或边界还可能继续调整 | 对枪分类、枪法机制、反应 / 预瞄、闪光效果、道具点位库、跨场 RR / PRISM |
 | **实验** | 用来探索模式，后续还会继续验证和调整 | 教练战术模式聚类、模式探索、对手打法倾向报告 |
 
-另外还有一层输出约束。像控图覆盖场这类结果目前只做**描述性观察**：把空间覆盖和信息差画出来，保留给用户自己判断，不自动升级成战术结论或 Finding。
+像控图覆盖场这类空间分析，产品上刻意止步于把空间覆盖和信息差画清楚，将战术判断留给复盘者本人。
 
 CT 轮转是一个典型例子：Demo 能可靠记录选手什么时候离开原防区、什么时候补防、回合里如何移动，但 Anchor / Rotator 已经是进一步解释。早期尝试角色判断时，我发现把可观测事实和角色推断混在一起后，阈值很难验证，于是先保留轮转事实，把角色标签放到更高一层。这样后续即使调整角色定义，也不需要重新解释原始 Demo。
 
@@ -160,6 +160,6 @@ Python 只负责把 Demo 解析成一份版本化的 v3 ZIP。后面的统计和
 
 ## 现在到哪了
 
-v0.8.2 是目前正式发布的版本，macOS 和 Windows 都有完整桌面分发。后面还会继续做复盘行动项、教练赛前准备、战术板、BP 策略和地图控制模型，但这些现在还没有被当成已经完成的正式能力。
+0.8 系列已完成 macOS 和 Windows 桌面分发，并随 2026 NJU Major 赛事实践持续迭代。后续规划包括复盘行动项、教练赛前准备、战术板、BP 策略与地图控制模型。
 
 DAK Studio 本身使用 AGPL-3.0-only；可以给其它产品复用的 `@cs2dak/*` 分析包和 Python 壳使用 MIT。
