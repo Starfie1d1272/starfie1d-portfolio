@@ -6,16 +6,16 @@ duration: 2026.05–至今
 outcomeSummary: 面向高校 CS 赛事的运营平台，从报名、资格、队伍到比赛和赛后数据都在同一套系统里持续运行。起于 2026 NJU Rivals，目前正在承载 2026 NJU Major。
 metricsGroups:
   - title: 平台现状
-    asOf: 截至 2026-09-24
+    asOf: 截至 2026-11-28
     metrics:
       - label: 有效账号
-        value: "303"
+        value: "347"
       - label: 高校认证用户
-        value: "225"
-      - label: 近 30 日活跃用户
-        value: "272"
+        value: 248 人 / 50 高校
+      - label: 已确认 Demo 地图
+        value: 210 张
       - label: 当前有效队伍
-        value: 30 支
+        value: 31 支
 evidenceSections:
   - title: 原始赛事材料
     description: 2026 NJU Rivals 是 RivalHub 的直接开发触发和第一场完整赛事验证。这里保留当时的赛事海报、规则速览和原始规则文件。
@@ -158,11 +158,11 @@ relatedProjects:
         <p>教育认证有学校邮箱、学信网材料和新生录取通知书三条路径；报名和单场首发会直接读取认证与竞技资料，系统会检查身份、名单和实力限制，并明确提示不符合规则的原因。</p>
       </div>
       <div className="workflow-proof" aria-label="教育认证生产数据">
-        <div><strong>225 / 303</strong><span>有效用户已认证</span></div>
-        <div><strong>74.3%</strong><span>认证覆盖率</span></div>
-        <div><strong>43 所</strong><span>高校</span></div>
+        <div><strong>248 / 347</strong><span>有效用户已认证</span></div>
+        <div><strong>71.5%</strong><span>认证覆盖率</span></div>
+        <div><strong>50 所</strong><span>高校</span></div>
       </div>
-      <p className="workflow-note">首次通过认证：学信网 150 人（66.7%）、学校邮箱 69 人（30.7%）、新生录取通知书 6 人（2.7%）。认证身份中，在读 198 人、已毕业 27 人。</p>
+      <p className="workflow-note">截至 2026-11-28 生产库数据（覆盖 50 所高校）；右侧为 2026-09-24 赛前生产后台快照留档。</p>
     </div>
     <figure className="workflow-shot">
       <a href="/media/rivalhub/education-overview.webp" target="_blank" rel="noopener noreferrer">
@@ -179,9 +179,9 @@ relatedProjects:
       <p>Spring Rivals 期间，赛后截图 OCR、BP、比分和统计主要由我集中补录；同时处理其它赛务时，数据更新会自然产生延迟。</p>
       <div className="workflow-now">
         <strong>现在</strong>
-        <p>RivalHub 已经统一保存比赛、BP、比分、赛果和后续更正；OCR 与 DAK 继续补充赛后证据和统计。下一步会让双方队长直接在网站完成 BP；RivalHub Broadcast 接入后，再把现场能够可靠获取的基础比赛数据同步回来。</p>
+        <p>RivalHub 已经统一保存比赛、BP、比分、赛果和后续更正，并已接入 Mizar 制播系统回传现场可靠事件收据（截至 2026-11-28 覆盖 63 场正式比赛），同时通过 DAK 持续沉淀 210 张已确认 Demo 地图与 4,366 条回合事实。</p>
       </div>
-      <p className="workflow-note">队长在线 BP 已完成设计，待后续落地；RivalHub Broadcast 的数据回传属于下一阶段联动。</p>
+      <p className="workflow-note">Mizar 事件收据回传与 DAK 赛事统计联动均已投入 2026 NJU Major 实战；队长在线 BP 持续完善中。</p>
     </div>
   </article>
 </div>

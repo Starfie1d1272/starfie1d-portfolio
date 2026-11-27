@@ -6,10 +6,10 @@ duration: 2026.06–至今
 outcomeSummary: 本地运行的 CS2 Demo 分析工具。把 `.dem` 解析成可检索、可比较的数据，并尽量让重要结果能继续点回具体比赛、回合和 tick，在 2D 回放里自己核对。
 metricsGroups:
   - title: 当前产品
-    asOf: 正式版 v0.8.2
+    asOf: 0.8 系列持续迭代
     metrics:
-      - label: 发布版本
-        value: v0.8.2
+      - label: 产品阶段
+        value: 0.8 系列正式版
       - label: 桌面分发
         value: macOS + Windows
       - label: 运行方式
@@ -27,9 +27,9 @@ timeline:
   - year: "0.8"
     title: 重新整理整个使用流程
     summary: 之前功能已经很多，但页面和分析入口越来越散。0.8 重新整理导航、分析范围和回看路径，让用户看完一个结果以后还能继续找到它来自哪场比赛、哪一回合。
-  - year: "0.8.1–0.8.2"
-    title: 开始和 RivalHub 打通
-    summary: Studio 可以直接读取 RivalHub 在线赛事、批量导入本地 Demo，并把赛事统计继续抽成共享包，给两个产品一起使用。
+  - year: "0.8.x"
+    title: 与 RivalHub 打通并持续迭代
+    summary: Studio 可以直接读取 RivalHub 在线赛事、通过独立赛事上传器同步本地 Demo，并把赛事统计抽成共享包给两个产品一起复用。
 evidenceSections:
   - title: 更多分析能力
     description: 这些功能成熟度不同，所以这里保留它们各自现在真实的状态。
@@ -160,6 +160,6 @@ Python 只负责把 Demo 解析成一份版本化的 v3 ZIP。后面的统计和
 
 ## 现在到哪了
 
-v0.8.2 是目前正式发布的版本，macOS 和 Windows 都有完整桌面分发。后面还会继续做复盘行动项、教练赛前准备、战术板、BP 策略和地图控制模型，但这些现在还没有被当成已经完成的正式能力。
+0.8 系列已完成 macOS 和 Windows 桌面分发，并随 2026 NJU Major 赛事实践持续迭代。后面还会继续做复盘行动项、教练赛前准备、战术板、BP 策略和地图控制模型，但这些现在还没有被当成已经完成的正式能力。
 
 DAK Studio 本身使用 AGPL-3.0-only；可以给其它产品复用的 `@cs2dak/*` 分析包和 Python 壳使用 MIT。
