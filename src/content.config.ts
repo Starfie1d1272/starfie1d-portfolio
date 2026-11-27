@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 const metricSchema = z.object({
@@ -93,9 +94,9 @@ const projectsCollection = defineCollection({
 
     links: z
       .object({
-        live: z.string().url().optional(),
-        github: z.string().url().optional(),
-        release: z.string().url().optional(),
+        live: z.url().optional(),
+        github: z.url().optional(),
+        release: z.url().optional(),
       })
       .optional(),
 

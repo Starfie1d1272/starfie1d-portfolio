@@ -21,6 +21,8 @@
 
 ## 本地开发
 
+使用 Node.js 24 LTS（与 CI 和部署构建保持一致）。
+
 ```bash
 npm install
 npm run dev
